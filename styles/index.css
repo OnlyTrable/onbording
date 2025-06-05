@@ -21,8 +21,7 @@ body {
 /* Стилі для хедеру */
 .main-header {
   background-color: #ffffff;
-  padding: 15px 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 11px 0;
 }
 
 .header-content {
@@ -39,9 +38,7 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  /* На десктопі: 49% ширини для обох, щоб вони були поруч */
   flex: 1; /* Дозволяє їм займати доступний простір */
-  /* gap: 20px; - будемо керувати всередині search-group */
 }
 
 .header-left {
@@ -52,6 +49,7 @@ body {
 .header-right {
   justify-content: flex-end;
   gap: 20px; /* Відстань між елементами в правій частині */
+  margin-right: 7px;
 }
 .logo {
   margin-left: 4px; /* Додаємо 4px до існуючих 20px padding контейнера */
@@ -207,7 +205,7 @@ body {
   text-decoration: none;
   color: #555;
   font-weight: 500;
-  padding: 8px 15px;
+  padding: 8px 15px 8px 0px;
   transition: color 0.3s ease;
 }
 
@@ -264,12 +262,58 @@ body {
   }
 }
 .content-wrapper {
-  width: 83.06vw; /* (1196px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
+  width: 87vw; /* (1196px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
   max-width: 1196px; /* Гарантує, що ширина не перевищить 1196px */
   margin-left: auto; /* Центрує блок по горизонталі */
   margin-right: auto; /* Центрує блок по горизонталі */
 }
-
+.hero-content-left,
+.hero-content-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px; /* Додає простір між елементами всередині */
+  flex-basis: 50%; /*Можна задати базову ширину, якщо потрібно */
+  /* Або інші стилі для кожного з контейнерів */
+}
+.hero-content-left h1 {
+  width: 41.71vw; /* (600.61px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
+  max-width: 600.61px; /* Обмеження максимальної ширини, щоб відповідати піксельному значенню */
+  height: 104px; /* Висота для двох рядків тексту з line-height: 52px */
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 52px;
+  color: #212121;
+}
+.hero-content-left p {
+  width: 42.28vw; /* (608.93px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
+  max-width: 608.93px; /* Обмеження максимальної ширини */
+  height: 72px; /* Висота для трьох рядків тексту з line-height: 24px */
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #212121;
+}
+.hero-content-left .signup-button {
+  width: 9.52vw; /* (137px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
+  max-width: 137px; /* Збільшена максимальна ширина для вміщення тексту */
+  height: 40px;
+  border-radius: 8px;
+  padding: 8px 16px; /* Оновлені падінги: top/bottom = 8px, left/right = 16px */
+  line-height: 24px; /* Забезпечує висоту тексту 24px */
+  white-space: nowrap; /* Забороняє перенос тексту на новий рядок */
+  text-align: center; /* Гарантує центрування тексту, хоча зазвичай це за замовчуванням для кнопок */
+}
+.hero-content-right {
+  /* display: flex, flex-direction: column, gap: 24px успадковуються/застосовуються з правила вище */
+  width: 26.32vw; /* (379px / 1440px) * 100vw, виходячи з базової ширини екрану 1440px */
+  max-width: 379px; /* Максимальна ширина контейнера */
+  height: 269px; /* Фіксована висота контейнера */
+  flex-grow: 0; /* Забороняємо розтягування */
+  flex-shrink: 0; /* Забороняємо стискання */
+  /* width виступатиме як flex-basis, перекриваючи 50% з попереднього правила */
+  justify-content: center; /* Центрування вмісту (зображення) по вертикалі (основна вісь flex column) */
+  align-items: center; /* Центрування вмісту (зображення) по горизонталі (поперечна вісь flex column) */
+}
 @media (max-width: 1196px) {
   /* Якщо екран менший за 1196px, то content-wrapper адаптується */
   .content-wrapper {
@@ -286,10 +330,20 @@ body {
 
 /* Приклад стилів для контенту всередині content-wrapper */
 .hero-section {
-  background-color: #e0f7fa;
+  display: flex; /* Встановлює flex-контейнер */
+  align-items: center; /* Вирівнює дочірні елементи по центру вертикально */
+  background-color: white;
   padding: 50px 0;
-  text-align: center;
   margin-bottom: 30px;
+  gap: 46.15px; /*Можете додати відступ між лівим та правим блоком, якщо потрібно */
+}
+
+.hero-content-right img {
+  max-width: 100%; /* Гарантує, що зображення не вийде за межі контейнера */
+  max-height: 100%; /* Гарантує, що зображення не вийде за межі контейнера по висоті */
+  width: auto; /* Дозволяє ширині автоматично підлаштовуватися, якщо висота є обмежуючим фактором */
+  height: auto; /* Зберігає пропорції зображення */
+  display: block; /* Прибирає можливий нижній відступ у зображення */
 }
 
 .events-section {
