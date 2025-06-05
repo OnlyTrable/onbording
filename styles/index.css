@@ -159,6 +159,7 @@ body {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
+  border: none; /* Прибираємо бордер */
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
@@ -186,7 +187,7 @@ body {
 }
 
 .dropdown-menu a {
-  color: black;
+  color: #00798a;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -390,4 +391,49 @@ body {
     text-align: center;
     box-sizing: border-box;
   }
+}
+.event {
+  display: flex; /* Розміщує дочірні елементи в рядок */
+  justify-content: space-between; /* Розносить перший та останній дочірні елементи по краях */
+  align-items: center; /* Вирівнює елементи по вертикалі */
+  /* Можливо, знадобиться padding або margin */
+}
+
+.event-title-container {
+  display: flex; /* Розміщує h2 та dropdown в рядок */
+  align-items: center; /* Вирівнює їх по вертикалі */
+  gap: 1rem; /* Додає простір між h2 та dropdown, наприклад */
+}
+
+.event-title-container h2 {
+  font-family: "Roboto", sans-serif; /* Roboto вже заданий для body, але для специфічності можна залишити */
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 36px;
+  letter-spacing: 0%; /* Зазвичай 0% - це normal, можна просто letter-spacing: normal; або опустити, якщо це значення за замовчуванням */
+  color: #212121;
+}
+.location-dropdown {
+  position: relative; /* Для позиціонування .dropdown-menu */
+  display: inline-block; /* Дозволяє елементу бути в рядку, але мати блокові властивості */
+}
+
+.dropdown-trigger-wrapper {
+  display: flex; /* Розміщує кнопку та іконку в один ряд */
+  align-items: center; /* Вирівнює кнопку та іконку по вертикалі */
+  max-width: 239.42px; /* Максимальна ширина контейнера */
+  height: 44px;
+  background-color: #97cad11f; /* rgba(151, 202, 209, 0.12) */
+  border-radius: 8px;
+  padding-right: 11px; /* Додаємо відступ справа для іконки */
+}
+.see-all-events-link {
+  text-decoration: none;
+  color: #00798a; /* Новий колір тексту */
+  font-weight: 600; /* Додамо трохи жирності для кращої видимості */
+}
+.location-dropdown .dropdown-trigger-wrapper .dropdown-toggle {
+  color: #00798a; /* Колір тексту для кнопки вибору локації */
+  border: none; /* Прибираємо бордер у кнопки вибору локації */
+  background-color: transparent; /* Робимо фон прозорим, якщо кнопка мала свій фон */
 }
