@@ -29,8 +29,6 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  /* Важливо: тепер header-left та header-right займають повну ширину на мобільних */
-  /* А gap буде між ними, якщо вони в колонку */
 }
 
 /* Ліва та права частини хедеру */
@@ -131,7 +129,7 @@ body {
 
 /* Стилі для іконки мови */
 .lang-icon {
-  width: 20x;
+  width: 20px;
   height: 20px;
 }
 
@@ -151,7 +149,6 @@ body {
   align-items: center;
   gap: 5px;
   font-size: 16px;
-  color: #333;
   height: 42px; /* Для language-dropdown */
 }
 
@@ -181,7 +178,6 @@ body {
   padding: 0 15px;
   width: 100%; /* Щоб кнопка заповнювала весь доступний простір свого батьківського .dropdown */
   justify-content: space-between;
-  /* ТУТ ДОДАЙ АБО ПЕРЕВІР border-right */
   border-right: 1px solid #ccc; /* <-- ДОДАЙ ЦЕЙ РЯДОК */
   box-sizing: border-box; /* Важливо, щоб border не збільшував ширину кнопки */
 }
@@ -274,14 +270,13 @@ body {
   flex-direction: column;
   gap: 24px; /* Додає простір між елементами всередині */
   flex-basis: 50%; /*Можна задати базову ширину, якщо потрібно */
-  /* Або інші стилі для кожного з контейнерів */
 }
 .hero-content-left h1 {
   width: 41.71vw; /* (600.61px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
   max-width: 600.61px; /* Обмеження максимальної ширини, щоб відповідати піксельному значенню */
   height: 104px; /* Висота для двох рядків тексту з line-height: 52px */
   font-weight: 700;
-  font-size: 42px;
+  font-size: 42px; /*2.9vw;  (42px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
   line-height: 52px;
   color: #212121;
 }
@@ -305,13 +300,11 @@ body {
   text-align: center; /* Гарантує центрування тексту, хоча зазвичай це за замовчуванням для кнопок */
 }
 .hero-content-right {
-  /* display: flex, flex-direction: column, gap: 24px успадковуються/застосовуються з правила вище */
   width: 26.32vw; /* (379px / 1440px) * 100vw, виходячи з базової ширини екрану 1440px */
   max-width: 379px; /* Максимальна ширина контейнера */
   height: 269px; /* Фіксована висота контейнера */
   flex-grow: 0; /* Забороняємо розтягування */
   flex-shrink: 0; /* Забороняємо стискання */
-  /* width виступатиме як flex-basis, перекриваючи 50% з попереднього правила */
   justify-content: center; /* Центрування вмісту (зображення) по вертикалі (основна вісь flex column) */
   align-items: center; /* Центрування вмісту (зображення) по горизонталі (поперечна вісь flex column) */
 }
@@ -396,17 +389,16 @@ body {
   display: flex; /* Розміщує дочірні елементи в рядок */
   justify-content: space-between; /* Розносить перший та останній дочірні елементи по краях */
   align-items: center; /* Вирівнює елементи по вертикалі */
-  /* Можливо, знадобиться padding або margin */
 }
 
 .event-title-container {
   display: flex; /* Розміщує h2 та dropdown в рядок */
   align-items: center; /* Вирівнює їх по вертикалі */
   gap: 1rem; /* Додає простір між h2 та dropdown, наприклад */
+  margin-bottom: 28px; /* Відступ між заголовком та наступними елементами */
 }
 
 .event-title-container h2 {
-  font-family: "Roboto", sans-serif; /* Roboto вже заданий для body, але для специфічності можна залишити */
   font-weight: 600;
   font-size: 28px;
   line-height: 36px;
@@ -436,4 +428,99 @@ body {
   color: #00798a; /* Колір тексту для кнопки вибору локації */
   border: none; /* Прибираємо бордер у кнопки вибору локації */
   background-color: transparent; /* Робимо фон прозорим, якщо кнопка мала свій фон */
+}
+/* Базові стилі для картки */
+.event-card {
+  width: 272px;
+  height: 399px; /* Загальна висота картки */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Вирівнювання вмісту по лівому краю */
+  padding: 0px; /* Додамо внутрішні відступи для контенту */
+  box-sizing: border-box; /* Щоб padding не збільшував розміри */
+  margin-bottom: 40px;
+}
+
+/* Зображення події */
+.event-card__image {
+  margin-bottom: 12px;
+  object-fit: cover;
+}
+
+/* Заголовок події */
+.event-card__title {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px; /* Допомагає з вертикальним вирівнюванням для однорядкового тексту */
+  letter-spacing: 0%;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+/* Секція категорії */
+.event-card__category {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
+  display: flex; /* Для можливого розміщення відстані поруч */
+  gap: 8px; /* Відстань між категорією та дистанцією */
+}
+
+.event-card__category-name {
+  font-weight: 500;
+}
+
+.event-card__category-distance {
+  color: #777;
+}
+
+/* Секція дати події */
+.event-card__date {
+  display: flex;
+  align-items: center; /* Вертикальне вирівнювання іконки та тексту */
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 12px;
+  width: 100%; /* Щоб зайняти доступну ширину */
+}
+
+.event-card__date-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  display: inline-block; /* Або flex/grid item */
+}
+
+.event-card__date-text {
+  white-space: nowrap; /* Запобігає переносу тексту дати */
+}
+
+/* Секція інформації (учасники, ціна) */
+.event-card__info {
+  display: flex;
+  align-items: center;
+  justify-content: start; /* Розподілити елементи по ширині */
+  font-size: 14px;
+  color: #555;
+  width: 100%; /* Щоб зайняти доступну ширину */
+}
+
+.event-card__info-item {
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.event-card__info-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  display: inline-block;
+}
+
+.card-group-display {
+  display: flex; /* Вмикає Flexbox для розташування елементів в рядок */
+  flex-wrap: wrap; /* Дозволяє елементам переноситися на новий рядок, якщо не вміщаються */
+  /* justify-content буде контролюватися JavaScript */
+  margin-bottom: 20px; /* Додатковий відступ знизу для групи карток */
 }
