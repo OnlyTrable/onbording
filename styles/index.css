@@ -524,3 +524,171 @@ body {
   /* justify-content буде контролюватися JavaScript */
   margin-bottom: 20px; /* Додатковий відступ знизу для групи карток */
 }
+/* Основний контейнер для секції "Join Meetup" */
+.join-meetup-section {
+  background-color: #97cad114;
+  border-radius: 8px;
+  padding: 40px;
+  width: 100%;
+  max-width: 1200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  /* --- CSS Grid для десктопної версії --- */
+  display: grid;
+  /* Визначаємо дві колонки: ліва (для тексту) і права (для зображення) */
+  grid-template-columns: 1.5fr 1fr; /* Ліва колонка трохи ширша, щоб вмістити текст */
+  gap: 30px; /* Відстань між колонками та рядками */
+
+  /* Визначаємо іменовані області сітки */
+  grid-template-areas:
+    "title    image"
+    "description image"
+    "button   image";
+
+  align-items: center; /* Вирівнює елементи по центру по вертикалі в межах їхніх областей */
+}
+
+/* Призначаємо елементи до їхніх областей сітки на десктопі */
+.section-title {
+  grid-area: title;
+  text-align: left;
+}
+
+.section-image {
+  grid-area: image;
+  display: flex; /* Використовуємо flexbox всередині grid-області для центрування img */
+  justify-content: center;
+  align-items: center;
+}
+
+.section-description {
+  grid-area: description;
+  text-align: left;
+}
+
+.section-button {
+  grid-area: button;
+  text-align: left; /* Вирівнювання кнопки по лівому краю на десктопі */
+}
+
+/* Загальні стилі для вмісту */
+.section-title h1 {
+  font-size: 3em;
+  color: #333;
+  margin-bottom: 0; /* Прибираємо нижній відступ, оскільки gap вже є */
+  line-height: 1.2;
+}
+
+.section-description p {
+  font-size: 1.2em;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 0; /* Прибираємо нижній відступ */
+}
+
+.section-image img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  max-height: 250px; /* Обмеження висоти для десктопу */
+}
+
+.sign-up-button {
+  background-color: #e63973;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-block; /* Щоб кнопка була зліва, якщо text-align: left */
+}
+
+.sign-up-button:hover {
+  background-color: #c92f60;
+}
+
+/* --- Медіа-запити для адаптації під мобільні пристрої --- */
+
+/* Наприклад, для екранів менше 768px */
+@media (max-width: 768px) {
+  .join-meetup-section {
+    padding: 20px;
+    gap: 20px; /* Менший відступ на мобільних */
+
+    /* --- CSS Grid для мобільної версії --- */
+    grid-template-columns: 1fr; /* Одна колонка */
+    /* Нові іменовані області для мобільного порядку */
+    grid-template-areas:
+      "title"
+      "image"
+      "description"
+      "button";
+
+    /* Центруємо весь вміст по горизонталі, або вирівнюємо окремі елементи */
+    align-items: center; /* Центрує елементи в єдиному стовпці */
+  }
+
+  /* Призначаємо елементи до нових областей сітки на мобільному */
+  .section-title {
+    grid-area: title;
+    text-align: left; /* Заголовок вирівняний по лівому краю */
+    width: 100%; /* Займає всю ширину */
+  }
+
+  .section-image {
+    grid-area: image;
+    display: flex; /* Робимо флексом для центрування img */
+    justify-content: center; /* **Центруємо зображення** */
+    align-items: center;
+    width: 100%; /* Займає всю ширину */
+  }
+
+  .section-image img {
+    max-width: 80%; /* Зменшуємо розмір зображення на мобільних */
+    max-height: 200px;
+  }
+
+  .section-description {
+    grid-area: description;
+    text-align: left; /* Параграф вирівняний по лівому краю */
+    width: 100%; /* Займає всю ширину */
+  }
+
+  .section-description p {
+    font-size: 1em;
+  }
+
+  .section-button {
+    grid-area: button;
+    display: flex; /* Робимо флексом для центрування кнопки */
+    justify-content: center; /* **Центруємо кнопку** */
+    width: 100%; /* Займає всю ширину */
+  }
+
+  .sign-up-button {
+    width: fit-content; /* Кнопка приймає ширину свого контенту */
+    max-width: 250px;
+  }
+}
+
+/* Додатковий медіа-запит для дуже маленьких екранів (наприклад, менше 480px) */
+@media (max-width: 480px) {
+  .join-meetup-section {
+    padding: 15px;
+  }
+
+  .section-title h1 {
+    font-size: 1.8em;
+  }
+
+  .section-description p {
+    font-size: 0.9em;
+  }
+
+  .section-image img {
+    max-width: 90%;
+    max-height: 180px;
+  }
+}
