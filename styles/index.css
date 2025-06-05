@@ -3,3 +3,337 @@
   margin: 0px;
   box-sizing: border-box;
 }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  color: #333;
+}
+
+.container {
+  width: 100%;
+  max-width: 1512px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Стилі для хедеру */
+.main-header {
+  background-color: #ffffff;
+  padding: 15px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  /* Важливо: тепер header-left та header-right займають повну ширину на мобільних */
+  /* А gap буде між ними, якщо вони в колонку */
+}
+
+/* Ліва та права частини хедеру */
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  /* На десктопі: 49% ширини для обох, щоб вони були поруч */
+  flex: 1; /* Дозволяє їм займати доступний простір */
+  /* gap: 20px; - будемо керувати всередині search-group */
+}
+
+.header-left {
+  justify-content: flex-start;
+  gap: 20px; /* Відстань між логотипом та search-group */
+}
+
+.header-right {
+  justify-content: flex-end;
+  gap: 20px; /* Відстань між елементами в правій частині */
+}
+.logo {
+  margin-left: 4px; /* Додаємо 4px до існуючих 20px padding контейнера */
+}
+.logo .meetup-logo-img {
+  height: 34px; /* висота за потребою */
+  max-width: 6vw; /* width: 6vw; auto;*/
+  flex-shrink: 0;
+}
+
+/* Стилі для єдиного контейнера пошуку */
+.search-group {
+  display: flex;
+  height: 42px; /* Фіксована висота, як ти вказав */
+  border: 1px solid #ccc; /* Загальна рамка для групи */
+  border-radius: 8px; /* Загальний радіус, потім буде перезаписаний для кутів */
+  flex-grow: 1; /* Дозволяє цьому блоку розтягуватися */
+}
+
+.search-group-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 100%; /* Займає всю висоту контейнера */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px; /* Відступи всередині кнопки */
+  flex-shrink: 0; /* Запобігає зменшенню */
+}
+
+.search-group-input {
+  width: 15.625vw; /* <-- Змінено з 300px на vw */
+  border: none;
+  border-right: 1px solid #ccc;
+  outline: none;
+  padding: 0 10px;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.search-group-dropdown .dropdown-toggle {
+  height: 100%;
+  border-radius: 0; /* Без радіусу */
+  padding: 0 15px;
+}
+
+/* Кольори для іконок */
+.icon-color-gray {
+  color: #707070;
+}
+
+.icon-color-white {
+  color: #ffffff;
+}
+
+/* Радіуси для кнопок всередині search-group */
+.left-radius {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  /* Важливо: background-color для лівої іконки, якщо вона не прозора і це не svg */
+  background-color: #ffffff; /* Якщо іконка прозора, а контейнер білий */
+}
+
+.right-radius {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.background-red {
+  background-color: #f65858;
+}
+
+/* Стилі для іконок всередині кнопок search-group-icon-btn */
+.search-group-icon-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Стилі для іконки мови */
+.lang-icon {
+  width: 20x;
+  height: 20px;
+}
+
+/* Стилі для випадаючих списків (загальні, без змін) */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  background-color: transparent; /* Перезапишемо для search-group-dropdown */
+  border: 1px solid #ccc; /* Перезапишемо для search-group-dropdown */
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+  color: #333;
+  height: 42px; /* Для language-dropdown */
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+  top: 100%;
+  left: 0;
+  margin-top: 0px;
+}
+.dropdown.search-group-dropdown {
+  flex-grow: 1; /* Дозволяє дропдауну розтягуватися, заповнюючи простір */
+  display: flex; /* Важливо, щоб кнопка всередині правильно розмістилася */
+  align-items: center; /* Вирівнювання по центру */
+}
+
+.search-group-dropdown .dropdown-toggle {
+  border: none;
+  height: 100%;
+  border-radius: 0;
+  padding: 0 15px;
+  width: 100%; /* Щоб кнопка заповнювала весь доступний простір свого батьківського .dropdown */
+  justify-content: space-between;
+  /* ТУТ ДОДАЙ АБО ПЕРЕВІР border-right */
+  border-right: 1px solid #ccc; /* <-- ДОДАЙ ЦЕЙ РЯДОК */
+  box-sizing: border-box; /* Важливо, щоб border не збільшував ширину кнопки */
+}
+
+.dropdown-menu a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Кнопка "Log In" (як посилання) */
+.login-link {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  padding: 8px 15px;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover {
+  color: #05454e;
+}
+
+/* Кнопка "Sign Up" (зі стилями) */
+.signup-button {
+  background-color: #00798a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+  background-color: #05454e;
+}
+
+/* Медіа-запити для адаптивності */
+@media (max-width: 992px) {
+  .header-left {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* <-- Тільки ліва частина буде розтягуватися */
+    justify-content: flex-start;
+    gap: 20px; /* Відстань між логотипом та search-group */
+  }
+  .header-right {
+    display: flex; /* <-- Залишаємо display: flex та align-items: center */
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px; /* Відстань між елементами в правій частині */
+    flex-shrink: 0; /* Запобігаємо стисненню, якщо це необхідно для збереження розміру */
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .search-group {
+    width: 100%; /* На планшетах search-group на всю ширину */
+    max-width: unset; /* Знімаємо обмеження max-width */
+  }
+
+  .search-group-input {
+    width: auto;
+  }
+}
+.content-wrapper {
+  width: 83.06vw; /* (1196px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
+  max-width: 1196px; /* Гарантує, що ширина не перевищить 1196px */
+  margin-left: auto; /* Центрує блок по горизонталі */
+  margin-right: auto; /* Центрує блок по горизонталі */
+}
+
+@media (max-width: 1196px) {
+  /* Якщо екран менший за 1196px, то content-wrapper адаптується */
+  .content-wrapper {
+    padding: 0 15px; /* Зменшуємо відступи */
+  }
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    margin: 15px auto; /* Зменшуємо вертикальний відступ */
+    padding: 0 10px; /* Ще менші відступи для мобільних */
+  }
+}
+
+/* Приклад стилів для контенту всередині content-wrapper */
+.hero-section {
+  background-color: #e0f7fa;
+  padding: 50px 0;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.events-section {
+  padding: 30px 0;
+}
+
+@media (max-width: 576px) {
+  .header-left,
+  .header-right {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-group {
+    flex-direction: column; /* Якщо треба, щоб інпут був під іконками */
+    height: auto; /* Висота буде автоматичною */
+    border: none; /* Прибираємо рамку на мобільних, якщо елементи розходяться */
+    border-radius: 0;
+  }
+
+  .search-group-icon-btn,
+  .search-group-input,
+  .search-group-dropdown .dropdown-toggle {
+    width: 100%;
+    border-radius: 5px; /* Даємо окремі радіуси для кожного елементу */
+    margin-bottom: 5px; /* Відступи між ними */
+    box-sizing: border-box;
+    height: 42px;
+  }
+
+  .search-group-icon-btn.left-radius,
+  .search-group-icon-btn.right-radius {
+    border-radius: 5px; /* Прибираємо специфічні кути, якщо все в стовпчик */
+  }
+
+  .search-group-dropdown .dropdown-menu {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .signup-button,
+  .login-link {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}
