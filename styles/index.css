@@ -767,3 +767,97 @@ body {
   color: #212121; /* Колір тексту */
   line-height: 1.5rem;
 }
+/* === Стилі для секції "How Meetup works" === */
+
+.how-meetup-section {
+  padding: 40px 0; /* Загальні вертикальні відступи для секції */
+  /* background-color: #f8f8f8; */ /* Можливий фон для візуального відділення */
+}
+
+.section-how-meetup-title h2 {
+  font-size: 1.75rem; /* Розмір заголовка секції */
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 1.5rem; /* Відступ до контейнера з блоками */
+  color: #212121;
+}
+
+.how-meetup-container {
+  display: flex;
+  justify-content: space-between; /* Розміщує два блоки з відступами */
+  align-items: flex-start; /* Вирівнює блоки по верху, якщо вони різної висоти */
+  margin: 0 auto; /* Центруємо контейнер */
+}
+
+.discover-container,
+.start-container {
+  display: flex;
+  flex-direction: row; /* Іконка зправа, текст зліва */
+  align-items: start; /* Центруємо вміст по горизонталі */
+  text-align: left; /* Центруємо текст */
+  width: 580px;
+  height: 180px;
+  background-color: #97cad114;
+  border-radius: 8px;
+}
+
+.svg-container img {
+  width: 41px; /* Розмір SVG іконок, налаштуйте за потребою */
+  height: 41px;
+  margin: 32px 24px 83px 24px;
+}
+.text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start; /* Центруємо текст по горизонталі */
+  text-align: left;
+  margin: 32px auto 24px 24px;
+}
+.text-container h3 {
+  font-size: 1.25rem; /* Розмір підзаголовка блоку */
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #212121;
+}
+
+.text-container p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #212121;
+  margin-bottom: 1rem;
+  min-height: 3.2em; /* Резервуємо місце приблизно для двох рядків тексту, щоб уникнути стрибків висоти */
+}
+
+.text-container a {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #00798a; /* Колір посилання, типовий для Meetup */
+  text-decoration: none;
+  padding: 16px auto 24px 24px; /* Додаємо трохи простору для кліку */
+}
+
+.text-container a:hover {
+  text-decoration: underline;
+}
+
+/* Адаптивність для менших екранів */
+@media (max-width: 768px) {
+  .how-meetup-container {
+    flex-direction: column; /* Блоки один під одним */
+    align-items: center; /* Центруємо блоки */
+    gap: 40px; /* Збільшуємо відступ між блоками у стовпчик */
+  }
+
+  .discover-container,
+  .start-container {
+    flex-basis: 100%; /* Кожен блок займає всю ширину */
+  }
+
+  .section-how-meetup-title h2 {
+    font-size: 24px;
+  }
+
+  .text-container h3 {
+    font-size: 20px;
+  }
+}
