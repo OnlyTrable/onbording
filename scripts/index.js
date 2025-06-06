@@ -160,6 +160,7 @@ function renderCategories() {
     categoryItem.classList.add("category-item");
     categoryItem.style.paddingTop = "22px";
     categoryItem.style.justifyContent = "flex-start";
+    categoryItem.style.marginBottom = "11px";
 
     const img = document.createElement("img");
     img.src = category.imgSrc;

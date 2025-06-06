@@ -17,6 +17,12 @@ body {
   padding: 0 20px;
   box-sizing: border-box;
 }
+@media (max-width: 768px) {
+  /* Тимчасова заглушка для мобільних стилів футера */
+  .container {
+    padding: 0 10px;
+  }
+}
 
 /* Стилі для хедеру */
 .main-header {
@@ -798,7 +804,7 @@ body {
   width: 580px;
   height: 180px;
   background-color: #97cad114;
-  border-radius: 8px;
+  border-radius: 5px;
 }
 
 .svg-container img {
@@ -844,7 +850,8 @@ body {
   .how-meetup-container {
     flex-direction: column; /* Блоки один під одним */
     align-items: center; /* Центруємо блоки */
-    gap: 40px; /* Збільшуємо відступ між блоками у стовпчик */
+    gap: 13px; /* Збільшуємо відступ між блоками у стовпчик */
+    width: 98%;
   }
 
   .discover-container,
@@ -881,7 +888,6 @@ body {
   line-height: 1.6;
   text-align: left;
   margin-bottom: 28px;
-  /* max-width: 700px; */ /* Можна обмежити ширину для кращої читабельності */
 }
 
 .categories-articles-container {
@@ -900,39 +906,37 @@ body {
   width: calc(
     33.333% - 16px
   ); /* Для трьох карток в рядку з урахуванням gap (24px * 2/3) */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Легка тінь */
 }
 
 .article-card img {
   width: 100%;
   height: 200px; /* Фіксована висота для зображень, або використовуйте aspect-ratio */
   object-fit: cover; /* Масштабує зображення, зберігаючи пропорції та обрізаючи */
+  border-radius: 8px;
 }
 
 .article-card h3 {
   font-size: 20px; /* 1.25rem */
   font-weight: 600;
   color: #212121;
-  margin: 16px 16px 8px 16px;
+  margin: 16px 16px 8px 0px;
   line-height: 1.3;
 }
 
 .article-card p {
   font-size: 14px; /* 0.875rem */
-  color: #555555;
+  color: #707070;
   line-height: 1.5;
-  margin: 0 16px 16px 16px;
-  flex-grow: 1; /* Дозволяє текстовому блоку займати доступний простір, вирівнюючи кнопки "Read More" */
+  margin: 0px 16px 16px 0px;
 }
 
 .article-card a {
   display: inline-block;
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 600;
   color: #00798a;
   text-decoration: none;
-  margin: 0 16px 16px 16px;
-  padding-top: 8px; /* Невеликий відступ зверху, якщо текст короткий */
+  margin: 0 16px 16px 0px;
 }
 
 .article-card a:hover {
@@ -948,7 +952,7 @@ body {
 
 @media (max-width: 600px) {
   .article-card {
-    width: 100%; /* Одна картка в рядку */
+    width: 99%; /* Одна картка в рядку */
   }
   .section-articles-title h2 {
     font-size: 24px;
@@ -956,4 +960,78 @@ body {
   .article-card h3 {
     font-size: 18px;
   }
+}
+
+/* Стилі для футера */
+footer {
+  background-color: #212121;
+  padding-top: 16px; /* Додаємо верхній відступ до самого футера */
+  /* padding-bottom: ...; */ /* Додайте нижній відступ для футера, якщо потрібно */
+}
+
+/* Стилі для контейнера всередині футера */
+footer .container {
+  /* Зберігаємо margin: 0 auto; та max-width від базового .container */
+  display: flex;
+  flex-direction: column;
+  /* Додаємо внутрішні відступи для 196px простору з боків на великих екранах */
+  padding: 0 196px; /* Перезаписуємо стандартний padding 0 20px */
+  gap: 20px; /* Відстань між секціями всередині футера, налаштуйте за потребою */
+}
+
+/* Адаптуємо бічні відступи контейнера футера на менших екранах */
+@media (max-width: 992px) {
+  /* Можливо, потрібен інший брейкпойнт */
+  footer .container {
+    padding: 0 20px; /* Повертаємо стандартний padding 0 20px */
+  }
+}
+
+/* Стилі для першої секції футера */
+.footer-section-1 {
+  display: flex;
+  align-items: center; /* Вертикальне центрування вмісту */
+  justify-content: flex-start; /* Розмістить параграф зліва, кнопку справа */
+  width: 100%;
+  height: 69px;
+  border-bottom: 1px solid #707070;
+}
+
+.footer-section-1 p {
+  color: #f6f7f8; /* Колір тексту для параграфа */
+  font-size: 1rem; /* Або інший розмір за макетом */
+  margin-bottom: 35px;
+}
+
+.footer-section-1 .signup-button {
+  /* Використовуємо існуючий клас кнопки */
+  background-color: transparent; /* Прозорий фон */
+  color: #ffffff; /* Білий текст */
+  border: 2px solid #ffffff; /* Біла рамка */
+  padding: 8px 16px; /* Налаштуйте падінги */
+  font-size: 14px; /* Налаштуйте розмір шрифту */
+  margin-left: 16px; /* Відступ від параграфа, якщо потрібно */
+  margin-bottom: 25px;
+}
+
+.footer-section-1 .signup-button:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Легкий фон при наведенні */
+  border-color: #ffffff; /* Зберігаємо колір рамки */
+}
+
+/* Стилі для другої секції футера */
+.footer-section-2 {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  justify-content: center; /* Центрування вмісту*/
+  width: 100%;
+  padding: 20px 0; /* Додамо вертикальні падінги для секції */
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Кожен стовпець займає однакову частину простору */
+  /* Можна додати min-width, якщо потрібно */
 }
