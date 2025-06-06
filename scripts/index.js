@@ -128,19 +128,19 @@ function adjustLastRowLayout(container) {
     const cardsInSecondLastRow = cards.filter(
       (card) => card.offsetTop === secondLastRowTop
     ).length;
-    if (cardsInLastRow === 1) {
+
+    // Якщо в останньому рядку 1 або 2 елементи, використовуємо space-around.
+    // Це також покриває випадок, коли всі рядки мають по 2 елементи.
+    if (cardsInLastRow === 1 || cardsInLastRow === 2) {
       container.style.justifyContent = "space-around";
-    }
-    // Якщо останній рядок неповний і містить більше однієї картки
-    else if (cardsInLastRow > 1 && cardsInLastRow < cardsInSecondLastRow) {
-      // Останній рядок неповний і не порожній
+    } else if (cardsInLastRow === 3 && cardsInLastRow < cardsInSecondLastRow) {
+      // Якщо в останньому рядку 3 елементи і він неповний порівняно з попереднім.
       container.style.justifyContent = "space-around";
     } else {
       container.style.justifyContent = "space-between";
     }
   }
 }
-
 // Отримуємо контейнери з HTML
 const cardsContainerNear = document.getElementById(
   "event-cards-container-near"
@@ -148,7 +148,32 @@ const cardsContainerNear = document.getElementById(
 const cardsContainerOnline = document.getElementById(
   "event-cards-container-online"
 );
+function renderCategories() {
+  const categoriesContainer = document.querySelector(".categories-container");
+  if (!categoriesContainer) return;
 
+  // Очищаємо контейнер перед додаванням нових елементів (якщо потрібно)
+  categoriesContainer.innerHTML = "";
+
+  categoriesData.forEach((category) => {
+    const categoryItem = document.createElement("div");
+    categoryItem.classList.add("category-item");
+
+    const img = document.createElement("img");
+    img.src = category.imgSrc;
+    img.alt = category.altText;
+
+    const p = document.createElement("p");
+    p.innerHTML = category.text; // Використовуємо innerHTML, оскільки текст може містити <br />
+
+    categoryItem.appendChild(img);
+    categoryItem.appendChild(p);
+    categoriesContainer.appendChild(categoryItem);
+  });
+
+  // Застосовуємо налаштування макету для контейнера категорій
+  adjustLastRowLayout(categoriesContainer);
+}
 // Перевіряємо, чи існує eventsStore (з data.js)
 if (typeof eventsStore !== "undefined") {
   eventsStore.forEach((item, index) => {
@@ -185,6 +210,7 @@ if (typeof eventsStore !== "undefined") {
   window.addEventListener("resize", () => {
     adjustLastRowLayout(cardsContainerNear);
     adjustLastRowLayout(cardsContainerOnline);
+    adjustLastRowLayout(document.querySelector(".categories-container")); // Додаємо для категорій
   });
 
   if (!cardsContainerNear) {
@@ -202,3 +228,10 @@ if (typeof eventsStore !== "undefined") {
     "Масив eventsStore не знайдено! Переконайтеся, що файл data.js завантажено перед index.js."
   );
 }
+
+// Викликаємо функцію рендерингу категорій при завантаженні сторінки
+document.addEventListener("DOMContentLoaded", () => {
+  // ... (інші ваші виклики функцій) ...
+  renderCategories();
+  // ... (інші ваші виклики функцій) ...
+});

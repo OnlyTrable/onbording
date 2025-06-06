@@ -148,7 +148,7 @@ body {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 16px;
+  font-size: 1rem;
   height: 42px; /* Для language-dropdown */
 }
 
@@ -218,7 +218,7 @@ body {
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
@@ -276,7 +276,7 @@ body {
   max-width: 600.61px; /* Обмеження максимальної ширини, щоб відповідати піксельному значенню */
   height: 104px; /* Висота для двох рядків тексту з line-height: 52px */
   font-weight: 700;
-  font-size: 42px; /*2.9vw;  (42px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
+  font-size: 42px; /*2.625rem; 2.9vw;  (42px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
   line-height: 52px;
   color: #212121;
 }
@@ -528,10 +528,7 @@ body {
 .join-meetup-section {
   background-color: #97cad114;
   border-radius: 8px;
-  padding: 40px;
-  width: 100%;
-  max-width: 1200px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 36px;
 
   /* --- CSS Grid для десктопної версії --- */
   display: grid;
@@ -571,34 +568,26 @@ body {
   text-align: left; /* Вирівнювання кнопки по лівому краю на десктопі */
 }
 
-/* Загальні стилі для вмісту */
-.section-title h1 {
-  font-size: 3em;
-  color: #333;
-  margin-bottom: 0; /* Прибираємо нижній відступ, оскільки gap вже є */
-  line-height: 1.2;
-}
-
-.section-description p {
+/*.section-description p {
   font-size: 1.2em;
   color: #555;
   line-height: 1.6;
-  margin-bottom: 0; /* Прибираємо нижній відступ */
-}
+  margin-bottom: 0;  Прибираємо нижній відступ 
+} */
 
 .section-image img {
   max-width: 100%;
   height: auto;
   display: block;
-  max-height: 250px; /* Обмеження висоти для десктопу */
+  max-height: 196px; /* Обмеження висоти для десктопу */
 }
 
 .sign-up-button {
-  background-color: #e63973;
+  background-color: #e32359;
   color: white;
   padding: 15px 30px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 1.1em;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -611,8 +600,8 @@ body {
 
 /* --- Медіа-запити для адаптації під мобільні пристрої --- */
 
-/* Наприклад, для екранів менше 768px */
-@media (max-width: 768px) {
+/* Наприклад, для екранів менше 576px */
+@media (max-width: 576px) {
   .join-meetup-section {
     padding: 20px;
     gap: 20px; /* Менший відступ на мобільних */
@@ -691,4 +680,31 @@ body {
     max-width: 90%;
     max-height: 180px;
   }
+}
+.section-title {
+  margin-top: 64px;
+}
+.categories-container {
+  display: flex;
+  justify-content: space-between; /*space-around;  Або інше значення на ваш вибір */
+  flex-wrap: wrap; /* Дозволяє переносити елементи, якщо вони не вміщаються */
+  margin-bottom: 64px;
+}
+
+.category-item {
+  /* Стилі для окремого елемента категорії */
+  width: 135px;
+  height: 112px;
+  text-align: center;
+  background-color: #97cad114;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.category-item img {
+  width: 20px;
+  height: 20px;
+  margin: 22px 0 8px;
 }
