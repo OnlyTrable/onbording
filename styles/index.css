@@ -833,7 +833,6 @@ body {
   font-weight: 500;
   color: #00798a; /* Колір посилання, типовий для Meetup */
   text-decoration: none;
-  padding: 16px auto 24px 24px; /* Додаємо трохи простору для кліку */
 }
 
 .text-container a:hover {
@@ -859,5 +858,102 @@ body {
 
   .text-container h3 {
     font-size: 20px;
+  }
+}
+/* === Стилі для секції "Articles" === */
+
+.articles-section {
+  padding: 40px 0;
+  margin-bottom: 40px; /* Відступ знизу секції */
+}
+
+.section-articles-title h2 {
+  font-size: 28px; /* 1.75rem */
+  font-weight: 600;
+  color: #212121;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.section-articles-title p {
+  font-size: 16px; /* 1rem */
+  color: #707070;
+  line-height: 1.6;
+  text-align: left;
+  margin-bottom: 28px;
+  /* max-width: 700px; */ /* Можна обмежити ширину для кращої читабельності */
+}
+
+.categories-articles-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px; /* Відстань між картками статей */
+  /* justify-content керується через JavaScript (adjustLastRowLayout) */
+}
+
+.article-card {
+  background-color: #ffffff; /* Або інший фон, якщо потрібно */
+  border-radius: 8px;
+  overflow: hidden; /* Щоб зображення не виходило за межі округлених кутів */
+  display: flex;
+  flex-direction: column;
+  width: calc(
+    33.333% - 16px
+  ); /* Для трьох карток в рядку з урахуванням gap (24px * 2/3) */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Легка тінь */
+}
+
+.article-card img {
+  width: 100%;
+  height: 200px; /* Фіксована висота для зображень, або використовуйте aspect-ratio */
+  object-fit: cover; /* Масштабує зображення, зберігаючи пропорції та обрізаючи */
+}
+
+.article-card h3 {
+  font-size: 20px; /* 1.25rem */
+  font-weight: 600;
+  color: #212121;
+  margin: 16px 16px 8px 16px;
+  line-height: 1.3;
+}
+
+.article-card p {
+  font-size: 14px; /* 0.875rem */
+  color: #555555;
+  line-height: 1.5;
+  margin: 0 16px 16px 16px;
+  flex-grow: 1; /* Дозволяє текстовому блоку займати доступний простір, вирівнюючи кнопки "Read More" */
+}
+
+.article-card a {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #00798a;
+  text-decoration: none;
+  margin: 0 16px 16px 16px;
+  padding-top: 8px; /* Невеликий відступ зверху, якщо текст короткий */
+}
+
+.article-card a:hover {
+  text-decoration: underline;
+}
+
+/* Адаптивність для карток статей */
+@media (max-width: 992px) {
+  .article-card {
+    width: calc(50% - 12px); /* Дві картки в рядку */
+  }
+}
+
+@media (max-width: 600px) {
+  .article-card {
+    width: 100%; /* Одна картка в рядку */
+  }
+  .section-articles-title h2 {
+    font-size: 24px;
+  }
+  .article-card h3 {
+    font-size: 18px;
   }
 }

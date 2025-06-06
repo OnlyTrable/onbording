@@ -214,6 +214,53 @@ function renderPopularCities() {
   adjustLastRowLayout(citiesContainer);
 }
 
+// Функція для рендерингу статей
+function renderArticles() {
+  const articlesContainer = document.querySelector(
+    ".categories-articles-container"
+  );
+  if (!articlesContainer) {
+    console.error("Контейнер для статей не знайдено!");
+    return;
+  }
+  if (typeof articles === "undefined" || articles.length === 0) {
+    console.error(
+      "Масив 'articles' не знайдено або він порожній. Переконайтеся, що файл articles.js завантажено."
+    );
+    return;
+  }
+
+  articlesContainer.innerHTML = ""; // Очищаємо контейнер
+
+  articles.forEach((article) => {
+    const articleCard = document.createElement("div");
+    articleCard.classList.add("article-card");
+
+    const img = document.createElement("img");
+    img.src = article.image;
+    img.alt = article.titleOfArticle;
+
+    const title = document.createElement("h3");
+    title.textContent = article.titleOfArticle;
+
+    const text = document.createElement("p");
+    text.textContent = article.textOfArticle;
+
+    const link = document.createElement("a");
+    link.href = "#"; // Або article.linkOfArticle, якщо це справжнє посилання
+    link.textContent = article.linkOfArticle;
+
+    articleCard.appendChild(img);
+    articleCard.appendChild(title);
+    articleCard.appendChild(text);
+    articleCard.appendChild(link);
+    articlesContainer.appendChild(articleCard);
+  });
+
+  // Застосовуємо налаштування макету для контейнера статей
+  adjustLastRowLayout(articlesContainer);
+}
+
 // Перевіряємо, чи існує eventsStore (з data.js)
 if (typeof eventsStore !== "undefined") {
   eventsStore.forEach((item, index) => {
@@ -254,6 +301,9 @@ if (typeof eventsStore !== "undefined") {
     adjustLastRowLayout(
       document.querySelector(".categories-popular-cities-container")
     ); // Додаємо для міст
+    adjustLastRowLayout(
+      document.querySelector(".categories-articles-container")
+    ); // Додаємо для статей
   });
 
   if (!cardsContainerNear) {
@@ -277,5 +327,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ... (інші ваші виклики функцій) ...
   renderCategories();
   renderPopularCities(); // Викликаємо рендеринг популярних міст
+  renderArticles(); // Викликаємо рендеринг статей
   // ... (інші ваші виклики функцій) ...
 });
