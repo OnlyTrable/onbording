@@ -683,6 +683,7 @@ body {
 }
 .section-title {
   margin-top: 64px;
+  margin-bottom: 24px;
 }
 .categories-container {
   display: flex;
@@ -707,4 +708,62 @@ body {
   width: 20px;
   height: 20px;
   margin: 22px 0 8px;
+}
+/* === Стилі для секції "Popular cities" === */
+
+.popular-cities-section {
+  /* Можете додати загальні відступи для секції, якщо потрібно */
+  /* margin-top: 40px; */
+  margin-bottom: 4rem;
+}
+
+.section-popular-cities-title h2 {
+  /* Стилі для головного заголовка секції "Popular cities on Meetup" */
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #212121;
+  margin-bottom: 16px; /* Відступ до підзаголовка */
+  text-align: left; /* Якщо заголовок має бути по центру */
+}
+
+.section-popular-cities-title p {
+  /* Стилі для підзаголовка/опису секції */
+  font-size: 1rem;
+  color: #707070;
+  text-align: left; /* опис зліва */
+  margin-bottom: 28px; /* Відступ до контейнера з містами */
+  /* max-width: 600px;  Обмеження ширини для кращої читабельності */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.categories-popular-cities-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px; /* Відстань між картками міст, налаштуйте за потребою */
+  /* justify-content керується через JavaScript (adjustLastRowLayout) */
+  /* padding-top: 20px; */ /* Якщо потрібен відступ зверху всередині контейнера */
+}
+
+.popular-city-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Центрує зображення та текст по горизонталі */
+  width: 205px; /* Ширина одного елемента міста */
+  text-align: center; /* Центрує текст під зображенням */
+}
+
+.popular-city-item img {
+  width: 205px; /* Ширина зображення */
+  height: 205px; /* Висота зображення (має бути однаковою з шириною для кола) */
+  object-fit: cover; /* Зберігає пропорції зображення, обрізаючи зайве, щоб заповнити коло */
+  border-radius: 50%; /* Робить зображення круглим */
+  margin-bottom: 10px; /* Відступ між зображенням та назвою міста */
+}
+
+.popular-city-item p {
+  font-size: 1rem; /* Розмір шрифту для назви міста */
+  font-weight: 400; /* Середня насиченість шрифту */
+  color: #212121; /* Колір тексту */
+  line-height: 1.5rem;
 }

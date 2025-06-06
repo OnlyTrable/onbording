@@ -158,11 +158,12 @@ function renderCategories() {
   categoriesData.forEach((category) => {
     const categoryItem = document.createElement("div");
     categoryItem.classList.add("category-item");
+    categoryItem.style.paddingTop = "22px";
+    categoryItem.style.justifyContent = "flex-start";
 
     const img = document.createElement("img");
     img.src = category.imgSrc;
     img.alt = category.altText;
-
     const p = document.createElement("p");
     p.innerHTML = category.text; // Використовуємо innerHTML, оскільки текст може містити <br />
 
@@ -174,6 +175,45 @@ function renderCategories() {
   // Застосовуємо налаштування макету для контейнера категорій
   adjustLastRowLayout(categoriesContainer);
 }
+
+// Функція для рендерингу популярних міст
+function renderPopularCities() {
+  const citiesContainer = document.querySelector(
+    ".categories-popular-cities-container"
+  );
+  if (!citiesContainer) {
+    console.error("Контейнер для популярних міст не знайдено!");
+    return;
+  }
+  if (typeof cities === "undefined" || cities.length === 0) {
+    console.error(
+      "Масив 'cities' не знайдено або він порожній. Переконайтеся, що файл cities.js завантажено."
+    );
+    return;
+  }
+
+  citiesContainer.innerHTML = ""; // Очищаємо контейнер
+
+  cities.forEach((city) => {
+    const cityItem = document.createElement("div");
+    cityItem.classList.add("popular-city-item"); // Додаємо клас для стилізації
+
+    const img = document.createElement("img");
+    img.src = city.image;
+    img.alt = city.title;
+
+    const title = document.createElement("p"); // Або h3, h4, залежно від бажаної семантики
+    title.textContent = city.title;
+
+    cityItem.appendChild(img);
+    cityItem.appendChild(title);
+    citiesContainer.appendChild(cityItem);
+  });
+
+  // Застосовуємо налаштування макету для контейнера міст
+  adjustLastRowLayout(citiesContainer);
+}
+
 // Перевіряємо, чи існує eventsStore (з data.js)
 if (typeof eventsStore !== "undefined") {
   eventsStore.forEach((item, index) => {
@@ -211,6 +251,9 @@ if (typeof eventsStore !== "undefined") {
     adjustLastRowLayout(cardsContainerNear);
     adjustLastRowLayout(cardsContainerOnline);
     adjustLastRowLayout(document.querySelector(".categories-container")); // Додаємо для категорій
+    adjustLastRowLayout(
+      document.querySelector(".categories-popular-cities-container")
+    ); // Додаємо для міст
   });
 
   if (!cardsContainerNear) {
@@ -233,5 +276,6 @@ if (typeof eventsStore !== "undefined") {
 document.addEventListener("DOMContentLoaded", () => {
   // ... (інші ваші виклики функцій) ...
   renderCategories();
+  renderPopularCities(); // Викликаємо рендеринг популярних міст
   // ... (інші ваші виклики функцій) ...
 });
