@@ -1033,5 +1033,111 @@ footer .container {
   display: flex;
   flex-direction: column;
   flex: 1; /* Кожен стовпець займає однакову частину простору */
-  /* Можна додати min-width, якщо потрібно */
+}
+.footer-column h4 {
+  color: #f6f7f8; /* Колір тексту для заголовка */
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 7px;
+}
+
+.footer-column ul li a {
+  color: #c5c4c4;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  text-decoration: none;
+  margin-bottom: 7px;
+}
+.footer-column ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Нові стилі для секції 3 футера */
+.footer-section-3 {
+  display: flex;
+  flex-direction: row; /* Розміщуємо дочірні елементи в рядок */
+  justify-content: space-between; /* Розносимо їх по краях */
+  align-items: center; /* Вирівнюємо по центру вертикально */
+  padding: 20px 0;
+  /* gap: 16px;  Тепер не потрібен тут, бо space-between керує відстанню */
+}
+
+.footer-follow-content {
+  display: flex;
+  flex-direction: column; /* Заголовок, потім соц. іконки, потім кнопки додатків */
+  align-items: flex-start; /* Вирівнювання по лівому краю */
+  gap: 16px; /* Відстань між h4 та social-media всередині цієї групи */
+}
+
+.footer-section-3 h4 {
+  color: #f6f7f8;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 0; /* Замінено на gap в батьківському елементі */
+}
+
+.footer-social-media {
+  display: flex;
+  gap: 32px; /* Відстань між іконками */
+}
+
+.footer-social-media a {
+  color: #c5c4c4;
+  display: inline-block; /* Для правильного відображення SVG */
+  transition: color 0.3s ease;
+}
+
+.footer-social-media a:hover {
+  color: #ffffff; /* Зміна кольору при наведенні */
+}
+
+.footer-social-media svg {
+  width: 30px;
+  height: 30px;
+  display: block; /* Прибирає зайвий відступ під SVG */
+}
+
+.footer-app-stores {
+  display: flex;
+  gap: 16px; /* Відстань між кнопками магазинів */
+  align-items: center; /* Вирівнювання по центру, якщо висота різна */
+}
+
+.footer-app-stores img {
+  height: 40px; /* Налаштуйте висоту за потребою */
+  width: auto; /* Ширина автоматично */
+}
+
+.footer-section-4 {
+  display: flex;
+  justify-content: left; /* Розміщує копірайт зліва, посилання справа */
+  align-items: center; /* Вирівнює по центру вертикально */
+  padding: 5px 0; /* Вертикальні відступи */
+  color: #c5c4c4; /* Колір тексту для копірайту */
+  font-size: 14px;
+  margin-bottom: 40px;
+}
+
+.footer-copyright p {
+  margin: 0; /* Прибираємо стандартний відступ параграфа */
+}
+
+.footer-legal-links {
+  display: flex;
+  gap: 1.5rem; /* Відстань між посиланнями */
+  margin-left: 1.5rem;
+}
+
+.footer-legal-links a {
+  color: #c5c4c4;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-legal-links a:hover {
+  text-decoration: underline;
+  color: #ffffff;
 }
