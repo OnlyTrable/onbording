@@ -1,33 +1,129 @@
+:root {
+  /* Додаємо брейкпоінти до змінних */
+  --breakpoint-xs: 393px; /* мінімальний viewport */
+  --breakpoint-sm: 576px; /* малі телефони */
+  --breakpoint-md: 768px; /* планшети */
+  --breakpoint-lg: 992px; /* десктопи */
+  --breakpoint-xl: 1196px; /* великі екрани */
+  --color-text-light: #707070; /* ← має бути #707070 */
+  --color-white: #ffffff; /* ← має бути #ffffff */
+}
+
+/* Адаптивна типографіка */
+.heading--xl {
+  font-size: 28px; /* для 393px */
+  line-height: 1.2;
+}
+
+@media (min-width: 576px) {
+  .heading--xl {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 768px) {
+  .heading--xl {
+    font-size: var(--font-size-xxl); /* 42px */
+    line-height: 1.24;
+  }
+}
+
+.heading--lg {
+  font-size: 24px; /* для 393px */
+}
+
+@media (min-width: 768px) {
+  .heading--lg {
+    font-size: var(--font-size-xl); /* 28px */
+  }
+}
+
+/* Адаптивний текст */
+.text {
+  font-size: 14px; /* для 393px */
+}
+
+@media (min-width: 768px) {
+  .text {
+    font-size: var(--font-size-md); /* 16px */
+  }
+}
+
+/* Базові стилі для мінімального viewport 393px */
 * {
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
-  color: #333;
+  color: var(--color-text-dark);
+  min-width: 393px; /* мінімальна ширина */
 }
+/* ПРАВИЛЬНА СТРУКТУРА КОНТЕЙНЕРІВ */
 
+/* Зовнішній контейнер для header та footer - 1512px */
 .container {
   width: 100%;
-  max-width: 1512px;
+  max-width: 1512px; /* ← ОСЬ ЦЕ! */
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
 }
-@media (max-width: 768px) {
-  /* Тимчасова заглушка для мобільних стилів футера */
+
+/* Внутрішній контейнер для main контенту - 1196px */
+.content-wrapper {
+  width: 100%;
+  max-width: 1196px; /* ← А ЦЕ ДЛЯ MAIN! */
+  margin: 0 auto;
+  padding: 0 0px;
+}
+
+/* При viewport 1920px:
+   - .container буде 1512px по центру
+   - .content-wrapper буде 1196px по центру всередині main
+*/
+
+@media (max-width: 1512px) {
   .container {
+    padding: 0 20px; /* відступи коли менше 1512px */
+  }
+}
+
+@media (max-width: 1196px) {
+  .content-wrapper {
+    padding: 0 15px; /* відступи коли менше 1196px */
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .content-wrapper {
     padding: 0 10px;
   }
 }
 
-/* Стилі для хедеру */
+/* Додаємо змінну для padding */
+:root {
+  --header-padding: 11px;
+  --header-padding-xs: 4px;
+}
+
 .main-header {
-  background-color: #ffffff;
-  padding: 11px 0;
+  background-color: var(--color-white);
+  padding: var(--header-padding) 0;
+}
+
+@media (max-width: 393px) {
+  .main-header {
+    padding: var(--header-padding-xs) 0; /* 4px */
+  }
 }
 
 .header-content {
@@ -42,51 +138,53 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  flex: 1; /* Дозволяє їм займати доступний простір */
+  flex: 1;
 }
 
 .header-left {
   justify-content: flex-start;
-  gap: 20px; /* Відстань між логотипом та search-group */
+  gap: 20px;
 }
 
 .header-right {
   justify-content: flex-end;
-  gap: 20px; /* Відстань між елементами в правій частині */
+  gap: 20px;
   margin-right: 7px;
 }
+
 .logo {
-  margin-left: 4px; /* Додаємо 4px до існуючих 20px padding контейнера */
+  margin-left: 4px;
 }
+
 .logo .meetup-logo-img {
-  height: 34px; /* висота за потребою */
-  max-width: 6vw; /* width: 6vw; auto;*/
+  height: 34px;
+  max-width: 6vw;
   flex-shrink: 0;
 }
 
-/* Стилі для єдиного контейнера пошуку */
+/* Search group - ВИПРАВЛЕНО */
 .search-group {
   display: flex;
-  height: 42px; /* Фіксована висота, як ти вказав */
-  border: 1px solid #ccc; /* Загальна рамка для групи */
-  border-radius: 8px; /* Загальний радіус, потім буде перезаписаний для кутів */
-  flex-grow: 1; /* Дозволяє цьому блоку розтягуватися */
+  height: 42px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  flex-grow: 1;
 }
 
 .search-group-icon-btn {
   background: none;
   border: none;
   cursor: pointer;
-  height: 100%; /* Займає всю висоту контейнера */
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 10px; /* Відступи всередині кнопки */
-  flex-shrink: 0; /* Запобігає зменшенню */
+  padding: 0 10px;
+  flex-shrink: 0;
 }
 
 .search-group-input {
-  width: 15.625vw; /* <-- Змінено з 300px на vw */
+  width: 15.625vw;
   border: none;
   border-right: 1px solid #ccc;
   outline: none;
@@ -97,25 +195,20 @@ body {
 
 .search-group-dropdown .dropdown-toggle {
   height: 100%;
-  border-radius: 0; /* Без радіусу */
+  border-radius: 0;
+  border: none;
   padding: 0 15px;
+  width: 100%;
+  justify-content: space-between;
+  border-right: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
-/* Кольори для іконок */
-.icon-color-gray {
-  color: #707070;
-}
-
-.icon-color-white {
-  color: #ffffff;
-}
-
-/* Радіуси для кнопок всередині search-group */
+/* Радіуси */
 .left-radius {
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
-  /* Важливо: background-color для лівої іконки, якщо вона не прозора і це не svg */
-  background-color: #ffffff; /* Якщо іконка прозора, а контейнер білий */
+  background-color: #ffffff; /* ← ФОН КНОПКИ БІЛИЙ */
 }
 
 .right-radius {
@@ -127,54 +220,250 @@ body {
   background-color: #f65858;
 }
 
-/* Стилі для іконок всередині кнопок search-group-icon-btn */
+/* Кольори іконок - ВИПРАВЛЕНО */
+.icon-color-gray {
+  color: #707070; /* ← КОНКРЕТНИЙ КОЛІР */
+}
+
+.icon-color-white {
+  color: #ffffff; /* ← КОНКРЕТНИЙ КОЛІР */
+}
+
+/* АБО використовуйте змінні, але правильні: */
+.icon-color-gray {
+  color: var(--color-text-light); /* якщо --color-text-light: #707070 */
+}
+
+.icon-color-white {
+  color: var(--color-white); /* якщо --color-white: #ffffff */
+}
+
+/* Іконки */
 .search-group-icon-btn svg {
   width: 24px;
   height: 24px;
 }
 
-/* Стилі для іконки мови */
 .lang-icon {
   width: 20px;
   height: 20px;
 }
 
-/* Стилі для випадаючих списків (загальні, без змін) */
+.icon-color-gray {
+  color: var(--color-text-light);
+}
+
+.icon-color-white {
+  color: var(--color-white);
+}
+
+/* Кнопки хедера - використовуємо нові класи */
+.login-link {
+  text-decoration: none;
+  color: var(--color-text-medium);
+  font-weight: 500;
+  padding: 8px 15px 8px 0px;
+  transition: var(--transition);
+}
+
+.login-link:hover {
+  color: var(--color-primary-hover);
+}
+
+.signup-button {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  font-weight: bold;
+  transition: var(--transition);
+}
+
+.signup-button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Медіа-запити - зберігаємо оригінальну логіку */
+@media (max-width: 992px) {
+  .header-content {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 15px;
+    align-items: center;
+  }
+
+  .header-left {
+    display: contents;
+  }
+
+  .logo {
+    order: 1;
+    margin-right: auto;
+    margin-left: 9px;
+  }
+
+  .logo .meetup-logo-img {
+    width: 94.34px;
+    height: 34px;
+    max-width: none;
+  }
+
+  .header-right {
+    order: 2;
+    flex: initial;
+  }
+
+  .header-right .dropdown-toggle,
+  .header-right .login-link,
+  .header-right .signup-button {
+    font-size: var(--font-size-sm);
+  }
+
+  .search-group {
+    order: 3;
+    width: 100%;
+    max-width: unset;
+  }
+
+  .search-group-input {
+    width: auto;
+    flex-grow: 1;
+    border-right: none;
+  }
+
+  .search-group .search-group-dropdown {
+    display: none;
+  }
+
+  .search-group .search-group-icon-btn.right-radius {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .header-left,
+  .header-right {
+    gap: 10px;
+  }
+
+  .container,
+  .content-wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .signup-button,
+  .login-link {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .header-right .signup-button {
+    margin-top: 6px;
+    margin-right: 7px;
+    margin-bottom: 5.24px;
+    width: calc(100% - 7px);
+  }
+}
+
+/* Form components */
+.form-group {
+  display: flex;
+  height: 42px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.form-input {
+  border: none;
+  outline: none;
+  padding: 0 var(--spacing-sm);
+  font-size: var(--font-size-md);
+  flex-grow: 1;
+}
+
+.form-input::placeholder {
+  color: var(--color-text-light);
+}
+
+.form-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.form-button--primary {
+  background-color: var(--color-secondary);
+  color: var(--color-white);
+}
+
+.form-button--primary:hover {
+  background-color: #d64545;
+}
+
+/* Dropdown component - з оригінальними класами */
 .dropdown {
   position: relative;
   display: inline-block;
 }
 
 .dropdown-toggle {
-  background-color: transparent; /* Перезапишемо для search-group-dropdown */
-  border: 1px solid #ccc; /* Перезапишемо для search-group-dropdown */
-  padding: 8px 15px;
-  border-radius: 5px;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 1rem;
-  height: 42px; /* Для language-dropdown */
+  gap: var(--spacing-xs);
+  font-size: var(--font-size-md);
+  height: 42px;
+  transition: var(--transition);
 }
 
 .dropdown-menu {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  border: none; /* Прибираємо бордер */
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  border-radius: 5px;
+  border-radius: var(--border-radius-sm);
   top: 100%;
   left: 0;
-  margin-top: 0px;
 }
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a {
+  color: var(--color-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-decoration: none;
+  display: block;
+  transition: var(--transition);
+}
+
+.dropdown-menu a:hover {
+  background-color: #f1f1f1;
+}
+
 .dropdown.search-group-dropdown {
-  flex-grow: 1; /* Дозволяє дропдауну розтягуватися, заповнюючи простір */
-  display: flex; /* Важливо, щоб кнопка всередині правильно розмістилася */
-  align-items: center; /* Вирівнювання по центру */
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
 }
 
 .search-group-dropdown .dropdown-toggle {
@@ -182,10 +471,12 @@ body {
   height: 100%;
   border-radius: 0;
   padding: 0 15px;
-  width: 100%; /* Щоб кнопка заповнювала весь доступний простір свого батьківського .dropdown */
+
+  width: 100%;
   justify-content: space-between;
-  border-right: 1px solid #ccc; /* <-- ДОДАЙ ЦЕЙ РЯДОК */
-  box-sizing: border-box; /* Важливо, щоб border не збільшував ширину кнопки */
+
+  border-right: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 .dropdown-menu a {
@@ -232,88 +523,116 @@ body {
 .signup-button:hover {
   background-color: #05454e;
 }
-
-/* Медіа-запити для адаптивності */
-@media (max-width: 992px) {
-  .header-left {
-    display: flex;
-    align-items: center;
-    flex-grow: 1; /* <-- Тільки ліва частина буде розтягуватися */
-    justify-content: flex-start;
-    gap: 20px; /* Відстань між логотипом та search-group */
-  }
-  .header-right {
-    display: flex; /* <-- Залишаємо display: flex та align-items: center */
-    align-items: center;
-    justify-content: flex-end;
-    gap: 20px; /* Відстань між елементами в правій частині */
-    flex-shrink: 0; /* Запобігаємо стисненню, якщо це необхідно для збереження розміру */
-  }
-
-  .header-content {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .search-group {
-    width: 100%; /* На планшетах search-group на всю ширину */
-    max-width: unset; /* Знімаємо обмеження max-width */
-  }
-
-  .search-group-input {
-    width: auto;
-  }
-}
 .content-wrapper {
   width: 87vw; /* (1196px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
   max-width: 1196px; /* Гарантує, що ширина не перевищить 1196px */
   margin-left: auto; /* Центрує блок по горизонталі */
   margin-right: auto; /* Центрує блок по горизонталі */
 }
+.hero-section {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-white);
+  padding: 0px 0px;
+  margin-bottom: 30px;
+  gap: 46.15px;
+}
+
 .hero-content-left,
 .hero-content-right {
   display: flex;
   flex-direction: column;
-  gap: 24px; /* Додає простір між елементами всередині */
-  flex-basis: 50%; /*Можна задати базову ширину, якщо потрібно */
+  gap: var(--spacing-lg);
+  flex-basis: 50%;
 }
+
 .hero-content-left h1 {
-  width: 41.71vw; /* (600.61px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
-  max-width: 600.61px; /* Обмеження максимальної ширини, щоб відповідати піксельному значенню */
-  height: 104px; /* Висота для двох рядків тексту з line-height: 52px */
+  width: 41.71vw;
+  max-width: 600.61px;
+
   font-weight: 700;
-  font-size: 42px; /*2.625rem; 2.9vw;  (42px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
-  line-height: 52px;
-  color: #212121;
+
+  color: var(--color-text-dark);
+
+  line-height: 1.24;
+
+  /* Плавне масштабування від 25px до 42px */
+  font-size: clamp(25px, 4vw, 42px);
 }
+
+/* При 393px viewport */
+@media (max-width: 393px) {
+  .hero-content-left h1 {
+    font-size: 25px;
+    width: 90%; /* адаптуємо ширину для маленького екрану */
+    height: auto; /* дозволяємо висоті адаптуватися */
+    line-height: 1.2;
+  }
+}
+
+/* Проміжні розміри для плавного переходу */
+@media (max-width: 576px) {
+  .hero-content-left h1 {
+    width: 90%;
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content-left h1 {
+    font-size: 32px;
+    width: 80%;
+    height: auto;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-content-left h1 {
+    font-size: 36px;
+    width: 75%;
+    height: auto;
+  }
+}
+
 .hero-content-left p {
-  width: 42.28vw; /* (608.93px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
-  max-width: 608.93px; /* Обмеження максимальної ширини */
-  height: 72px; /* Висота для трьох рядків тексту з line-height: 24px */
+  width: 42.28vw;
+  max-width: 608.93px;
+  height: 72px;
   font-weight: 400;
-  font-size: 16px;
+  font-size: var(--font-size-md); /* 16px */
   line-height: 24px;
-  color: #212121;
+  color: var(--color-text-dark);
 }
+
 .hero-content-left .signup-button {
-  width: 9.52vw; /* (137px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
-  max-width: 137px; /* Збільшена максимальна ширина для вміщення тексту */
+  width: 9.52vw;
+  max-width: 137px;
   height: 40px;
-  border-radius: 8px;
-  padding: 8px 16px; /* Оновлені падінги: top/bottom = 8px, left/right = 16px */
-  line-height: 24px; /* Забезпечує висоту тексту 24px */
-  white-space: nowrap; /* Забороняє перенос тексту на новий рядок */
-  text-align: center; /* Гарантує центрування тексту, хоча зазвичай це за замовчуванням для кнопок */
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm) var(--spacing-md);
+  line-height: 24px;
+  white-space: nowrap;
+  text-align: center;
 }
+
 .hero-content-right {
-  width: 26.32vw; /* (379px / 1440px) * 100vw, виходячи з базової ширини екрану 1440px */
-  max-width: 379px; /* Максимальна ширина контейнера */
-  height: 269px; /* Фіксована висота контейнера */
-  flex-grow: 0; /* Забороняємо розтягування */
-  flex-shrink: 0; /* Забороняємо стискання */
-  justify-content: center; /* Центрування вмісту (зображення) по вертикалі (основна вісь flex column) */
-  align-items: center; /* Центрування вмісту (зображення) по горизонталі (поперечна вісь flex column) */
+  width: 26.32vw;
+  max-width: 379px;
+  height: 269px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
 }
+
+.hero-content-right img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
 @media (max-width: 1196px) {
   /* Якщо екран менший за 1196px, то content-wrapper адаптується */
   .content-wrapper {
@@ -333,7 +652,7 @@ body {
   display: flex; /* Встановлює flex-контейнер */
   align-items: center; /* Вирівнює дочірні елементи по центру вертикально */
   background-color: white;
-  padding: 50px 0;
+  padding: 0px 0px;
   margin-bottom: 30px;
   gap: 46.15px; /*Можете додати відступ між лівим та правим блоком, якщо потрібно */
 }
@@ -347,48 +666,98 @@ body {
 }
 
 .events-section {
-  padding: 30px 0;
+  padding: 0px 0px;
+}
+
+.event {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event-title-container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: 28px;
+}
+
+.event-title-container h2 {
+  font-weight: 600;
+  font-size: var(--font-size-xl); /* 28px */
+  line-height: 36px;
+  color: var(--color-text-dark);
+}
+
+.see-all-events-link {
+  text-decoration: none;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.location-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-trigger-wrapper {
+  display: flex;
+  align-items: center;
+  max-width: 239.42px;
+  height: 44px;
+  background-color: var(--color-background-light);
+  border-radius: var(--border-radius);
+  padding-right: 11px;
+}
+
+.location-dropdown .dropdown-trigger-wrapper .dropdown-toggle {
+  color: var(--color-primary);
+  border: none;
+  background-color: transparent;
 }
 
 @media (max-width: 576px) {
   .header-left,
   .header-right {
-    flex-direction: column;
+    /* .header-left is display: contents, so flex properties don't apply directly */
     gap: 10px;
   }
 
-  .search-group {
-    flex-direction: column; /* Якщо треба, щоб інпут був під іконками */
-    height: auto; /* Висота буде автоматичною */
-    border: none; /* Прибираємо рамку на мобільних, якщо елементи розходяться */
-    border-radius: 0;
+  /* Узгоджуємо бічні відступи для контейнерів на малих екранах */
+  .container,
+  .content-wrapper,
+  footer .container {
+    /* This rule for footer .container might be better placed within its own @media query if footer has different breakpoints for padding */
+    padding-left: 15px;
+    padding-right: 15px;
   }
 
-  .search-group-icon-btn,
-  .search-group-input,
-  .search-group-dropdown .dropdown-toggle {
-    width: 100%;
-    border-radius: 5px; /* Даємо окремі радіуси для кожного елементу */
-    margin-bottom: 5px; /* Відступи між ними */
-    box-sizing: border-box;
-    height: 42px;
-  }
-
-  .search-group-icon-btn.left-radius,
-  .search-group-icon-btn.right-radius {
-    border-radius: 5px; /* Прибираємо специфічні кути, якщо все в стовпчик */
-  }
-
-  .search-group-dropdown .dropdown-menu {
-    min-width: unset;
-    width: 100%;
-  }
+  /* Якщо .search-group має зберігати горизонтальний вигляд як на 992px,
+       тоді наступні правила, що роблять його елементи вертикальними, не потрібні.
+       .search-group {
+         flex-direction: column;
+         height: auto;
+         border: none;
+         border-radius: 0;
+       }
+       .search-group-icon-btn, .search-group-input, .search-group-dropdown .dropdown-toggle {
+         width: 100%; ...
+       } */
 
   .signup-button,
   .login-link {
     width: 100%;
     text-align: center;
     box-sizing: border-box;
+  }
+
+  .header-right .signup-button {
+    margin-top: 6px;
+    margin-right: 7px;
+    margin-bottom: 5.24px;
+    width: calc(
+      100% - 7px
+    ); /* Adjust width to account for margin-right if it should still span most of the container */
   }
 }
 .event {
@@ -532,26 +901,19 @@ body {
 }
 /* Основний контейнер для секції "Join Meetup" */
 .join-meetup-section {
-  background-color: #97cad114;
-  border-radius: 8px;
+  background-color: var(--color-background-light);
+  border-radius: var(--border-radius);
   padding: 36px;
-
-  /* --- CSS Grid для десктопної версії --- */
   display: grid;
-  /* Визначаємо дві колонки: ліва (для тексту) і права (для зображення) */
-  grid-template-columns: 1.5fr 1fr; /* Ліва колонка трохи ширша, щоб вмістити текст */
-  gap: 30px; /* Відстань між колонками та рядками */
-
-  /* Визначаємо іменовані області сітки */
+  grid-template-columns: 1.5fr 1fr;
+  gap: 30px;
   grid-template-areas:
     "title    image"
     "description image"
     "button   image";
-
-  align-items: center; /* Вирівнює елементи по центру по вертикалі в межах їхніх областей */
+  align-items: center;
 }
 
-/* Призначаємо елементи до їхніх областей сітки на десктопі */
 .section-title {
   grid-area: title;
   text-align: left;
@@ -559,7 +921,7 @@ body {
 
 .section-image {
   grid-area: image;
-  display: flex; /* Використовуємо flexbox всередині grid-області для центрування img */
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -571,37 +933,30 @@ body {
 
 .section-button {
   grid-area: button;
-  text-align: left; /* Вирівнювання кнопки по лівому краю на десктопі */
+  text-align: left;
 }
-
-/*.section-description p {
-  font-size: 1.2em;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 0;  Прибираємо нижній відступ 
-} */
 
 .section-image img {
   max-width: 100%;
   height: auto;
   display: block;
-  max-height: 196px; /* Обмеження висоти для десктопу */
+  max-height: 196px;
 }
 
 .sign-up-button {
-  background-color: #e32359;
-  color: white;
+  background-color: var(--color-accent);
+  color: var(--color-white);
   padding: 15px 30px;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   font-size: 1.1em;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  display: inline-block; /* Щоб кнопка була зліва, якщо text-align: left */
+  transition: var(--transition);
+  display: inline-block;
 }
 
 .sign-up-button:hover {
-  background-color: #c92f60;
+  background-color: var(--color-accent-hover);
 }
 
 /* --- Медіа-запити для адаптації під мобільні пристрої --- */
@@ -689,13 +1044,14 @@ body {
 }
 .section-title {
   margin-top: 64px;
-  margin-bottom: 24px;
+  margin-bottom: var(--spacing-lg);
 }
 .categories-container {
   display: flex;
   justify-content: space-between; /*space-around;  Або інше значення на ваш вибір */
   flex-wrap: wrap; /* Дозволяє переносити елементи, якщо вони не вміщаються */
   margin-bottom: 64px;
+  gap: var(--spacing-md); /* додаємо gap для кращого контролю */
 }
 
 .category-item {
@@ -703,42 +1059,46 @@ body {
   width: 135px;
   height: 112px;
   text-align: center;
-  background-color: #97cad114;
-  border-radius: 8px;
+  background-color: var(--color-background-light);
+  border-radius: var(--border-radius);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 22px;
+  margin-bottom: 11px;
 }
 .category-item img {
   width: 20px;
   height: 20px;
-  margin: 22px 0 8px;
+  margin: 0 0 var(--spacing-sm) 0; /* використовуємо змінну */
+}
+.category-item p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-dark);
+  line-height: 1.2;
+  margin: 0;
 }
 /* === Стилі для секції "Popular cities" === */
 
 .popular-cities-section {
-  /* Можете додати загальні відступи для секції, якщо потрібно */
-  /* margin-top: 40px; */
   margin-bottom: 4rem;
 }
 
 .section-popular-cities-title h2 {
-  /* Стилі для головного заголовка секції "Popular cities on Meetup" */
-  font-size: 1.75rem;
+  font-size: var(--font-size-xl); /* 28px */
   font-weight: 600;
-  color: #212121;
-  margin-bottom: 16px; /* Відступ до підзаголовка */
-  text-align: left; /* Якщо заголовок має бути по центру */
+
+  color: var(--color-text-dark);
+  margin-bottom: var(--spacing-md);
+  text-align: left;
 }
 
 .section-popular-cities-title p {
-  /* Стилі для підзаголовка/опису секції */
-  font-size: 1rem;
-  color: #707070;
-  text-align: left; /* опис зліва */
-  margin-bottom: 28px; /* Відступ до контейнера з містами */
-  /* max-width: 600px;  Обмеження ширини для кращої читабельності */
+  font-size: var(--font-size-md);
+  color: var(--color-text-light);
+  text-align: left;
+  margin-bottom: 28px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -746,32 +1106,33 @@ body {
 .categories-popular-cities-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px; /* Відстань між картками міст, налаштуйте за потребою */
-  /* justify-content керується через JavaScript (adjustLastRowLayout) */
-  /* padding-top: 20px; */ /* Якщо потрібен відступ зверху всередині контейнера */
+
+  gap: var(--spacing-lg);
 }
 
 .popular-city-item {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Центрує зображення та текст по горизонталі */
-  width: 205px; /* Ширина одного елемента міста */
-  text-align: center; /* Центрує текст під зображенням */
+
+  align-items: center;
+  width: 205px;
+  text-align: center;
 }
 
 .popular-city-item img {
-  width: 205px; /* Ширина зображення */
-  height: 205px; /* Висота зображення (має бути однаковою з шириною для кола) */
-  object-fit: cover; /* Зберігає пропорції зображення, обрізаючи зайве, щоб заповнити коло */
-  border-radius: 50%; /* Робить зображення круглим */
-  margin-bottom: 10px; /* Відступ між зображенням та назвою міста */
+  width: 205px;
+  height: 205px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: var(--spacing-sm);
 }
 
 .popular-city-item p {
-  font-size: 1rem; /* Розмір шрифту для назви міста */
-  font-weight: 400; /* Середня насиченість шрифту */
-  color: #212121; /* Колір тексту */
-  line-height: 1.5rem;
+  font-size: var(--font-size-md);
+  font-weight: 400;
+  color: var(--color-text-dark);
+  line-height: 1.5;
+  margin: 0;
 }
 /* === Стилі для секції "How Meetup works" === */
 
@@ -986,7 +1347,6 @@ footer .container {
     padding: 0 20px; /* Повертаємо стандартний padding 0 20px */
   }
 }
-
 /* Стилі для першої секції футера */
 .footer-section-1 {
   display: flex;
@@ -1004,19 +1364,8 @@ footer .container {
 }
 
 .footer-section-1 .signup-button {
-  /* Використовуємо існуючий клас кнопки */
-  background-color: transparent; /* Прозорий фон */
-  color: #ffffff; /* Білий текст */
-  border: 2px solid #ffffff; /* Біла рамка */
-  padding: 8px 16px; /* Налаштуйте падінги */
-  font-size: 14px; /* Налаштуйте розмір шрифту */
   margin-left: 16px; /* Відступ від параграфа, якщо потрібно */
   margin-bottom: 25px;
-}
-
-.footer-section-1 .signup-button:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Легкий фон при наведенні */
-  border-color: #ffffff; /* Зберігаємо колір рамки */
 }
 
 /* Стилі для другої секції футера */
@@ -1058,86 +1407,147 @@ footer .container {
 /* Нові стилі для секції 3 футера */
 .footer-section-3 {
   display: flex;
-  flex-direction: row; /* Розміщуємо дочірні елементи в рядок */
-  justify-content: space-between; /* Розносимо їх по краях */
-  align-items: center; /* Вирівнюємо по центру вертикально */
+
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px 0;
-  /* gap: 16px;  Тепер не потрібен тут, бо space-between керує відстанню */
 }
 
 .footer-follow-content {
   display: flex;
-  flex-direction: column; /* Заголовок, потім соц. іконки, потім кнопки додатків */
-  align-items: flex-start; /* Вирівнювання по лівому краю */
-  gap: 16px; /* Відстань між h4 та social-media всередині цієї групи */
+
+  flex-direction: row; /* ← ГОРИЗОНТАЛЬНИЙ ФЛЕКС замість column */
+  align-items: center; /* ← ЦЕНТРУВАННЯ ПО ВЕРТИКАЛІ */
+  gap: var(--spacing-md); /* відстань між елементами */
 }
 
 .footer-section-3 h4 {
   color: #f6f7f8;
   font-size: 1rem;
   font-weight: 400;
-  margin-bottom: 0; /* Замінено на gap в батьківському елементі */
+  margin: 0; /* прибираємо margin */
 }
 
 .footer-social-media {
   display: flex;
-  gap: 32px; /* Відстань між іконками */
+  gap: 32px;
 }
 
 .footer-social-media a {
   color: #c5c4c4;
-  display: inline-block; /* Для правильного відображення SVG */
-  transition: color 0.3s ease;
+  display: inline-block;
+  transition: var(--transition);
 }
 
 .footer-social-media a:hover {
-  color: #ffffff; /* Зміна кольору при наведенні */
+  color: #ffffff;
 }
 
 .footer-social-media svg {
   width: 30px;
   height: 30px;
-  display: block; /* Прибирає зайвий відступ під SVG */
+  display: block;
 }
 
 .footer-app-stores {
   display: flex;
-  gap: 16px; /* Відстань між кнопками магазинів */
-  align-items: center; /* Вирівнювання по центру, якщо висота різна */
+  gap: var(--spacing-md);
+  align-items: center;
 }
 
 .footer-app-stores img {
-  height: 40px; /* Налаштуйте висоту за потребою */
-  width: auto; /* Ширина автоматично */
+  height: 40px;
+  width: auto;
 }
 
-.footer-section-4 {
-  display: flex;
-  justify-content: left; /* Розміщує копірайт зліва, посилання справа */
-  align-items: center; /* Вирівнює по центру вертикально */
-  padding: 5px 0; /* Вертикальні відступи */
-  color: #c5c4c4; /* Колір тексту для копірайту */
-  font-size: 14px;
-  margin-bottom: 40px;
+/* Медіа-запити для приховування app-stores */
+@media (max-width: 768px) {
+  .footer-app-stores {
+    display: none; /* ← ПРИХОВУЄМО НА ПЛАНШЕТАХ */
+  }
 }
 
-.footer-copyright p {
-  margin: 0; /* Прибираємо стандартний відступ параграфа */
+@media (max-width: 576px) {
+  .footer-app-stores {
+    display: none; /* ← ПРИХОВУЄМО НА МАЛИХ ТЕЛЕФОНАХ */
+  }
 }
 
-.footer-legal-links {
-  display: flex;
-  gap: 1.5rem; /* Відстань між посиланнями */
-  margin-left: 1.5rem;
+@media (max-width: 393px) {
+  .footer-app-stores {
+    display: none; /* ← ПРИХОВУЄМО НА 393px */
+  }
 }
 
-.footer-legal-links a {
-  color: #c5c4c4;
-  text-decoration: none;
-  font-size: 14px;
-}
+/* Header для viewport 393px */
+@media (max-width: 393px) {
+  .main-header {
+    background-color: var(--color-white);
+    padding: 4px 0;
+  }
 
-.footer-legal-links a:hover {
-  text-decoration: underline;
-  color: #ffffff;
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    flex: initial;
+  }
+
+  .logo {
+    order: initial;
+    width: 94.34px;
+    height: 34px;
+    margin: 4px 60px 15px 0;
+  }
+
+  .logo .meetup-logo-img {
+    width: 94.34px;
+    height: 34px;
+    max-width: none;
+  }
+
+  .header-right {
+    order: initial;
+    gap: 18.5px;
+    flex: initial;
+    margin-left: 0;
+  }
+
+  /* СПРОЩУЄМО стилі для кнопок - СКИДАЄМО ВСІ КОНФЛІКТИ */
+  .header-right .dropdown-toggle,
+  .header-right .login-link,
+  .header-right .signup-button {
+    height: 30.76px;
+    border-radius: 6.83px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* СКИДАЄМО всі конфліктуючі властивості */
+    margin: 0; /* ← СКИДАЄМО margin */
+    padding: 0 12px; /* ← ПРОСТИЙ padding */
+    position: static; /* ← СКИДАЄМО position */
+    top: auto; /* ← СКИДАЄМО top */
+    transform: none; /* ← СКИДАЄМО transform */
+    line-height: 1;
+    box-sizing: border-box;
+  }
+
+  /* Окремо для login-link */
+  .header-right .login-link {
+    padding: 0 8px;
+  }
+
+  /* Приховуємо search-group при 393px */
+  .search-group {
+    display: none;
+  }
 }
