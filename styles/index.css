@@ -12,16 +12,11 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1512px;
+  /* max-width буде меншим з двох значень: 78.75% від ширини батьківського елемента або 1512px */
+  max-width: min(78.75%, 1512px);
   margin: 0 auto;
-  padding: 0 20px;
+  /*padding: 0 20px;*/
   box-sizing: border-box;
-}
-@media (max-width: 768px) {
-  /* Тимчасова заглушка для мобільних стилів футера */
-  .container {
-    padding: 0 10px;
-  }
 }
 
 /* Стилі для хедеру */
@@ -192,6 +187,8 @@ body {
   color: #00798a;
   padding: 12px 16px;
   text-decoration: none;
+  font-size: 16px; /* <a> desktop size */
+  font-weight: 500; /* <a> desktop weight */
   display: block;
 }
 
@@ -207,6 +204,8 @@ body {
 .login-link {
   text-decoration: none;
   color: #555;
+  /* <a> desktop: 16px, 500 */
+  font-size: 16px;
   font-weight: 500;
   padding: 8px 15px 8px 0px;
   transition: color 0.3s ease;
@@ -233,37 +232,6 @@ body {
   background-color: #05454e;
 }
 
-/* Медіа-запити для адаптивності */
-@media (max-width: 992px) {
-  .header-left {
-    display: flex;
-    align-items: center;
-    flex-grow: 1; /* <-- Тільки ліва частина буде розтягуватися */
-    justify-content: flex-start;
-    gap: 20px; /* Відстань між логотипом та search-group */
-  }
-  .header-right {
-    display: flex; /* <-- Залишаємо display: flex та align-items: center */
-    align-items: center;
-    justify-content: flex-end;
-    gap: 20px; /* Відстань між елементами в правій частині */
-    flex-shrink: 0; /* Запобігаємо стисненню, якщо це необхідно для збереження розміру */
-  }
-
-  .header-content {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .search-group {
-    width: 100%; /* На планшетах search-group на всю ширину */
-    max-width: unset; /* Знімаємо обмеження max-width */
-  }
-
-  .search-group-input {
-    width: auto;
-  }
-}
 .content-wrapper {
   width: 87vw; /* (1196px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
   max-width: 1196px; /* Гарантує, що ширина не перевищить 1196px */
@@ -280,23 +248,41 @@ body {
 .hero-content-left h1 {
   width: 41.71vw; /* (600.61px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
   max-width: 600.61px; /* Обмеження максимальної ширини, щоб відповідати піксельному значенню */
-  height: 104px; /* Висота для двох рядків тексту з line-height: 52px */
   font-weight: 700;
-  font-size: 42px; /*2.625rem; 2.9vw;  (42px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
-  line-height: 52px;
+  /* Масштабування: 42px при 1920px до 25px при 480px (і нижче до min) */
+  font-size: clamp(
+    1.5625rem,
+    1.2083rem + 1.1806vw,
+    2.625rem
+  ); /* min 25px, ideal (42px@1920, 25px@480), max 42px */
+  /* Масштабування line-height пропорційно, min 30.5px, max 52px */
+  line-height: clamp(
+    1.90625rem,
+    1.4742rem + 1.4403vw,
+    3.25rem
+  ); /* min 30.5px, ideal (52px@1920, 30.5px@480), max 52px */
   color: #212121;
 }
+/* Mobile <h1>: 25px, 700. This will be within the existing @media (max-width: 992px) or a new @media (max-width: 480px) */
+/* Adding it to the specific 480px block for hero section later if one is created, or general 480px block */
+
 .hero-content-left p {
   width: 42.28vw; /* (608.93px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
   max-width: 608.93px; /* Обмеження максимальної ширини */
-  height: 72px; /* Висота для трьох рядків тексту з line-height: 24px */
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  /* Масштабування: 16px при 1920px до 12px при 480px (і нижче до min) */
+  font-size: clamp(
+    0.75rem,
+    0.6389rem + 0.2778vw,
+    1rem
+  ); /* min 12px, ideal (16px@1920, 12px@480), max 16px */
+  /* line-height залишається 24px, як ви вказали для кінцевого значення */
+  line-height: 1.5rem; /* 24px */
   color: #212121;
 }
+/* Mobile <p>: 12px, 400. Will add to 480px media query. */
+
 .hero-content-left .signup-button {
-  width: 9.52vw; /* (137px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
   max-width: 137px; /* Збільшена максимальна ширина для вміщення тексту */
   height: 40px;
   border-radius: 8px;
@@ -306,9 +292,16 @@ body {
   text-align: center; /* Гарантує центрування тексту, хоча зазвичай це за замовчуванням для кнопок */
 }
 .hero-content-right {
-  width: 26.32vw; /* (379px / 1440px) * 100vw, виходячи з базової ширини екрану 1440px */
-  max-width: 379px; /* Максимальна ширина контейнера */
-  height: 269px; /* Фіксована висота контейнера */
+  /* Масштабування: 379x269px при 1920px до 215x152.6px при 480px */
+  width: clamp(
+    13.4375rem,
+    7.9058rem + 11.5243vw,
+    23.6875rem
+  ); /* min 215px, ideal (379px@1920, 215px@480), max 379px */
+  /* Висота буде визначатися через aspect-ratio */
+  aspect-ratio: 379 / 269;
+  /* Попередні значення:
+  width: 26.32vw; max-width: 379px; height: 269px; */
   flex-grow: 0; /* Забороняємо розтягування */
   flex-shrink: 0; /* Забороняємо стискання */
   justify-content: center; /* Центрування вмісту (зображення) по вертикалі (основна вісь flex column) */
@@ -317,14 +310,7 @@ body {
 @media (max-width: 1196px) {
   /* Якщо екран менший за 1196px, то content-wrapper адаптується */
   .content-wrapper {
-    padding: 0 15px; /* Зменшуємо відступи */
-  }
-}
-
-@media (max-width: 768px) {
-  .content-wrapper {
-    margin: 15px auto; /* Зменшуємо вертикальний відступ */
-    padding: 0 10px; /* Ще менші відступи для мобільних */
+    padding: 0 5px; /* Зменшуємо відступи */
   }
 }
 
@@ -346,51 +332,6 @@ body {
   display: block; /* Прибирає можливий нижній відступ у зображення */
 }
 
-.events-section {
-  padding: 30px 0;
-}
-
-@media (max-width: 576px) {
-  .header-left,
-  .header-right {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .search-group {
-    flex-direction: column; /* Якщо треба, щоб інпут був під іконками */
-    height: auto; /* Висота буде автоматичною */
-    border: none; /* Прибираємо рамку на мобільних, якщо елементи розходяться */
-    border-radius: 0;
-  }
-
-  .search-group-icon-btn,
-  .search-group-input,
-  .search-group-dropdown .dropdown-toggle {
-    width: 100%;
-    border-radius: 5px; /* Даємо окремі радіуси для кожного елементу */
-    margin-bottom: 5px; /* Відступи між ними */
-    box-sizing: border-box;
-    height: 42px;
-  }
-
-  .search-group-icon-btn.left-radius,
-  .search-group-icon-btn.right-radius {
-    border-radius: 5px; /* Прибираємо специфічні кути, якщо все в стовпчик */
-  }
-
-  .search-group-dropdown .dropdown-menu {
-    min-width: unset;
-    width: 100%;
-  }
-
-  .signup-button,
-  .login-link {
-    width: 100%;
-    text-align: center;
-    box-sizing: border-box;
-  }
-}
 .event {
   display: flex; /* Розміщує дочірні елементи в рядок */
   justify-content: space-between; /* Розносить перший та останній дочірні елементи по краях */
@@ -428,13 +369,16 @@ body {
 .see-all-events-link {
   text-decoration: none;
   color: #00798a; /* Новий колір тексту */
-  font-weight: 600; /* Додамо трохи жирності для кращої видимості */
+  /* <a> desktop: 16px, 500 */
+  font-size: 16px;
+  font-weight: 500; /* Було 600 */
 }
 .location-dropdown .dropdown-trigger-wrapper .dropdown-toggle {
   color: #00798a; /* Колір тексту для кнопки вибору локації */
   border: none; /* Прибираємо бордер у кнопки вибору локації */
   background-color: transparent; /* Робимо фон прозорим, якщо кнопка мала свій фон */
 }
+
 /* Базові стилі для картки */
 .event-card {
   width: 272px;
@@ -465,7 +409,9 @@ body {
 
 /* Секція категорії */
 .event-card__category {
-  font-size: 14px;
+  /* <p> desktop: 16px, 400 */
+  font-size: 16px; /* Було 14px */
+  font-weight: 400;
   color: #555;
   margin-bottom: 12px;
   display: flex; /* Для можливого розміщення відстані поруч */
@@ -484,7 +430,9 @@ body {
 .event-card__date {
   display: flex;
   align-items: center; /* Вертикальне вирівнювання іконки та тексту */
-  font-size: 14px;
+  /* <p> desktop: 16px, 400 */
+  font-size: 16px; /* Було 14px */
+  font-weight: 400;
   color: #555;
   margin-bottom: 12px;
   width: 100%; /* Щоб зайняти доступну ширину */
@@ -506,7 +454,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: start; /* Розподілити елементи по ширині */
-  font-size: 14px;
+  /* <p> desktop: 16px, 400 */
+  font-size: 16px; /* Було 14px */
+  font-weight: 400;
   color: #555;
   width: 100%; /* Щоб зайняти доступну ширину */
 }
@@ -556,6 +506,12 @@ body {
   grid-area: title;
   text-align: left;
 }
+.join-meetup-section .section-title h2 {
+  /* <h2> desktop: 28px, 600 */
+  font-size: 28px;
+  font-weight: 600;
+  color: #212121; /* Додано для консистенції */
+}
 
 .section-image {
   grid-area: image;
@@ -563,10 +519,16 @@ body {
   justify-content: center;
   align-items: center;
 }
-
 .section-description {
   grid-area: description;
   text-align: left;
+}
+.join-meetup-section .section-description p {
+  /* <p> desktop: 16px, 400 */
+  font-size: 16px;
+  font-weight: 400;
+  color: #555; /* З розкоментованого стилю */
+  line-height: 1.6; /* З розкоментованого стилю */
 }
 
 .section-button {
@@ -600,96 +562,15 @@ body {
   display: inline-block; /* Щоб кнопка була зліва, якщо text-align: left */
 }
 
-.sign-up-button:hover {
-  background-color: #c92f60;
-}
-
-/* --- Медіа-запити для адаптації під мобільні пристрої --- */
-
-/* Наприклад, для екранів менше 576px */
-@media (max-width: 576px) {
-  .join-meetup-section {
-    padding: 20px;
-    gap: 20px; /* Менший відступ на мобільних */
-
-    /* --- CSS Grid для мобільної версії --- */
-    grid-template-columns: 1fr; /* Одна колонка */
-    /* Нові іменовані області для мобільного порядку */
-    grid-template-areas:
-      "title"
-      "image"
-      "description"
-      "button";
-
-    /* Центруємо весь вміст по горизонталі, або вирівнюємо окремі елементи */
-    align-items: center; /* Центрує елементи в єдиному стовпці */
-  }
-
-  /* Призначаємо елементи до нових областей сітки на мобільному */
-  .section-title {
-    grid-area: title;
-    text-align: left; /* Заголовок вирівняний по лівому краю */
-    width: 100%; /* Займає всю ширину */
-  }
-
-  .section-image {
-    grid-area: image;
-    display: flex; /* Робимо флексом для центрування img */
-    justify-content: center; /* **Центруємо зображення** */
-    align-items: center;
-    width: 100%; /* Займає всю ширину */
-  }
-
-  .section-image img {
-    max-width: 80%; /* Зменшуємо розмір зображення на мобільних */
-    max-height: 200px;
-  }
-
-  .section-description {
-    grid-area: description;
-    text-align: left; /* Параграф вирівняний по лівому краю */
-    width: 100%; /* Займає всю ширину */
-  }
-
-  .section-description p {
-    font-size: 1em;
-  }
-
-  .section-button {
-    grid-area: button;
-    display: flex; /* Робимо флексом для центрування кнопки */
-    justify-content: center; /* **Центруємо кнопку** */
-    width: 100%; /* Займає всю ширину */
-  }
-
-  .sign-up-button {
-    width: fit-content; /* Кнопка приймає ширину свого контенту */
-    max-width: 250px;
-  }
-}
-
-/* Додатковий медіа-запит для дуже маленьких екранів (наприклад, менше 480px) */
-@media (max-width: 480px) {
-  .join-meetup-section {
-    padding: 15px;
-  }
-
-  .section-title h1 {
-    font-size: 1.8em;
-  }
-
-  .section-description p {
-    font-size: 0.9em;
-  }
-
-  .section-image img {
-    max-width: 90%;
-    max-height: 180px;
-  }
-}
 .section-title {
   margin-top: 64px;
   margin-bottom: 24px;
+}
+.categories-section .section-title h2 {
+  /* <h2> desktop: 28px, 600 */
+  font-size: 28px;
+  font-weight: 600;
+  color: #212121; /* Додано для консистенції */
 }
 .categories-container {
   display: flex;
@@ -725,7 +606,8 @@ body {
 
 .section-popular-cities-title h2 {
   /* Стилі для головного заголовка секції "Popular cities on Meetup" */
-  font-size: 1.75rem;
+  /* <h2> desktop: 28px, 600 */
+  font-size: 28px; /* Було 1.75rem */
   font-weight: 600;
   color: #212121;
   margin-bottom: 16px; /* Відступ до підзаголовка */
@@ -734,7 +616,9 @@ body {
 
 .section-popular-cities-title p {
   /* Стилі для підзаголовка/опису секції */
-  font-size: 1rem;
+  /* <p> desktop: 16px, 400 */
+  font-size: 16px; /* Було 1rem */
+  font-weight: 400;
   color: #707070;
   text-align: left; /* опис зліва */
   margin-bottom: 28px; /* Відступ до контейнера з містами */
@@ -768,8 +652,9 @@ body {
 }
 
 .popular-city-item p {
-  font-size: 1rem; /* Розмір шрифту для назви міста */
-  font-weight: 400; /* Середня насиченість шрифту */
+  /* <p> desktop: 16px, 400 */
+  font-size: 16px; /* Було 1rem */
+  font-weight: 400;
   color: #212121; /* Колір тексту */
   line-height: 1.5rem;
 }
@@ -781,18 +666,21 @@ body {
 }
 
 .section-how-meetup-title h2 {
-  font-size: 1.75rem; /* Розмір заголовка секції */
+  /* <h2> desktop: 28px, 600 */
+  font-size: 28px; /* Було 1.75rem */
   font-weight: 600;
   text-align: left;
   margin-bottom: 1.5rem; /* Відступ до контейнера з блоками */
   color: #212121;
 }
+/* Mobile <h2> will be handled in 480px media query */
 
 .how-meetup-container {
   display: flex;
   justify-content: space-between; /* Розміщує два блоки з відступами */
   align-items: flex-start; /* Вирівнює блоки по верху, якщо вони різної висоти */
   margin: 0 auto; /* Центруємо контейнер */
+  gap: 6px; /* Відстань між блоками */
 }
 
 .discover-container,
@@ -804,7 +692,7 @@ body {
   width: 580px;
   height: 180px;
   background-color: #97cad114;
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 .svg-container img {
@@ -820,53 +708,38 @@ body {
   margin: 32px auto 24px 24px;
 }
 .text-container h3 {
-  font-size: 1.25rem; /* Розмір підзаголовка блоку */
+  /* <h3> desktop: 20px, 600 */
+  font-size: 20px; /* Було 1.25rem */
   font-weight: 600;
   margin-bottom: 1rem;
   color: #212121;
 }
+/* Mobile <h3> will be handled in 480px media query */
 
 .text-container p {
-  font-size: 1rem;
+  /* <p> desktop: 16px, 400 */
+  font-size: 16px; /* Було 1rem */
+  font-weight: 400;
   line-height: 1.6;
   color: #212121;
   margin-bottom: 1rem;
   min-height: 3.2em; /* Резервуємо місце приблизно для двох рядків тексту, щоб уникнути стрибків висоти */
 }
+/* Mobile <p> will be handled in 480px media query */
 
 .text-container a {
-  font-size: 1rem;
+  /* <a> desktop: 16px, 500 */
+  font-size: 16px; /* Було 1rem */
   font-weight: 500;
   color: #00798a; /* Колір посилання, типовий для Meetup */
   text-decoration: none;
 }
+/* Mobile <a> will be handled in 480px media query */
 
 .text-container a:hover {
   text-decoration: underline;
 }
 
-/* Адаптивність для менших екранів */
-@media (max-width: 768px) {
-  .how-meetup-container {
-    flex-direction: column; /* Блоки один під одним */
-    align-items: center; /* Центруємо блоки */
-    gap: 13px; /* Збільшуємо відступ між блоками у стовпчик */
-    width: 98%;
-  }
-
-  .discover-container,
-  .start-container {
-    flex-basis: 100%; /* Кожен блок займає всю ширину */
-  }
-
-  .section-how-meetup-title h2 {
-    font-size: 24px;
-  }
-
-  .text-container h3 {
-    font-size: 20px;
-  }
-}
 /* === Стилі для секції "Articles" === */
 
 .articles-section {
@@ -875,7 +748,8 @@ body {
 }
 
 .section-articles-title h2 {
-  font-size: 28px; /* 1.75rem */
+  /* <h2> desktop: 28px, 600 */
+  font-size: 28px;
   font-weight: 600;
   color: #212121;
   margin-bottom: 16px;
@@ -883,7 +757,9 @@ body {
 }
 
 .section-articles-title p {
-  font-size: 16px; /* 1rem */
+  /* <p> desktop: 16px, 400 */
+  font-size: 16px;
+  font-weight: 400; /* Додано для явності */
   color: #707070;
   line-height: 1.6;
   text-align: left;
@@ -916,7 +792,8 @@ body {
 }
 
 .article-card h3 {
-  font-size: 20px; /* 1.25rem */
+  /* <h3> desktop: 20px, 600 */
+  font-size: 20px;
   font-weight: 600;
   color: #212121;
   margin: 16px 16px 8px 0px;
@@ -924,7 +801,9 @@ body {
 }
 
 .article-card p {
-  font-size: 14px; /* 0.875rem */
+  /* <p> desktop: 16px, 400 */
+  font-size: 16px; /* Було 14px */
+  font-weight: 400;
   color: #707070;
   line-height: 1.5;
   margin: 0px 16px 16px 0px;
@@ -932,34 +811,27 @@ body {
 
 .article-card a {
   display: inline-block;
-  font-size: 1rem;
-  font-weight: 600;
+  /* <a> desktop: 16px, 500 */
+  font-size: 16px; /* Було 1rem */
+  font-weight: 500; /* Було 600 */
   color: #00798a;
   text-decoration: none;
   margin: 0 16px 16px 0px;
 }
-
 .article-card a:hover {
   text-decoration: underline;
-}
-
-/* Адаптивність для карток статей */
-@media (max-width: 992px) {
-  .article-card {
-    width: calc(50% - 12px); /* Дві картки в рядку */
-  }
 }
 
 @media (max-width: 600px) {
   .article-card {
     width: 99%; /* Одна картка в рядку */
   }
-  .section-articles-title h2 {
+  /* .section-articles-title h2 {
     font-size: 24px;
-  }
-  .article-card h3 {
+  } */ /* Буде 20px на 480px */
+  /* .article-card h3 {
     font-size: 18px;
-  }
+  } */ /* Буде 12px на 480px */
 }
 
 /* Стилі для футера */
@@ -979,14 +851,6 @@ footer .container {
   gap: 20px; /* Відстань між секціями всередині футера, налаштуйте за потребою */
 }
 
-/* Адаптуємо бічні відступи контейнера футера на менших екранах */
-@media (max-width: 992px) {
-  /* Можливо, потрібен інший брейкпойнт */
-  footer .container {
-    padding: 0 20px; /* Повертаємо стандартний padding 0 20px */
-  }
-}
-
 /* Стилі для першої секції футера */
 .footer-section-1 {
   display: flex;
@@ -999,7 +863,9 @@ footer .container {
 
 .footer-section-1 p {
   color: #f6f7f8; /* Колір тексту для параграфа */
-  font-size: 1rem; /* Або інший розмір за макетом */
+  /* <p> desktop: 16px, 400 */
+  font-size: 16px; /* Було 1rem */
+  font-weight: 400;
   margin-bottom: 35px;
 }
 
@@ -1036,20 +902,26 @@ footer .container {
 }
 .footer-column h4 {
   color: #f6f7f8; /* Колір тексту для заголовка */
-  font-size: 1rem;
+  /* <h4> desktop: 16px, 400 */
+  font-size: 16px; /* Було 1rem */
   font-weight: 400;
   margin-bottom: 7px;
 }
+/* Mobile <h4>: 16px, 400 - без змін, тому медіа-запит не потрібен */
 
 .footer-column ul li a {
   color: #c5c4c4;
-  font-weight: 400;
-  font-size: 14px;
+  /* <a> desktop: 16px, 500 */
+  font-size: 16px; /* Було 14px */
+  font-weight: 500; /* Було 400 */
   line-height: 20px;
   letter-spacing: 0%;
   vertical-align: middle;
   text-decoration: none;
   margin-bottom: 7px;
+}
+.footer-column ul li a:hover {
+  text-decoration: underline;
 }
 .footer-column ul li a:hover {
   text-decoration: underline;
@@ -1074,10 +946,12 @@ footer .container {
 
 .footer-section-3 h4 {
   color: #f6f7f8;
-  font-size: 1rem;
+  /* <h4> desktop: 16px, 400 */
+  font-size: 16px; /* Було 1rem */
   font-weight: 400;
   margin-bottom: 0; /* Замінено на gap в батьківському елементі */
 }
+/* Mobile <h4>: 16px, 400 - без змін */
 
 .footer-social-media {
   display: flex;
@@ -1113,11 +987,15 @@ footer .container {
 
 .footer-section-4 {
   display: flex;
-  justify-content: left; /* Розміщує копірайт зліва, посилання справа */
-  align-items: center; /* Вирівнює по центру вертикально */
+  justify-content: space-between; /* Розносить елементи по краях */
+  align-items: flex-start; /* Вирівнює по верху, актуально при перенесенні */
+  flex-wrap: wrap; /* Дозволяє перенесення .footer-copyright та .footer-legal-links */
+  gap: 10px; /* Відстань між .footer-copyright та .footer-legal-links, коли вони переносяться */
   padding: 5px 0; /* Вертикальні відступи */
   color: #c5c4c4; /* Колір тексту для копірайту */
-  font-size: 14px;
+  /* <p> (для .footer-copyright p) desktop: 16px, 400 */
+  font-size: 16px; /* Було 14px */
+  font-weight: 400; /* Додано для тексту копірайту */
   margin-bottom: 40px;
 }
 
@@ -1127,17 +1005,330 @@ footer .container {
 
 .footer-legal-links {
   display: flex;
+  flex-wrap: wrap; /* Дозволяє самим посиланням переноситися, якщо блок стає вузьким */
   gap: 1.5rem; /* Відстань між посиланнями */
-  margin-left: 1.5rem;
 }
 
 .footer-legal-links a {
   color: #c5c4c4;
   text-decoration: none;
-  font-size: 14px;
+  /* <a> desktop: 16px, 500 */
+  font-size: 16px; /* Було 14px */
+  font-weight: 500;
 }
-
 .footer-legal-links a:hover {
   text-decoration: underline;
   color: #ffffff;
+}
+/* --- Consolidated Very Small Mobile Styles (max-width: 576px) --- */
+@media (max-width: 576px) {
+  /* Header */
+  .header-left,
+  .header-right {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .search-group {
+    flex-direction: column; /* Якщо треба, щоб інпут був під іконками */
+    height: auto; /* Висота буде автоматичною */
+    border: none; /* Прибираємо рамку на мобільних, якщо елементи розходяться */
+    border-radius: 0;
+  }
+  .search-group-icon-btn,
+  .search-group-input,
+  .search-group-dropdown .dropdown-toggle {
+    width: 100%;
+    border-radius: 5px; /* Даємо окремі радіуси для кожного елементу */
+    margin-bottom: 5px; /* Відступи між ними */
+    box-sizing: border-box;
+    height: 42px;
+  }
+  .search-group-icon-btn.left-radius,
+  .search-group-icon-btn.right-radius {
+    border-radius: 5px; /* Прибираємо специфічні кути, якщо все в стовпчик */
+  }
+  .search-group-dropdown .dropdown-menu {
+    min-width: unset;
+    width: 100%;
+  }
+  .signup-button,
+  .login-link {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  /* Join Meetup Section */
+  .join-meetup-section {
+    padding: 20px;
+    gap: 20px; /* Менший відступ на мобільних */
+    grid-template-columns: 1fr; /* Одна колонка */
+    grid-template-areas:
+      "title"
+      "image"
+      "description"
+      "button";
+    align-items: center; /* Центрує елементи в єдиному стовпці */
+  }
+  .join-meetup-section .section-title,
+  .join-meetup-section .section-image,
+  .join-meetup-section .section-description,
+  .join-meetup-section .section-button {
+    width: 100%; /* Займає всю ширину */
+    text-align: left; /* Вирівнювання по лівому краю для title та description */
+  }
+  .join-meetup-section .section-image {
+    text-align: center;
+  } /* Центруємо зображення */
+  .join-meetup-section .section-button {
+    text-align: center;
+  } /* Центруємо кнопку */
+  .join-meetup-section .section-image img {
+    max-width: 80%;
+    max-height: 200px;
+  }
+  .join-meetup-section .section-title h2 {
+    font-size: 20px; /* MOBILE <h2>: 20px, 600 */
+  }
+  .join-meetup-section .sign-up-button {
+    /* Specific to this section's button */
+    width: fit-content;
+    max-width: 250px;
+  }
+
+  /* Footer */
+  .footer-app-stores,
+  .footer-legal-links {
+    display: none;
+  }
+  .footer-section-4 {
+    justify-content: flex-start; /* Вирівнює копірайт ліворуч */
+  }
+}
+
+/* --- Consolidated Smaller Tablet/Large Mobile Styles (max-width: 768px) --- */
+@media (max-width: 768px) {
+  .container {
+    padding: 0px;
+    /* max-width буде меншим з двох значень: 91.6% від ширини батьківського елемента або 360px */
+    max-width: min(91.6%, 360px);
+  }
+  /* .footer-app-stores, .footer-legal-links are handled in 576px */
+
+  .content-wrapper {
+    margin: 5px auto; /* Зменшуємо вертикальний відступ */
+    padding: 0px; /* Ще менші відступи для мобільних */
+  }
+
+  /* How Meetup Works Section */
+  .how-meetup-container {
+    flex-direction: column; /* Блоки один під одним */
+    align-items: center; /* Центруємо блоки */
+    gap: 13px; /* Збільшуємо відступ між блоками у стовпчик */
+    width: 98%;
+  }
+  .discover-container,
+  .start-container {
+    flex-basis: 100%;
+    width: 100%;
+    max-width: 580px; /* Обмежуємо максимальною шириною десктопної версії для планшетів */
+    height: auto;
+    aspect-ratio: 580 / 180;
+  }
+  .section-how-meetup-title h2 {
+    font-size: 24px; /* Для екранів 768px, буде перевизначено на 480px */
+  }
+}
+
+/* --- Consolidated Tablet Styles (max-width: 992px) --- */
+@media (max-width: 992px) {
+  /* Header */
+  .header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1; /* Тільки ліва частина буде розтягуватися */
+    justify-content: flex-start;
+    gap: 20px;
+  }
+  .header-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+    flex-shrink: 0;
+  }
+  .header-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .search-group {
+    width: 100%; /* На планшетах search-group на всю ширину */
+    max-width: unset; /* Знімаємо обмеження max-width */
+  }
+  .search-group-input {
+    width: auto;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    flex-direction: column;
+    gap: 30px;
+    text-align: left;
+  }
+  .hero-content-left,
+  .hero-content-right {
+    flex-basis: auto;
+    width: 100%;
+  }
+  .hero-content-left h1,
+  .hero-content-left p,
+  .hero-content-right {
+    /* Додаємо .hero-content-right для скидання max-width */
+    width: 100%;
+    max-width: none; /* Скидаємо max-width, щоб width: 100% працював коректно */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+  }
+
+  /* Articles Section */
+  .article-card {
+    width: calc(50% - 12px); /* Дві картки в рядку */
+  }
+
+  /* Footer */
+  footer .container {
+    padding: 0 20px; /* Повертаємо стандартний padding 0 20px */
+  }
+}
+*/
+
+/* --- Consolidated Mobile Styles (max-width: 480px) --- */
+@media (max-width: 480px) {
+  /* Hero Section */
+  .hero-content-left h1 {
+    font-size: 25px; /* MOBILE <h1>: 25px, 700 */
+    line-height: 1.22; /* Або 30.5px, якщо потрібно точно */
+    text-align: left;
+    /* height: 61px;  Краще прибрати фіксовану висоту */
+  }
+  .hero-content-left p {
+    font-size: 12px; /* MOBILE <p>: 12px, 400 - це значення вже досягається clamp */
+    line-height: 1.5rem; /* MOBILE line-height: 24px */
+  }
+
+  /* Event Title & Links */
+  .event-title-container h2 {
+    font-size: 20px; /* MOBILE <h2>: 20px, 600 */
+  }
+  .see-all-events-link {
+    font-size: 12px; /* MOBILE <a>: 12px, 400 */
+    font-weight: 400;
+  }
+
+  /* Event Card */
+  .event-card__title {
+    /* <h3> */
+    font-size: 12px; /* MOBILE <h3>: 12px, 600 */
+  }
+  .event-card__category,
+  .event-card__date,
+  .event-card__info {
+    font-size: 12px; /* MOBILE <p>: 12px, 400 */
+  }
+
+  /* Join Meetup Section */
+  .join-meetup-section {
+    padding: 15px;
+  }
+  .join-meetup-section .section-title h2 {
+    font-size: 20px; /* MOBILE <h2>: 20px, 600 */
+  }
+  .join-meetup-section .section-description p {
+    font-size: 12px; /* MOBILE <p>: 12px, 400 */
+  }
+  .join-meetup-section .section-image img {
+    /* Corrected selector */
+    max-width: 90%;
+    max-height: 180px;
+  }
+
+  /* Categories Section */
+  .categories-section .section-title h2 {
+    font-size: 20px; /* MOBILE <h2>: 20px, 600 */
+  }
+
+  /* Popular Cities Section */
+  .section-popular-cities-title h2 {
+    font-size: 20px; /* MOBILE <h2>: 20px, 600 */
+  }
+  .section-popular-cities-title p {
+    font-size: 12px; /* MOBILE <p>: 12px, 400 */
+  }
+  .popular-city-item p {
+    font-size: 12px; /* MOBILE <p>: 12px, 400 */
+  }
+
+  /* How Meetup Works Section */
+  .section-how-meetup-title h2 {
+    font-size: 20px; /* MOBILE <h2>: 20px, 600 */
+  }
+  .text-container h3 {
+    font-size: 12px; /* MOBILE <h3>: 12px, 600 */
+  }
+  .text-container p {
+    font-size: 12px; /* MOBILE <p>: 12px, 400 */
+  }
+  .text-container a {
+    font-size: 12px; /* MOBILE <a>: 12px, 400 */
+    font-weight: 400;
+  }
+  .discover-container,
+  .start-container {
+    max-width: 361px;
+  }
+
+  /* Articles Section */
+  .section-articles-title h2 {
+    font-size: 20px; /* MOBILE <h2>: 20px, 600 */
+  }
+  .section-articles-title p {
+    font-size: 12px; /* MOBILE <p>: 12px, 400 */
+  }
+  .article-card h3 {
+    font-size: 12px; /* MOBILE <h3>: 12px, 600 */
+  }
+  .article-card p {
+    font-size: 12px; /* MOBILE <p>: 12px, 400 */
+  }
+  .article-card a {
+    font-size: 12px; /* MOBILE <a>: 12px, 400 */
+    font-weight: 400;
+  }
+
+  /* Footer */
+  .footer-section-1 p {
+    font-size: 12px; /* MOBILE <p>: 12px, 400 */
+  }
+  .footer-column ul li a {
+    font-size: 12px; /* MOBILE <a>: 12px, 400 */
+    font-weight: 400;
+  }
+  .footer-section-4 {
+    /* Affects .footer-copyright p */
+    font-size: 12px; /* MOBILE <p>: 12px, 400 */
+  }
+  .footer-legal-links a {
+    font-size: 12px; /* MOBILE <a>: 12px, 400 */
+    font-weight: 400;
+  }
+
+  /* General Header/Dropdown Links */
+  .dropdown-menu a,
+  .login-link {
+    font-size: 12px;
+    font-weight: 400;
+  }
 }
