@@ -15,7 +15,7 @@ body {
   /* max-width буде меншим з двох значень: 78.75% від ширини батьківського елемента або 1512px */
   max-width: min(78.75%, 1512px);
   margin: 0 auto;
-  /*padding: 0 20px;*/
+  padding: 0 20px; /* Стандартні бічні відступи для контенту */
   box-sizing: border-box;
 }
 
@@ -87,7 +87,9 @@ body {
   outline: none;
   padding: 0 10px;
   font-size: 16px;
-  flex-shrink: 0;
+  /* flex-shrink: 0;  Тепер буде гнучким */
+  flex-grow: 1; /* Дозволяє розтягуватися */
+  flex-basis: 0; /* Для рівномірного розподілу з flex-grow: 1 */
 }
 
 .search-group-dropdown .dropdown-toggle {
@@ -170,6 +172,7 @@ body {
   flex-grow: 1; /* Дозволяє дропдауну розтягуватися, заповнюючи простір */
   display: flex; /* Важливо, щоб кнопка всередині правильно розмістилася */
   align-items: center; /* Вирівнювання по центру */
+  flex-basis: 0; /* Для рівномірного розподілу з flex-grow: 1 */
 }
 
 .search-group-dropdown .dropdown-toggle {
@@ -243,7 +246,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px; /* Додає простір між елементами всередині */
-  flex-basis: 50%; /*Можна задати базову ширину, якщо потрібно */
+  /* flex-basis: 50%; /* Закоментуємо, щоб width мав пріоритет */
 }
 .hero-content-left h1 {
   width: 41.71vw; /* (600.61px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
@@ -293,25 +296,14 @@ body {
 }
 .hero-content-right {
   /* Масштабування: 379x269px при 1920px до 215x152.6px при 480px */
-  width: clamp(
-    13.4375rem,
-    7.9058rem + 11.5243vw,
-    23.6875rem
-  ); /* min 215px, ideal (379px@1920, 215px@480), max 379px */
+  width: clamp(13.4375rem, 7.9058rem + 11.5243vw, 23.6875rem);
   /* Висота буде визначатися через aspect-ratio */
   aspect-ratio: 379 / 269;
-  /* Попередні значення:
-  width: 26.32vw; max-width: 379px; height: 269px; */
+  flex-basis: auto; /* Дозволяємо width визначати базовий розмір */
   flex-grow: 0; /* Забороняємо розтягування */
-  flex-shrink: 0; /* Забороняємо стискання */
+  /* flex-shrink: 0; /* Прибираємо, щоб дозволити стискання */
   justify-content: center; /* Центрування вмісту (зображення) по вертикалі (основна вісь flex column) */
   align-items: center; /* Центрування вмісту (зображення) по горизонталі (поперечна вісь flex column) */
-}
-@media (max-width: 1196px) {
-  /* Якщо екран менший за 1196px, то content-wrapper адаптується */
-  .content-wrapper {
-    padding: 0 5px; /* Зменшуємо відступи */
-  }
 }
 
 /* Приклад стилів для контенту всередині content-wrapper */
@@ -822,18 +814,6 @@ body {
   text-decoration: underline;
 }
 
-@media (max-width: 600px) {
-  .article-card {
-    width: 99%; /* Одна картка в рядку */
-  }
-  /* .section-articles-title h2 {
-    font-size: 24px;
-  } */ /* Буде 20px на 480px */
-  /* .article-card h3 {
-    font-size: 18px;
-  } */ /* Буде 12px на 480px */
-}
-
 /* Стилі для футера */
 footer {
   background-color: #212121;
@@ -1020,6 +1000,150 @@ footer .container {
   text-decoration: underline;
   color: #ffffff;
 }
+/* --- Consolidated Small Desktop/Large Tablet Styles (max-width: 1196px) --- */
+@media (max-width: 1196px) {
+  /* Якщо екран менший за 1196px, то content-wrapper адаптується */
+  .content-wrapper {
+    padding: 0 5px; /* Зменшуємо відступи */
+  }
+}
+
+/* --- Consolidated Tablet Styles (max-width: 992px) --- */
+@media (max-width: 992px) {
+  /* Header */
+  .container {
+    padding: 0;
+    max-width: 100%; /* Контейнер займає всю ширину viewport */
+  }
+  .header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1; /* Тільки ліва частина буде розтягуватися */
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  .header-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .header-content {
+    flex-direction: row;
+    flex-wrap: nowrap; /* Забороняємо перенесення елементів */
+    gap: 15px;
+  }
+  .search-group {
+    /* width: 100%;  Прибираємо, оскільки базовий flex-grow: 1 має працювати краще */
+    max-width: unset; /* Знімаємо обмеження max-width */
+  }
+
+  /* Hero Section */
+  .hero-section {
+    flex-direction: row;
+    gap: 30px;
+    text-align: center; /* Відновлюємо центрування для вмісту колонки */
+  }
+  .hero-content-left,
+  .hero-content-right {
+    flex-basis: auto;
+    width: 100%;
+  }
+  .hero-content-left h1,
+  .hero-content-left p {
+    /* width: 100%; /* Зайве, оскільки батьківський .hero-content-left вже 100% */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 600px;
+    text-align: left; /* Вирівнюємо текст всередині цих блоків по лівому краю */
+  }
+  .hero-content-right {
+    /* width: 100%; /* Вже встановлено для .hero-content-right */
+    margin-left: auto; /* Центруємо блок зображення */
+    margin-right: auto;
+    max-width: 379px; /* Обмежуємо максимальною шириною десктопної версії */
+  }
+
+  /* Articles Section */
+  .article-card {
+    width: calc(50% - 12px); /* Дві картки в рядку */
+  }
+
+  /* Footer */
+  footer .container {
+    padding: 0 20px; /* Встановлюємо специфічний padding для футера на цьому брейкпоінті */
+  }
+}
+
+/* --- Consolidated Smaller Tablet/Large Mobile Styles (max-width: 768px) --- */
+@media (max-width: 768px) {
+  .container {
+    padding: 0px;
+    /* max-width буде меншим з двох значень: 91.6% від ширини батьківського елемента або 360px */
+    max-width: min(91.6%, 360px);
+  }
+  footer .container {
+    /* Специфічно для контейнера футера */
+    max-width: 100%; /* Футер на всю ширину */
+    padding: 0 10px; /* Відступи для вмісту футера */
+  }
+  .main-header .container {
+    /* Специфічно для контейнера хедера */
+    max-width: 100%; /* Хедер на всю ширину */
+    padding: 0 10px; /* Додаємо невеликі відступи для вмісту хедера */
+  }
+
+  /* .footer-app-stores, .footer-legal-links are handled in 576px */
+
+  .content-wrapper {
+    margin: 5px auto; /* Зменшуємо вертикальний відступ */
+    padding: 0px; /* Ще менші відступи для мобільних */
+  }
+
+  /* How Meetup Works Section */
+  .how-meetup-container {
+    flex-direction: column; /* Блоки один під одним */
+    align-items: center; /* Центруємо блоки */
+    gap: 13px; /* Збільшуємо відступ між блоками у стовпчик */
+    width: 98%;
+  }
+  .discover-container,
+  .start-container {
+    flex-basis: 100%;
+    width: 100%;
+    max-width: 580px; /* Обмежуємо максимальною шириною десктопної версії для планшетів */
+    height: auto;
+    aspect-ratio: 580 / 180;
+  }
+  .section-how-meetup-title h2 {
+    font-size: 24px; /* Для екранів 768px, буде перевизначено на 480px */
+  }
+}
+@media (max-width: 675px) {
+  .dropdown.search-group-dropdown {
+    /* Використовуємо більш специфічний селектор */
+    display: none !important; /* Додаємо !important для гарантії, якщо є інші конфлікти */
+  }
+}
+@media (max-width: 600px) {
+  .article-card {
+    width: 99%; /* Одна картка в рядку */
+  }
+  .footer-app-stores,
+  .footer-legal-links {
+    display: none; /* Додаємо !important для гарантії, якщо є інші конфлікти */
+  }
+  /* .section-articles-title h2 {
+    font-size: 24px;
+  } */ /* Буде 20px на 480px */
+  /* .article-card h3 {
+    font-size: 18px;
+  } */ /* Буде 12px на 480px */
+}
+
 /* --- Consolidated Very Small Mobile Styles (max-width: 576px) --- */
 @media (max-width: 576px) {
   /* Header */
@@ -1105,105 +1229,6 @@ footer .container {
     justify-content: flex-start; /* Вирівнює копірайт ліворуч */
   }
 }
-
-/* --- Consolidated Smaller Tablet/Large Mobile Styles (max-width: 768px) --- */
-@media (max-width: 768px) {
-  .container {
-    padding: 0px;
-    /* max-width буде меншим з двох значень: 91.6% від ширини батьківського елемента або 360px */
-    max-width: min(91.6%, 360px);
-  }
-  /* .footer-app-stores, .footer-legal-links are handled in 576px */
-
-  .content-wrapper {
-    margin: 5px auto; /* Зменшуємо вертикальний відступ */
-    padding: 0px; /* Ще менші відступи для мобільних */
-  }
-
-  /* How Meetup Works Section */
-  .how-meetup-container {
-    flex-direction: column; /* Блоки один під одним */
-    align-items: center; /* Центруємо блоки */
-    gap: 13px; /* Збільшуємо відступ між блоками у стовпчик */
-    width: 98%;
-  }
-  .discover-container,
-  .start-container {
-    flex-basis: 100%;
-    width: 100%;
-    max-width: 580px; /* Обмежуємо максимальною шириною десктопної версії для планшетів */
-    height: auto;
-    aspect-ratio: 580 / 180;
-  }
-  .section-how-meetup-title h2 {
-    font-size: 24px; /* Для екранів 768px, буде перевизначено на 480px */
-  }
-}
-
-/* --- Consolidated Tablet Styles (max-width: 992px) --- */
-@media (max-width: 992px) {
-  /* Header */
-  .header-left {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-grow: 1; /* Тільки ліва частина буде розтягуватися */
-    justify-content: flex-start;
-    gap: 20px;
-  }
-  .header-right {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 20px;
-    flex-shrink: 0;
-  }
-  .header-content {
-    flex-direction: column;
-    gap: 15px;
-  }
-  .search-group {
-    width: 100%; /* На планшетах search-group на всю ширину */
-    max-width: unset; /* Знімаємо обмеження max-width */
-  }
-  .search-group-input {
-    width: auto;
-  }
-
-  /* Hero Section */
-  .hero-section {
-    flex-direction: column;
-    gap: 30px;
-    text-align: left;
-  }
-  .hero-content-left,
-  .hero-content-right {
-    flex-basis: auto;
-    width: 100%;
-  }
-  .hero-content-left h1,
-  .hero-content-left p,
-  .hero-content-right {
-    /* Додаємо .hero-content-right для скидання max-width */
-    width: 100%;
-    max-width: none; /* Скидаємо max-width, щоб width: 100% працював коректно */
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 600px;
-  }
-
-  /* Articles Section */
-  .article-card {
-    width: calc(50% - 12px); /* Дві картки в рядку */
-  }
-
-  /* Footer */
-  footer .container {
-    padding: 0 20px; /* Повертаємо стандартний padding 0 20px */
-  }
-}
-*/
 
 /* --- Consolidated Mobile Styles (max-width: 480px) --- */
 @media (max-width: 480px) {
