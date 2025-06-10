@@ -27,7 +27,8 @@ body {
 
 .header-content {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */ /* Змінено, щоб margin-left: auto для .header-right працював коректно */
+  /* За замовчуванням буде flex-start, що нам і потрібно */
   align-items: center;
   flex-wrap: nowrap;
   /* gap: 15px;  Прибираємо загальний gap, будемо контролювати margin окремо */
@@ -60,7 +61,8 @@ body {
   flex-grow: 0;
   flex-shrink: 0; /* Права частина не буде стискатися */
   order: 3; /* Третій елемент в рядку */
-  margin-left: 3px; /* Додаємо відступ зліва для правої частини */
+  /* margin-left: 3px; */ /* Попередній відступ, тепер замінений на auto */
+  margin-left: auto; /* Притискає .header-right до правого краю контейнера */
 }
 .logo {
   margin-left: 4px; /* Додаємо 4px до існуючих 20px padding контейнера */
@@ -80,6 +82,8 @@ body {
   flex-grow: 1; /* Пошук займає вільний простір */
   order: 2; /* Другий елемент в рядку */
   margin-left: 20px; /* Додаємо відступ зліва для пошуку */
+  /* 50% від батька (.header-content) мінус ~ширина лого (6vw) мінус відступи (4px+20px=24px) */
+  max-width: min(calc(50% - 6vw - 24px), 700px);
 }
 
 .search-group-icon-btn {
@@ -95,13 +99,11 @@ body {
 }
 
 .search-group-input {
-  width: 15.625vw; /* <-- Змінено з 300px на vw */
   border: none;
   border-right: 1px solid #ccc;
   outline: none;
   padding: 0 10px;
   font-size: 16px;
-  /* flex-shrink: 0;  Тепер буде гнучким */
   flex-grow: 1; /* Дозволяє розтягуватися */
   flex-basis: 0; /* Для рівномірного розподілу з flex-grow: 1 */
 }
@@ -158,7 +160,7 @@ body {
 
 .dropdown-toggle {
   background-color: transparent; /* Перезапишемо для search-group-dropdown */
-  border: 1px solid #ccc; /* Перезапишемо для search-group-dropdown */
+  border: 0px solid #ccc; /* Перезапишемо для search-group-dropdown */
   padding: 8px 15px;
   border-radius: 5px;
   cursor: pointer;
@@ -1006,11 +1008,28 @@ footer .container {
   text-decoration: underline;
   color: #ffffff;
 }
+
+/* --- Laptop Styles (max-width: 1440px) --- */
+@media (max-width: 1440px) {
+  .container {
+    max-width: 100%; /* Контейнер займає всю ширину viewport */
+  }
+}
 /* --- Consolidated Small Desktop/Large Tablet Styles (max-width: 1196px) --- */
 @media (max-width: 1196px) {
   /* Якщо екран менший за 1196px, то content-wrapper адаптується */
   .content-wrapper {
     padding: 0 5px; /* Зменшуємо відступи */
+  }
+  .header-content {
+    margin: 0%;
+    padding: 0%;
+  }
+  .search-group {
+    margin-left: 5px;
+  }
+  .header-right {
+    gap: 10px;
   }
 }
 
@@ -1029,7 +1048,7 @@ footer .container {
     flex-grow: 0; /* Логотип не повинен розтягувати цей блок */
     justify-content: flex-start; /* Це правило для .header-left (лого) */
     order: 1; /* Забезпечуємо порядок, якщо базові стилі не застосувалися */
-    gap: 10px;
+    gap: 0px;
   }
   .header-right {
     display: flex;
@@ -1046,9 +1065,10 @@ footer .container {
   }
   .search-group {
     /* width: 100%;  Прибираємо, оскільки базовий flex-grow: 1 має працювати краще */
-    max-width: unset; /* Знімаємо обмеження max-width */
+    /* max-width: 50vw;  Видаляємо, нова базова формула має працювати краще */
     flex-grow: 1; /* Дозволяємо search-group займати доступний простір */
     order: 2; /* Забезпечуємо порядок */
+    margin-right: 0%;
   }
   .header-top-row {
     display: contents; /* Забезпечуємо, що це працює і на цьому брейкпоінті */
@@ -1106,12 +1126,10 @@ footer .container {
   .main-header .container {
     /* Специфічно для контейнера хедера */
     max-width: 100%; /* Хедер на всю ширину */
-    padding: 0 10px; /* Додаємо невеликі відступи для вмісту хедера */
+    padding: 0; /* Знімаємо відступи для вмісту хедера */
   }
-
-  /* .footer-app-stores, .footer-legal-links are handled in 576px */
-
-  .content-wrapper {
+  .main-header .container .search-group .search-group-dropdown {
+    display: none;
     margin: 5px auto; /* Зменшуємо вертикальний відступ */
     padding: 0px; /* Ще менші відступи для мобільних */
   }
@@ -1136,13 +1154,22 @@ footer .container {
   }
 }
 @media (max-width: 675px) {
-  .dropdown.search-group-dropdown {
-    /* Використовуємо більш специфічний селектор */
-    display: none !important; /* Додаємо !important для гарантії, якщо є інші конфлікти */
+  .search-group {
+    max-width: 50vw; /* Обмежуємо максимальну ширину */
+    margin-left: 0px; /* Притискаємо до правого боку доступного простору */
+    flex-grow: 0; /* Забороняємо розтягування, щоб margin-left: auto працював коректно */
+  }
+  .search-group .search-group-input {
+    padding: 0%;
+  }
+  .header-top-row .header-right {
+    gap: 5px;
   }
 }
 @media (max-width: 611px) {
-  .header-content {
+  .main-header .header-content {
+    max-width: 95%;
+    margin-left: 3%;
     flex-direction: column;
     align-items: stretch; /* Елементи розтягуються на всю ширину */
     gap: 10px; /* Відстань між двома рядками хедера */
@@ -1150,20 +1177,54 @@ footer .container {
   }
   .header-top-row {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    height: 30px;
+    margin: 0px;
+  }
+  .header-top-row .header-left .logo .meetup-logo-img {
+    max-width: 94.34px;
+    height: 34px;
+  }
+  .dropdown-toggle {
+    height: 18px;
+  }
+  .header-top-row .header-right .dropdown-toggle .lang-icon {
+    width: 17px;
+    height: 17px;
+  }
+
+  .header-top-row .header-right .login-link,
+  .header-top-row .header-right .signup-button,
+  .header-top-row .header-right .dropdown-toggle,
+  .header-top-row .header-right .dropdown-menu a {
+    font-size: 12px;
+    line-height: 17px;
+    padding: 5px 10px;
   }
   .header-left,
   .header-right {
     flex: none; /* Скидаємо flex: 1 */
     width: auto; /* Ширина за вмістом */
   }
-  .header-right {
-    margin-right: 0; /* Прибираємо специфічний відступ */
-  }
+
   .search-group {
-    width: 100%; /* Пошук на всю ширину другого рядка */
+    width: 95%; /* Пошук на всю ширину другого рядка */
+    max-width: 584px; /* Скидаємо обмеження max-width з попереднього брейкпоінта */
+    margin-left: 20px; /* Скидаємо margin-left: auto */
+    margin-right: 7px;
+  }
+  .hero-section .hero-content-left .signup-button {
+    height: 30px;
+    max-width: 85px;
+    font-size: 12px;
+    line-height: 17px;
+    padding: 5px 10px;
+  }
+  .see-all-events-link {
+    display: none;
   }
 }
 @media (max-width: 600px) {
@@ -1174,12 +1235,14 @@ footer .container {
   .footer-legal-links {
     display: none; /* Додаємо !important для гарантії, якщо є інші конфлікти */
   }
-  /* .section-articles-title h2 {
+  .event-title-container h2,
+  .section-articles-title h2 {
     font-size: 24px;
-  } */ /* Буде 20px на 480px */
-  /* .article-card h3 {
+  } /* Буде 20px на 480px */
+  .event-card h3,
+  .article-card h3 {
     font-size: 18px;
-  } */ /* Буде 12px на 480px */
+  } /* Буде 12px на 480px */
 }
 
 /* --- Consolidated Very Small Mobile Styles (max-width: 576px) --- */
@@ -1187,11 +1250,11 @@ footer .container {
   /* Header */
   .header-left,
   .header-right {
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
   }
   .search-group {
-    flex-direction: column; /* Якщо треба, щоб інпут був під іконками */
+    flex-direction: row; /* Якщо треба, щоб інпут був під іконками */
     height: auto; /* Висота буде автоматичною */
     border: none; /* Прибираємо рамку на мобільних, якщо елементи розходяться */
     border-radius: 0;
@@ -1218,6 +1281,7 @@ footer .container {
     width: 100%;
     text-align: center;
     box-sizing: border-box;
+    white-space: nowrap; /* Запобігання переносу тексту */
   }
 
   /* Join Meetup Section */
