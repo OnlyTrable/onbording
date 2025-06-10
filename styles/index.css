@@ -1173,6 +1173,8 @@ footer .container {
     flex-direction: column;
     align-items: stretch; /* Елементи розтягуються на всю ширину */
     gap: 10px; /* Відстань між двома рядками хедера */
+    padding: 0 10px; /* Додаємо горизонтальні відступи для вмісту */
+    box-sizing: border-box; /* Враховуємо padding у загальній ширині */
     flex-wrap: wrap; /* Дозволяємо перенесення, якщо потрібно */
   }
   .header-top-row {
@@ -1211,10 +1213,10 @@ footer .container {
   }
 
   .search-group {
-    width: 95%; /* Пошук на всю ширину другого рядка */
-    max-width: 584px; /* Скидаємо обмеження max-width з попереднього брейкпоінта */
-    margin-left: 20px; /* Скидаємо margin-left: auto */
-    margin-right: 7px;
+    width: 100%; /* Пошук займає всю доступну ширину в батьківському .header-content */
+    max-width: none; /* Скидаємо попередні max-width */
+    margin-left: 0; /* Скидаємо зовнішні відступи, батько має padding */
+    margin-right: 0; /* Скидаємо зовнішні відступи */
   }
   .hero-section .hero-content-left .signup-button {
     height: 30px;
@@ -1348,9 +1350,7 @@ footer .container {
      .hero-content-left h1 { text-align: left; } залишається, якщо потрібно змінити вирівнювання з базового. */
 
   /* Event Title & Links */
-  .search-group {
-    max-width: 93%;
-  }
+  /* .search-group { max-width: 93%; } - Видалено, керується налаштуваннями з 611px */
   .event-title-container h2 {
     font-size: 20px; /* MOBILE <h2>: 20px, 600 */
   }
@@ -1468,5 +1468,54 @@ footer .container {
   .login-link {
     font-size: 12px;
     font-weight: 400;
+  }
+}
+
+/* --- Extra Small Mobile Styles (max-width: 393px) --- */
+@media (max-width: 393px) {
+  .hero-section {
+    flex-direction: column; /* Встановлюємо вертикальний напрямок */
+    align-items: stretch; /* Елементи розтягуються по ширині батька по замовчуванню */
+    padding: 30px 0; /* Зменшуємо вертикальні відступи */
+    gap: 20px; /* Встановлюємо вертикальний проміжок між елементами */
+  }
+
+  .hero-content-left {
+    display: contents; /* Дозволяє h1, p, button бути прямими flex-елементами .hero-section */
+  }
+
+  .hero-content-left h1 {
+    order: 1; /* Перший елемент */
+    width: 100%; /* На всю ширину content-wrapper (через .hero-section) */
+    max-width: none; /* Знімаємо обмеження з базових стилів */
+    text-align: left;
+  }
+
+  .hero-content-left p {
+    order: 2; /* Другий елемент */
+    width: 100%; /* На всю ширину content-wrapper */
+    max-width: none; /* Знімаємо обмеження з базових стилів */
+    text-align: left;
+  }
+
+  .hero-content-right {
+    /* Це блок з зображенням */
+    order: 3; /* Третій елемент */
+    width: 215px;
+    align-self: center; /* Центруємо по горизонталі */
+  }
+
+  .hero-content-left .signup-button {
+    order: 4; /* Четвертий елемент */
+    align-self: flex-start; /* Вирівнюємо по лівому краю */
+  }
+
+  .join-meetup-section {
+    padding: 10px; /* Ще менші відступи */
+  }
+
+  .articles-section {
+    padding: 20px 0; /* Зменшуємо вертикальні відступи */
+    margin-bottom: 20px; /* Зменшуємо нижній відступ */
   }
 }
