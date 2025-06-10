@@ -857,7 +857,6 @@ footer .container {
 
 .footer-section-1 p {
   color: #f6f7f8; /* Колір тексту для параграфа */
-  /* <p> desktop: 16px, 400 */
   font-size: 16px; /* Було 1rem */
   font-weight: 400;
   margin-bottom: 35px;
@@ -896,7 +895,6 @@ footer .container {
 }
 .footer-column h4 {
   color: #f6f7f8; /* Колір тексту для заголовка */
-  /* <h4> desktop: 16px, 400 */
   font-size: 16px; /* Було 1rem */
   font-weight: 400;
   margin-bottom: 7px;
@@ -905,7 +903,6 @@ footer .container {
 
 .footer-column ul li a {
   color: #c5c4c4;
-  /* <a> desktop: 16px, 500 */
   font-size: 16px; /* Було 14px */
   font-weight: 500; /* Було 400 */
   line-height: 20px;
@@ -928,7 +925,6 @@ footer .container {
   justify-content: space-between; /* Розносимо їх по краях */
   align-items: center; /* Вирівнюємо по центру вертикально */
   padding: 20px 0;
-  /* gap: 16px;  Тепер не потрібен тут, бо space-between керує відстанню */
 }
 
 .footer-follow-content {
@@ -940,12 +936,10 @@ footer .container {
 
 .footer-section-3 h4 {
   color: #f6f7f8;
-  /* <h4> desktop: 16px, 400 */
   font-size: 16px; /* Було 1rem */
   font-weight: 400;
   margin-bottom: 0; /* Замінено на gap в батьківському елементі */
 }
-/* Mobile <h4>: 16px, 400 - без змін */
 
 .footer-social-media {
   display: flex;
@@ -987,7 +981,6 @@ footer .container {
   gap: 10px; /* Відстань між .footer-copyright та .footer-legal-links, коли вони переносяться */
   padding: 5px 0; /* Вертикальні відступи */
   color: #c5c4c4; /* Колір тексту для копірайту */
-  /* <p> (для .footer-copyright p) desktop: 16px, 400 */
   font-size: 16px; /* Було 14px */
   font-weight: 400; /* Додано для тексту копірайту */
   margin-bottom: 40px;
@@ -1006,7 +999,6 @@ footer .container {
 .footer-legal-links a {
   color: #c5c4c4;
   text-decoration: none;
-  /* <a> desktop: 16px, 500 */
   font-size: 16px; /* Було 14px */
   font-weight: 500;
 }
