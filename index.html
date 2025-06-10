@@ -33,101 +33,110 @@
   <body>
     <header class="main-header">
       <div class="container header-content">
-        <div class="header-left">
-          <a href="#" class="logo">
-            <img
-              src="assets/icons/meetup_logo.svg"
-              alt="Meetup Logo"
-              class="meetup-logo-img"
-            />
-          </a>
-          <div class="search-group">
-            <button class="search-group-icon-btn left-radius">
-              <svg
-                class="icon-color-gray"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+        <div class="header-top-row">
+          <div class="header-left">
+            <a href="#" class="logo">
+              <img
+                src="assets/icons/meetup_logo.svg"
+                alt="Meetup Logo"
+                class="meetup-logo-img"
+              />
+            </a>
+            <!-- search-group переміститься звідси -->
+          </div>
+          <div class="header-right">
+            <div class="dropdown language-dropdown">
+              <button class="dropdown-toggle">
+                <img
+                  src="assets/icons/language.png"
+                  alt="Language icon"
+                  class="lang-icon"
+                  width="20"
+                  height="20"
                 />
-                <path
-                  d="M21 21L16.65 16.65"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
-            <input
-              type="text"
-              placeholder="Search events"
-              class="search-group-input"
-            />
-            <div class="dropdown search-group-dropdown">
-              <button class="dropdown-toggle">Mountain View, CA</button>
+                English
+              </button>
               <div class="dropdown-menu">
-                <a href="#">New York, NY</a>
-                <a href="#">San Francisco, CA</a>
-                <a href="#">London, UK</a>
-                <a href="#">Paris, FR</a>
+                <a href="#">Deutsch</a>
+                <a href="#">Українська</a>
+                <a href="#">Русский</a>
               </div>
             </div>
-            <button class="search-group-icon-btn right-radius background-red">
-              <svg
-                class="icon-color-white"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M21 21L16.65 16.65"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </button>
+            <a href="#" class="login-link">Log In</a>
+            <button class="signup-button">Sign Up</button>
           </div>
         </div>
-        <div class="header-right">
-          <div class="dropdown language-dropdown">
-            <button class="dropdown-toggle">
-              <img
-                src="assets/icons/language.png"
-                alt="Language icon"
-                class="lang-icon"
-                width="20"
-                height="20"
+        <div class="search-group">
+          <button class="search-group-icon-btn left-radius">
+            <svg
+              class="icon-color-gray"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               />
-              English
-            </button>
+              <path
+                d="M21 21L16.65 16.65"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <input
+            type="text"
+            placeholder="Search events"
+            class="search-group-input"
+          />
+          <div class="dropdown search-group-dropdown">
+            <button class="dropdown-toggle">Mountain View, CA</button>
             <div class="dropdown-menu">
-              <a href="#">Deutsch</a>
-              <a href="#">Українська</a>
-              <a href="#">Русский</a>
+              <a href="#">New York, NY</a>
+              <a href="#">San Francisco, CA</a>
+              <a href="#">Chicago, IL</a>
+              <a href="#">Nashville, TN</a>
+              <a href="#">Los Angeles, CA</a>
+              <a href="#">Seattle, WA</a>
+              <a href="#">Boston, MA</a>
+              <a href="#">Miami, FL</a>
+              <a href="#">London, UK</a>
+              <a href="#">Paris, FR</a>
             </div>
           </div>
-          <a href="#" class="login-link">Log In</a>
-          <button class="signup-button">Sign Up</button>
+          <button class="search-group-icon-btn right-radius background-red">
+            <svg
+              class="icon-color-white"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M21 21L16.65 16.65"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </header>
@@ -168,9 +177,14 @@
                 <div class="dropdown-menu">
                   <a href="#">New York, NY</a>
                   <a href="#">San Francisco, CA</a>
+                  <a href="#">Chicago, IL</a>
+                  <a href="#">Nashville, TN</a>
+                  <a href="#">Los Angeles, CA</a>
+                  <a href="#">Seattle, WA</a>
+                  <a href="#">Boston, MA</a>
+                  <a href="#">Miami, FL</a>
                   <a href="#">London, UK</a>
                   <a href="#">Paris, FR</a>
-                  <!-- Можна додати більше опцій або пошук -->
                 </div>
               </div>
             </div>

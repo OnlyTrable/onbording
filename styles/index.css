@@ -29,7 +29,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  /* gap: 15px;  Прибираємо загальний gap, будемо контролювати margin окремо */
+}
+
+.header-top-row {
+  display: contents; /* "Розчиняє" цей контейнер, його діти стають flex-елементами .header-content */
 }
 
 /* Ліва та права частини хедеру */
@@ -37,18 +42,25 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  flex: 1; /* Дозволяє їм займати доступний простір */
+  /* flex: 1;  Прибираємо, щоб контролювати ріст/стиснення окремо */
 }
 
 .header-left {
   justify-content: flex-start;
-  gap: 20px; /* Відстань між логотипом та search-group */
+  /* gap: 20px;  Відстань між логотипом та search-group - search-group тепер окремо */
+  flex-grow: 0;
+  flex-shrink: 0; /* Логотип не буде стискатися */
+  order: 1; /* Перший елемент в рядку */
 }
 
 .header-right {
   justify-content: flex-end;
   gap: 20px; /* Відстань між елементами в правій частині */
   margin-right: 7px;
+  flex-grow: 0;
+  flex-shrink: 0; /* Права частина не буде стискатися */
+  order: 3; /* Третій елемент в рядку */
+  margin-left: 3px; /* Додаємо відступ зліва для правої частини */
 }
 .logo {
   margin-left: 4px; /* Додаємо 4px до існуючих 20px padding контейнера */
@@ -65,7 +77,9 @@ body {
   height: 42px; /* Фіксована висота, як ти вказав */
   border: 1px solid #ccc; /* Загальна рамка для групи */
   border-radius: 8px; /* Загальний радіус, потім буде перезаписаний для кутів */
-  flex-grow: 1; /* Дозволяє цьому блоку розтягуватися */
+  flex-grow: 1; /* Пошук займає вільний простір */
+  order: 2; /* Другий елемент в рядку */
+  margin-left: 20px; /* Додаємо відступ зліва для пошуку */
 }
 
 .search-group-icon-btn {
@@ -1019,14 +1033,15 @@ footer .container {
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex-grow: 1; /* Тільки ліва частина буде розтягуватися */
-    justify-content: flex-start;
+    /* flex-grow: 1;  Прибираємо, щоб логотип не розтягував цей блок */
+    flex-grow: 0; /* Логотип не повинен розтягувати цей блок */
+    justify-content: flex-start; /* Це правило для .header-left (лого) */
+    order: 1; /* Забезпечуємо порядок, якщо базові стилі не застосувалися */
     gap: 10px;
   }
   .header-right {
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: flex-end;
     gap: 10px;
     flex-shrink: 0;
@@ -1035,10 +1050,16 @@ footer .container {
     flex-direction: row;
     flex-wrap: nowrap; /* Забороняємо перенесення елементів */
     gap: 15px;
+    align-items: center; /* Вирівнюємо елементи по центру */
   }
   .search-group {
     /* width: 100%;  Прибираємо, оскільки базовий flex-grow: 1 має працювати краще */
     max-width: unset; /* Знімаємо обмеження max-width */
+    flex-grow: 1; /* Дозволяємо search-group займати доступний простір */
+    order: 2; /* Забезпечуємо порядок */
+  }
+  .header-top-row {
+    display: contents; /* Забезпечуємо, що це працює і на цьому брейкпоінті */
   }
 
   /* Hero Section */
@@ -1126,6 +1147,31 @@ footer .container {
   .dropdown.search-group-dropdown {
     /* Використовуємо більш специфічний селектор */
     display: none !important; /* Додаємо !important для гарантії, якщо є інші конфлікти */
+  }
+}
+@media (max-width: 611px) {
+  .header-content {
+    flex-direction: column;
+    align-items: stretch; /* Елементи розтягуються на всю ширину */
+    gap: 10px; /* Відстань між двома рядками хедера */
+    flex-wrap: wrap; /* Дозволяємо перенесення, якщо потрібно */
+  }
+  .header-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .header-left,
+  .header-right {
+    flex: none; /* Скидаємо flex: 1 */
+    width: auto; /* Ширина за вмістом */
+  }
+  .header-right {
+    margin-right: 0; /* Прибираємо специфічний відступ */
+  }
+  .search-group {
+    width: 100%; /* Пошук на всю ширину другого рядка */
   }
 }
 @media (max-width: 600px) {
