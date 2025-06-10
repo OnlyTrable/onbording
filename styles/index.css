@@ -1254,23 +1254,30 @@ footer .container {
     gap: 10px;
   }
   .search-group {
-    flex-direction: row; /* Якщо треба, щоб інпут був під іконками */
+    flex-direction: row; /* Дочірні елементи розташовані горизонтально */
     height: auto; /* Висота буде автоматичною */
-    border: none; /* Прибираємо рамку на мобільних, якщо елементи розходяться */
-    border-radius: 0;
+    border: 1px solid #ccc; /* Загальна рамка для групи */
+    border-radius: 5px;
   }
   .search-group-icon-btn,
   .search-group-input,
   .search-group-dropdown .dropdown-toggle {
-    width: 100%;
-    border-radius: 5px; /* Даємо окремі радіуси для кожного елементу */
-    margin-bottom: 5px; /* Відступи між ними */
     box-sizing: border-box;
     height: 42px;
   }
-  .search-group-icon-btn.left-radius,
+  .search-group-icon-btn.left-radius {
+    border-top-left-radius: 5px; /* Виправлено синтаксис */
+    border-bottom-left-radius: 5px; /* Виправлено синтаксис */
+  }
   .search-group-icon-btn.right-radius {
-    border-radius: 5px; /* Прибираємо специфічні кути, якщо все в стовпчик */
+    border-top-right-radius: 5px; /* Виправлено синтаксис */
+    border-bottom-right-radius: 5px; /* Виправлено синтаксис */
+  }
+  .search-group-input {
+    flex-grow: 1; /* Поле вводу має розтягуватися */
+    flex-basis: 0; /* Початковий розмір 0 перед розтягуванням */
+    min-width: 0; /* Дозволяє полю вводу стискатися */
+    padding: 0 10px; /* Відновлюємо падінги, якщо padding: 0% з 675px не бажаний тут */
   }
   .search-group-dropdown .dropdown-menu {
     min-width: unset;
@@ -1335,18 +1342,15 @@ footer .container {
 /* --- Consolidated Mobile Styles (max-width: 480px) --- */
 @media (max-width: 480px) {
   /* Hero Section */
-  .hero-content-left h1 {
-    font-size: 25px; /* MOBILE <h1>: 25px, 700 */
-    line-height: 1.22; /* Або 30.5px, якщо потрібно точно */
-    text-align: left;
-    /* height: 61px;  Краще прибрати фіксовану висоту */
-  }
-  .hero-content-left p {
-    font-size: 12px; /* MOBILE <p>: 12px, 400 - це значення вже досягається clamp */
-    line-height: 1.5rem; /* MOBILE line-height: 24px */
-  }
+  /* Стилі для .hero-content-left h1 (font-size, line-height) та .hero-content-left p (font-size, line-height)
+     вже коректно обробляються функціями clamp() з базових стилів на цьому брейкпоінті,
+     тому явні перевизначення тут видалені для чистоти.
+     .hero-content-left h1 { text-align: left; } залишається, якщо потрібно змінити вирівнювання з базового. */
 
   /* Event Title & Links */
+  .search-group {
+    max-width: 93%;
+  }
   .event-title-container h2 {
     font-size: 20px; /* MOBILE <h2>: 20px, 600 */
   }
@@ -1393,6 +1397,13 @@ footer .container {
   }
   .section-popular-cities-title p {
     font-size: 12px; /* MOBILE <p>: 12px, 400 */
+  }
+  .popular-city-item img {
+    width: 153px; /* Нова ширина для мобільних */
+    height: 153px; /* Нова висота для мобільних */
+  }
+  .popular-city-item {
+    width: 153px; /* Синхронізуємо ширину контейнера елемента з шириною зображення */
   }
   .popular-city-item p {
     font-size: 12px; /* MOBILE <p>: 12px, 400 */
