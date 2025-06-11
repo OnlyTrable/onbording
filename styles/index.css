@@ -510,7 +510,7 @@ body {
 
 .near-event-card__image-wrapper img {
   width: 100%;
-  height: 100%;
+  height: 54px;
   object-fit: cover;
   border-radius: 4.9px;
 }
@@ -521,7 +521,7 @@ body {
   justify-content: flex-start; /* Розподіляємо елементи зверху вниз */
   gap: 2px; /* Невеликий відступ між текстовими полями */
   flex-grow: 1;
-  height: 80px; /* Встановлюємо висоту для досягнення потрібного відступу до наступної картки */
+  height: 87px; /* Встановлюємо висоту для досягнення потрібного відступу до наступної картки */
   overflow: hidden; /* Важливо для обрізки тексту */
 }
 
@@ -549,8 +549,8 @@ body {
   /* width: 154.57px; */ /* Можна встановити, якщо потрібна фіксована ширина, або залишити auto */
   /* height: 12.26px; */ /* Висота буде визначатися line-height */
   font-weight: 400;
-  font-size: 8.58px;
-  line-height: 12.26px;
+  font-size: 8.44px;
+  line-height: 12.05px;
   letter-spacing: 0%; /* 'normal' */
   vertical-align: middle;
   color: #707070;
@@ -571,7 +571,7 @@ body {
   /* width: 53.28px; */ /* Можна встановити, якщо потрібна фіксована ширина, або залишити auto */
   /* height: 12.05px; */ /* Висота буде визначатися line-height */
   /* top: 74.73px; */ /* 'top' працює з позиціонуванням (relative, absolute, fixed) */
-  /* margin-top: 15.21px; */ /* Тимчасово прибираємо, щоб рядок став видимим. Відступ буде 2px від gap. */
+  margin-top: 33px;
   font-weight: 400;
   font-size: 8.44px;
   line-height: 12.05px;
@@ -588,10 +588,6 @@ body {
 }
 
 .near-event-card__type-online img {
-  /* Розміри іконки вже задані в JS, але можна визначити тут для консистентності */
-  /* width: 11px; */
-  /* height: 11px; */
-  /* margin-right: 4px; */
   flex-shrink: 0; /* Запобігає стисненню іконки */
 }
 
