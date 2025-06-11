@@ -90,7 +90,7 @@ function createEventCard(eventData) {
   return card;
 }
 
-// Функція для форматування дати з mockdata.js
+// Функція для форматування дати з mockdata.js (використовується для маленьких карток)
 function formatMockEventDate(dateObj) {
   if (!(dateObj instanceof Date) || isNaN(dateObj)) {
     return "N/A";
@@ -279,7 +279,7 @@ function renderCategories() {
   adjustLastRowLayout(categoriesContainer);
 }
 
-// Функція для рендерингу популярних міст
+// Функція для рендерингу популярних міст (адаптивна кількість)
 function renderPopularCities() {
   const citiesContainer = document.querySelector(
     ".categories-popular-cities-container"
@@ -295,9 +295,17 @@ function renderPopularCities() {
     return;
   }
 
+  const screenWidth = window.innerWidth;
+  let citiesToRender = cities;
+
+  // При ширині <= 393px відображаємо тільки перші 4 міста
+  if (screenWidth <= 393) {
+    citiesToRender = cities.slice(0, 4);
+  }
+
   citiesContainer.innerHTML = ""; // Очищаємо контейнер
 
-  cities.forEach((city) => {
+  citiesToRender.forEach((city) => {
     const cityItem = document.createElement("div");
     cityItem.classList.add("popular-city-item"); // Додаємо клас для стилізації
 
@@ -427,9 +435,8 @@ if (
   window.addEventListener("resize", () => {
     populateEventContainers(); // Перезаповнюємо контейнери подій
     adjustLastRowLayout(document.querySelector(".categories-container")); // Додаємо для категорій
-    adjustLastRowLayout(
-      document.querySelector(".categories-popular-cities-container")
-    ); // Додаємо для міст
+    renderPopularCities(); // Викликаємо рендеринг міст, який тепер адаптивний
+    document.querySelector(".categories-popular-cities-container"); // Додаємо для міст
     adjustLastRowLayout(
       document.querySelector(".categories-articles-container")
     ); // Додаємо для статей
@@ -454,7 +461,7 @@ if (
 document.addEventListener("DOMContentLoaded", () => {
   // ... (інші ваші виклики функцій) ...
   renderCategories();
-  renderPopularCities(); // Викликаємо рендеринг популярних міст
+  renderPopularCities(); // Викликаємо початковий рендеринг популярних міст
   renderArticles(); // Викликаємо рендеринг статей
   // ... (інші ваші виклики функцій) ...
 });

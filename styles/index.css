@@ -1621,4 +1621,56 @@ footer .container {
     padding: 20px 0; /* Зменшуємо вертикальні відступи */
     margin-bottom: 20px; /* Зменшуємо нижній відступ */
   }
+
+  .popular-cities-section {
+    padding: 15px 0; /* Зменшуємо вертикальні відступи */
+    margin-bottom: 0%;
+  }
+  .popular-cities-section h2 {
+    padding: 10px 0; /* Зменшуємо вертикальні відступи */
+    margin-bottom: 0%;
+  }
+  .popular-cities-section p {
+    margin-bottom: 6px;
+  }
+  .how-meetup-section {
+    padding: 20px 0;
+    .section-how-meetup-title h2 {
+      margin-bottom: 2px;
+    }
+  }
+  .how-meetup-section .how-meetup-container .discover-container,
+  .how-meetup-container .start-container {
+    width: 360px;
+    height: 112px;
+  }
+  .how-meetup-container .text-container {
+    width: 236px;
+    height: 78px;
+    margin: 8px auto 24px 18px;
+    p {
+      margin-bottom: 10px;
+    }
+  }
+  .how-meetup-container .svg-container img {
+    width: 25px;
+    height: 25px;
+    margin: 20px 7px 70px 24px;
+  }
+  .footer-section-1 {
+    p {
+      white-space: nowrap;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      vertical-align: middle;
+    }
+    .signup-button {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      width: 100%;
+      margin-left: 9px;
+    }
+  }
 }
