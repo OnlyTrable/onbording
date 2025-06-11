@@ -391,15 +391,26 @@ function populateEventContainers() {
   }
 
   // --- Заповнення event-cards-container-online ---
-  // Завжди використовує eventsStore (data.js) та великі картки
-  if (cardsContainerOnline && typeof eventsStore !== "undefined") {
+  if (cardsContainerOnline) {
     cardsContainerOnline.innerHTML = ""; // Очищаємо
-    const dataForOnline = eventsStore.slice(8, 12); // Наступні 4 картки "по-старому"
-    dataForOnline.forEach((dataJsItem) => {
-      const adaptedItem = adaptDataJsItemToCreateEventCardFormat(dataJsItem);
-      const eventCardElement = createEventCard(adaptedItem);
-      cardsContainerOnline.appendChild(eventCardElement);
-    });
+    if (screenWidth <= 393 && typeof mockEventsStore !== "undefined") {
+      // Випадок <= 393px: 3 маленькі онлайн-картки з mockEventsStore
+      const onlineEvents = mockEventsStore
+        .filter((event) => event.type === "online")
+        .slice(0, 3);
+      onlineEvents.forEach((mockItem) => {
+        const cardElement = createNearEventCard(mockItem);
+        cardsContainerOnline.appendChild(cardElement);
+      });
+    } else if (typeof eventsStore !== "undefined") {
+      // Випадок > 393px: 4 великі картки з eventsStore (data.js) "по-старому"
+      const dataForOnline = eventsStore.slice(8, 12);
+      dataForOnline.forEach((dataJsItem) => {
+        const adaptedItem = adaptDataJsItemToCreateEventCardFormat(dataJsItem);
+        const eventCardElement = createEventCard(adaptedItem);
+        cardsContainerOnline.appendChild(eventCardElement);
+      });
+    }
     adjustLastRowLayout(cardsContainerOnline);
   }
 }
