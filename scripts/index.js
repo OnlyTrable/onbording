@@ -90,6 +90,108 @@ function createEventCard(eventData) {
   return card;
 }
 
+// Функція для форматування дати з mockdata.js
+function formatMockEventDate(dateObj) {
+  if (!(dateObj instanceof Date) || isNaN(dateObj)) {
+    return "N/A";
+  }
+  const optionsDate = { weekday: "short", month: "short", day: "numeric" };
+  const optionsTime = { hour: "2-digit", minute: "2-digit", hour12: true };
+
+  // Прибираємо .toUpperCase() для більш м'якого вигляду
+  const formattedDate = dateObj.toLocaleDateString("en-US", optionsDate);
+  const formattedTime = dateObj.toLocaleTimeString("en-US", optionsTime);
+
+  // Змінюємо роздільник на " · "
+  return `${formattedDate} · ${formattedTime}`;
+}
+
+// Функція для створення маленької картки події (для event-cards-container-near)
+function createNearEventCard(eventData) {
+  const card = document.createElement("div");
+  card.className = "near-event-card";
+
+  // Лівий блок: Зображення
+  const imageWrapper = document.createElement("div");
+  imageWrapper.className = "near-event-card__image-wrapper";
+  const img = document.createElement("img");
+  img.src = eventData.image || "assets/images/placeholder.png"; // Додамо плейсхолдер
+  img.alt = eventData.title || "Event image";
+  imageWrapper.appendChild(img);
+  card.appendChild(imageWrapper);
+
+  // Правий блок: Вертикальний флекс з 5 полями
+  const content = document.createElement("div");
+  content.className = "near-event-card__content";
+
+  // 1. Дата
+  const dateElement = document.createElement("div");
+  dateElement.className = "near-event-card__date";
+  dateElement.textContent = formatMockEventDate(eventData.date);
+  content.appendChild(dateElement);
+
+  // 2. Заголовок
+  const titleElement = document.createElement("div");
+  titleElement.className = "near-event-card__title";
+  titleElement.textContent = eventData.title || "N/A";
+  content.appendChild(titleElement);
+
+  // 3. Категорія та дистанція
+  const categoryDistanceElement = document.createElement("div");
+  categoryDistanceElement.className = "near-event-card__category-distance-info"; // Новий або загальний клас для стилізації
+  let categoryText = eventData.category || "N/A";
+  if (eventData.distance) {
+    categoryText += ` (${eventData.distance}km)`;
+  }
+  categoryDistanceElement.textContent = categoryText;
+  content.appendChild(categoryDistanceElement);
+
+  // 4. Тип події (якщо онлайн)
+  if (eventData.type === "online") {
+    const typeElement = document.createElement("div");
+    typeElement.className = "near-event-card__type-online"; // Новий клас для стилізації
+
+    const icon = document.createElement("img");
+    icon.src = "assets/icons/camera.svg"; // Переконайтесь, що шлях до іконки правильний
+    icon.alt = "Online event";
+    // Стилі для іконки можна задати тут або в CSS
+    icon.style.width = "11px";
+    icon.style.height = "11px";
+    icon.style.marginRight = "4px";
+
+    const typeText = document.createElement("span");
+    typeText.textContent = "Online Event";
+
+    typeElement.appendChild(icon);
+    typeElement.appendChild(typeText);
+    content.appendChild(typeElement);
+  }
+
+  // 5. Кількість учасників
+  const attendeesElement = document.createElement("div");
+  attendeesElement.className = "near-event-card__attendees";
+  attendeesElement.textContent = eventData.attendees
+    ? `${eventData.attendees} attendees` // Якщо є дані, виводимо "NN attendees"
+    : ""; // Якщо даних немає, виводимо порожній рядок
+  content.appendChild(attendeesElement);
+
+  card.appendChild(content);
+  return card;
+}
+
+// Допоміжна функція для адаптації даних з data.js (eventsStore) до формату createEventCard
+function adaptDataJsItemToCreateEventCardFormat(item) {
+  return {
+    imageUrl: item.image,
+    title: item.title,
+    category: item.categoryName,
+    distance: item.categoryDistance,
+    dateTime: item.date, // data.js вже має форматовану дату-рядок
+    participants: item.participantsItem,
+    price: item.price || "Free",
+  };
+}
+
 // Функція для налаштування вирівнювання останнього рядка карток
 function adjustLastRowLayout(container) {
   if (!container) {
@@ -262,42 +364,57 @@ function renderArticles() {
   adjustLastRowLayout(articlesContainer);
 }
 
-// Перевіряємо, чи існує eventsStore (з data.js)
-if (typeof eventsStore !== "undefined") {
-  eventsStore.forEach((item, index) => {
-    // Адаптуємо дані з eventsStore до формату, який очікує createEventCard
-    const eventData = {
-      imageUrl: item.image,
-      title: item.title,
-      category: item.categoryName,
-      distance: item.categoryDistance, // Пустий рядок або "(X km)"
-      dateTime: item.date,
-      participants: item.participantsItem, // Вже у форматі "N going"
-      price: item.price || "Free", // Додаємо "Free" за замовчуванням, якщо ціна не вказана
-    };
-    const eventCardElement = createEventCard(eventData);
+// Функція для заповнення контейнерів подій на основі ширини екрана
+function populateEventContainers() {
+  const screenWidth = window.innerWidth;
 
-    if (index < 8) {
-      // Перші 8 карток
-      if (cardsContainerNear) {
-        cardsContainerNear.appendChild(eventCardElement);
-      }
-    } else if (index < 12) {
-      // Наступні 4 картки (з 9-ї по 12-у)
-      if (cardsContainerOnline) {
-        cardsContainerOnline.appendChild(eventCardElement);
-      }
+  // --- Заповнення event-cards-container-near ---
+  if (cardsContainerNear) {
+    cardsContainerNear.innerHTML = ""; // Очищаємо
+    if (screenWidth <= 393 && typeof mockEventsStore !== "undefined") {
+      // Випадок <= 393px: маленькі картки з mockEventsStore
+      const dataForNear = mockEventsStore.slice(0, 3);
+      dataForNear.forEach((mockItem) => {
+        const cardElement = createNearEventCard(mockItem); // createNearEventCard очікує структуру mockEventsStore
+        cardsContainerNear.appendChild(cardElement);
+      });
+    } else if (typeof eventsStore !== "undefined") {
+      // Випадок > 393px: великі картки з eventsStore (data.js)
+      const dataForNear = eventsStore.slice(0, 8); // Перші 8 карток "по-старому"
+      dataForNear.forEach((dataJsItem) => {
+        const adaptedItem = adaptDataJsItemToCreateEventCardFormat(dataJsItem);
+        const cardElement = createEventCard(adaptedItem);
+        cardsContainerNear.appendChild(cardElement);
+      });
     }
-  });
+    adjustLastRowLayout(cardsContainerNear); // Застосовуємо вирівнювання
+  }
 
-  // Застосовуємо налаштування макету після додавання всіх карток
-  adjustLastRowLayout(cardsContainerNear);
-  adjustLastRowLayout(cardsContainerOnline);
+  // --- Заповнення event-cards-container-online ---
+  // Завжди використовує eventsStore (data.js) та великі картки
+  if (cardsContainerOnline && typeof eventsStore !== "undefined") {
+    cardsContainerOnline.innerHTML = ""; // Очищаємо
+    const dataForOnline = eventsStore.slice(8, 12); // Наступні 4 картки "по-старому"
+    dataForOnline.forEach((dataJsItem) => {
+      const adaptedItem = adaptDataJsItemToCreateEventCardFormat(dataJsItem);
+      const eventCardElement = createEventCard(adaptedItem);
+      cardsContainerOnline.appendChild(eventCardElement);
+    });
+    adjustLastRowLayout(cardsContainerOnline);
+  }
+}
+
+// Перевіряємо, чи існує eventsStore (з data.js) або mockEventsStore (з mockdata.js)
+if (
+  typeof eventsStore !== "undefined" ||
+  typeof mockEventsStore !== "undefined"
+) {
+  // Початкове заповнення контейнерів
+  populateEventContainers();
 
   // Додаємо обробник події для зміни розміру вікна
   window.addEventListener("resize", () => {
-    adjustLastRowLayout(cardsContainerNear);
-    adjustLastRowLayout(cardsContainerOnline);
+    populateEventContainers(); // Перезаповнюємо контейнери подій
     adjustLastRowLayout(document.querySelector(".categories-container")); // Додаємо для категорій
     adjustLastRowLayout(
       document.querySelector(".categories-popular-cities-container")
@@ -306,7 +423,6 @@ if (typeof eventsStore !== "undefined") {
       document.querySelector(".categories-articles-container")
     ); // Додаємо для статей
   });
-
   if (!cardsContainerNear) {
     console.error(
       "Контейнер для карток 'Events near' (event-cards-container-near) не знайдено!"
@@ -319,7 +435,7 @@ if (typeof eventsStore !== "undefined") {
   }
 } else {
   console.error(
-    "Масив eventsStore не знайдено! Переконайтеся, що файл data.js завантажено перед index.js."
+    "Масиви eventsStore та/або mockEventsStore не знайдено! Переконайтеся, що файли data.js та mockdata.js завантажено перед index.js."
   );
 }
 

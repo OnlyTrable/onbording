@@ -488,6 +488,113 @@ body {
   /* justify-content буде контролюватися JavaScript */
   margin-bottom: 20px; /* Додатковий відступ знизу для групи карток */
 }
+
+/* Стилі для нових маленьких карток подій в event-cards-container-near */
+.near-event-card {
+  display: flex;
+  width: 370px;
+  height: 104px;
+  border-top: 1px solid #d9d9d9;
+  padding: 12px 0px 12px 0px; /* Паддінг зверху/знизу після бордера, без бокових */
+  gap: 12px; /* Відстань між зображенням та контентом */
+  box-sizing: border-box;
+  align-items: flex-start; /* Вирівнюємо зображення та контент по верху */
+  overflow: hidden; /* Щоб контент не виходив за межі */
+}
+
+.near-event-card__image-wrapper {
+  width: 97.51px;
+  height: 64.35px;
+  flex-shrink: 0;
+}
+
+.near-event-card__image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4.9px;
+}
+
+.near-event-card__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Розподіляємо елементи зверху вниз */
+  gap: 2px; /* Невеликий відступ між текстовими полями */
+  flex-grow: 1;
+  height: 80px; /* Встановлюємо висоту для досягнення потрібного відступу до наступної картки */
+  overflow: hidden; /* Важливо для обрізки тексту */
+}
+
+.near-event-card__date {
+  font-size: 8.44px; /* Дуже маленький шрифт для дати */
+  color: #7c6f50; /* Колір для дати #7C6F50; */
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.near-event-card__title {
+  font-weight: 500;
+  font-size: 9.64px;
+  line-height: 14.46px;
+  letter-spacing: 0%; /* Це 'normal', можна опустити */
+  vertical-align: middle; /* Зазвичай для inline елементів */
+  color: #212121;
+  white-space: normal; /* Дозволяє перенос тексту */
+  /* overflow та text-overflow не потрібні, якщо текст переноситься */
+  /* Можна додати min-height, якщо потрібно гарантувати місце для двох рядків, наприклад: */
+  /* min-height: calc(14.46px * 2); */
+}
+
+.near-event-card__category-distance-info {
+  /* width: 154.57px; */ /* Можна встановити, якщо потрібна фіксована ширина, або залишити auto */
+  /* height: 12.26px; */ /* Висота буде визначатися line-height */
+  font-weight: 400;
+  font-size: 8.58px;
+  line-height: 12.26px;
+  letter-spacing: 0%; /* 'normal' */
+  vertical-align: middle;
+  color: #707070;
+}
+
+.near-event-card__type-online span {
+  /* width: 44.66px; */ /* Можна встановити, якщо потрібна фіксована ширина, або залишити auto */
+  /* height: 9.73px; */ /* Висота буде визначатися line-height */
+  font-weight: 500;
+  font-size: 7.3px;
+  line-height: 9.73px;
+  letter-spacing: 0%; /* 'normal' */
+  vertical-align: middle; /* Вже є align-items: center на батьківському, але не завадить */
+  color: #707070;
+}
+
+.near-event-card__attendees {
+  /* width: 53.28px; */ /* Можна встановити, якщо потрібна фіксована ширина, або залишити auto */
+  /* height: 12.05px; */ /* Висота буде визначатися line-height */
+  /* top: 74.73px; */ /* 'top' працює з позиціонуванням (relative, absolute, fixed) */
+  /* margin-top: 15.21px; */ /* Тимчасово прибираємо, щоб рядок став видимим. Відступ буде 2px від gap. */
+  font-weight: 400;
+  font-size: 8.44px;
+  line-height: 12.05px;
+  letter-spacing: 0%; /* 'normal' */
+  vertical-align: middle;
+  color: #707070;
+}
+
+/* Стилі для контейнера типу онлайн-події (іконка + текст) */
+.near-event-card__type-online {
+  display: flex;
+  align-items: center; /* Вирівнює іконку та текст по вертикалі */
+  /* font-size, color, line-height для тексту успадковуються через span з правила вище */
+}
+
+.near-event-card__type-online img {
+  /* Розміри іконки вже задані в JS, але можна визначити тут для консистентності */
+  /* width: 11px; */
+  /* height: 11px; */
+  /* margin-right: 4px; */
+  flex-shrink: 0; /* Запобігає стисненню іконки */
+}
+
 /* Основний контейнер для секції "Join Meetup" */
 .join-meetup-section {
   background-color: #97cad114;
