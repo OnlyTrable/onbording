@@ -504,13 +504,13 @@ body {
 
 .near-event-card__image-wrapper {
   width: 97.51px;
-  height: 64.35px;
+  height: 54.99px;
   flex-shrink: 0;
 }
 
 .near-event-card__image-wrapper img {
   width: 100%;
-  height: 54px;
+  height: 100%;
   object-fit: cover;
   border-radius: 4.9px;
 }
@@ -521,14 +521,14 @@ body {
   justify-content: flex-start; /* Розподіляємо елементи зверху вниз */
   gap: 2px; /* Невеликий відступ між текстовими полями */
   flex-grow: 1;
-  height: 87px; /* Встановлюємо висоту для досягнення потрібного відступу до наступної картки */
+  height: 80px; /* Встановлюємо висоту для досягнення потрібного відступу до наступної картки */
   overflow: hidden; /* Важливо для обрізки тексту */
 }
 
 .near-event-card__date {
-  font-size: 8.44px; /* Дуже маленький шрифт для дати */
-  color: #7c6f50; /* Колір для дати #7C6F50; */
-  font-weight: 500;
+  font-size: 11px; /* Дуже маленький шрифт для дати */
+  color: #e32359; /* Колір для дати */
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -549,8 +549,8 @@ body {
   /* width: 154.57px; */ /* Можна встановити, якщо потрібна фіксована ширина, або залишити auto */
   /* height: 12.26px; */ /* Висота буде визначатися line-height */
   font-weight: 400;
-  font-size: 8.44px;
-  line-height: 12.05px;
+  font-size: 8.58px;
+  line-height: 12.26px;
   letter-spacing: 0%; /* 'normal' */
   vertical-align: middle;
   color: #707070;
@@ -571,7 +571,7 @@ body {
   /* width: 53.28px; */ /* Можна встановити, якщо потрібна фіксована ширина, або залишити auto */
   /* height: 12.05px; */ /* Висота буде визначатися line-height */
   /* top: 74.73px; */ /* 'top' працює з позиціонуванням (relative, absolute, fixed) */
-  margin-top: 33px;
+  /* margin-top: 15.21px; */ /* Тимчасово прибираємо, щоб рядок став видимим. Відступ буде 2px від gap. */
   font-weight: 400;
   font-size: 8.44px;
   line-height: 12.05px;
@@ -580,6 +580,16 @@ body {
   color: #707070;
 }
 
+/* Загальні стилі для інших текстових елементів картки, КРІМ заголовка */
+/* .near-event-card__attendees - тепер має власні стилі вище */
+ {
+  font-size: 11px; /* Маленький шрифт */
+  color: #3c3c3c;
+  line-height: 1.2; /* Щільний рядок */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Додаємо трикрапку, якщо текст не вміщується */
+}
 /* Стилі для контейнера типу онлайн-події (іконка + текст) */
 .near-event-card__type-online {
   display: flex;
@@ -588,6 +598,10 @@ body {
 }
 
 .near-event-card__type-online img {
+  /* Розміри іконки вже задані в JS, але можна визначити тут для консистентності */
+  /* width: 11px; */
+  /* height: 11px; */
+  /* margin-right: 4px; */
   flex-shrink: 0; /* Запобігає стисненню іконки */
 }
 
@@ -1673,4 +1687,67 @@ footer .container {
       margin-left: 9px;
     }
   }
+}
+/* --- Стилі для second.html --- */
+.second-content {
+  max-width: min(78.75%, 1512px); /* Максимальна ширина контейнера */
+  width: 100%; /* Займатиме всю доступну ширину до max-width */
+  margin: 32px auto; /* Відступи зверху/знизу та центрування по горизонталі */
+  padding: 0 24px; /* Внутрішні відступи по боках, щоб контент не прилягав до країв екрану */
+  box-sizing: border-box; /* Враховує padding у загальну ширину */
+}
+.second-content-wrapper {
+  display: flex;
+  width: 87vw; /* (1196px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
+  max-width: 1196px; /* Гарантує, що ширина не перевищить 1196px */
+  margin-left: auto; /* Центрує блок по горизонталі */
+  margin-right: auto; /* Центрує блок по горизонталі */
+  gap: 24px; /* Відстань між .container-left та .container-right */
+}
+.container-left {
+  flex: 1; /* Займає основну частину доступного простору */
+  /* Тут буде основний контент сторінки */
+  /* background-color: #f0f8ff; */ /* Тимчасово для візуалізації */
+  /* min-height: 600px; */ /* Тимчасово для візуалізації */
+}
+
+.container-right {
+  width: 380px; /* Фіксована ширина для правого контейнера (наприклад, сайдбар) */
+  flex-shrink: 0; /* Забороняє контейнеру стискатися */
+  /* Тут може бути додатковий контент, фільтри, реклама тощо */
+  /* background-color: #fff0f5; */ /* Тимчасово для візуалізації */
+  /* min-height: 600px; */ /* Тимчасово для візуалізації */
+}
+
+.container-left h1 {
+  font-size: 32px; /* Або інший розмір за вашим дизайном */
+  font-weight: 700;
+  margin-bottom: 16px; /* Відступ після головного заголовка */
+  color: #212121;
+}
+
+.container-left h2 {
+  font-size: 24px; /* Або інший розмір */
+  font-weight: 600;
+  margin-bottom: 24px; /* Відступ після підзаголовка Events */
+  color: #212121;
+}
+
+.filters-row {
+  display: flex;
+  gap: 16px; /* Відстань між випадаючими списками */
+  margin-bottom: 32px; /* Відступ після рядка фільтрів */
+}
+
+.filter-dropdown .dropdown-toggle {
+  /* Можете додати специфічні стилі для кнопок фільтрів, якщо вони відрізняються */
+  /* Наприклад, інший padding, border, background */
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+}
+
+.event-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Відступ між картками вже є через border-top у .near-event-card, або можна додати, якщо потрібно */
 }
