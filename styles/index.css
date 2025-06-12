@@ -1886,3 +1886,16 @@ footer .container {
   vertical-align: middle;
   margin-top: 20px;
 }
+@media (max-width: 600px) {
+  .second-content {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .container-right {
+    display: none;
+    width: 0%;
+  }
+  .container-left {
+    width: 100%; /* Розширюємо лівий контейнер на всю доступну ширину */
+  }
+}
