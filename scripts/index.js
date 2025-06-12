@@ -467,18 +467,36 @@ function populateCustomCategoryFilter() {
 
   // Очищаємо існуючі опції, крім "All categories", яка вже є в HTML
   // Залишаємо тільки перший елемент (All categories) і видаляємо решту, якщо вони були додані динамічно раніше
-  while (
-    categoryDropdownMenu.children.length > 1 &&
-    categoryDropdownMenu.lastChild.dataset.value !== "all"
-  ) {
-    // Перевіряємо, чи не видаляємо "All categories", якщо вона не перша (малоймовірно з поточним HTML)
-    if (
-      categoryDropdownMenu.lastChild.dataset.value === "all" &&
-      categoryDropdownMenu.children.length === 1
-    )
+  while (categoryDropdownMenu.children.length > 1) {
+    const lastElement = categoryDropdownMenu.lastElementChild; // Використовуємо lastElementChild
+
+    if (!lastElement) {
+      // Якщо немає більше дочірніх елементів (залишилися тільки текстові вузли після першого елемента)
+      // Видаляємо останній дочірній вузол, якщо це текстовий вузол, щоб уникнути нескінченного циклу
+      if (
+        categoryDropdownMenu.lastChild &&
+        categoryDropdownMenu.lastChild.nodeType !== Node.ELEMENT_NODE
+      ) {
+        categoryDropdownMenu.removeChild(categoryDropdownMenu.lastChild);
+        continue; // Повторюємо перевірку умови циклу
+      }
       break;
-    categoryDropdownMenu.removeChild(categoryDropdownMenu.lastChild);
+    }
+
+    // Перевіряємо умову з оригінального циклу: lastElement.dataset.value !== "all"
+    // Якщо останній елемент - це "all", припиняємо видалення
+    if (
+      lastElement.tagName === "A" &&
+      lastElement.hasAttribute("data-value") &&
+      lastElement.dataset.value === "all"
+    ) {
+      break;
+    }
+
+    // Якщо ми тут, значить lastElement не "all", тому видаляємо його.
+    categoryDropdownMenu.removeChild(lastElement);
   }
+
   // Якщо "All categories" немає, додамо її (це для випадку, якщо HTML зміниться)
   if (!categoryDropdownMenu.querySelector('a[data-value="all"]')) {
     const allCategoriesLink = document.createElement("a");
@@ -673,7 +691,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Цей код виконається тільки якщо ми на сторінці second.html (або сторінці з таким селектором)
+  console.log("DEBUG: DOMContentLoaded for second.html specific logic - START");
   if (document.querySelector(".second-content-wrapper")) {
+    console.log("DEBUG: .second-content-wrapper FOUND.");
     const cityDropdownToggle = document.querySelector(
       ".search-group-dropdown .dropdown-toggle"
     );
@@ -685,9 +705,6 @@ document.addEventListener("DOMContentLoaded", () => {
       ".container-right .sidebar-location-title"
     );
     const mapIframe = document.querySelector(".map-wrapper iframe");
-
-    // Дані для міст: назва міста та URL для вбудованої карти Google Maps
-    // Вам потрібно буде додати URL для всіх міст зі списку
     const cityMapData = {
       "Mountain View, CA":
         "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50731.71574810052!2d-122.11600004868165!3d37.38605169999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb6dfb66fa17f%3A0x4a501367f076adff!2sMountain%20View%2C%20CA%2C%20USA!5e0!3m2!1sen!2suk!4v1716460012345!5m2!1sen!2suk",
@@ -720,6 +737,7 @@ document.addEventListener("DOMContentLoaded", () => {
       sidebarLocationH2 &&
       mapIframe
     ) {
+      console.log("DEBUG: All city selection elements FOUND.");
       cityDropdownMenu.addEventListener("click", (event) => {
         if (event.target.tagName === "A") {
           event.preventDefault(); // Запобігаємо переходу за посиланням
@@ -749,57 +767,106 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Ініціалізація кастомних фільтрів для second.html
       populateCustomCategoryFilter(); // Заповнюємо/оновлюємо фільтр категорій
+      console.log("DEBUG: populateCustomCategoryFilter CALLED.");
 
       const filterContainers = document.querySelectorAll(
         ".second-content-wrapper .filter-dropdown"
       );
+      console.log(
+        `DEBUG: Found ${filterContainers.length} filter-dropdown elements.`
+      );
 
-      filterContainers.forEach((container) => {
-        const button = container.querySelector(".dropdown-toggle");
-        const menu = container.querySelector(".dropdown-menu");
+      if (filterContainers.length > 0) {
+        filterContainers.forEach((container) => {
+          console.log(`DEBUG: Processing container: ${container.id}`);
+          const button = container.querySelector(".dropdown-toggle");
+          const menu = container.querySelector(".dropdown-menu");
 
-        if (button && menu) {
-          menu.addEventListener("click", (event) => {
-            if (
-              event.target.tagName === "A" &&
-              event.target.hasAttribute("data-value")
-            ) {
-              event.preventDefault();
-              const selectedValue = event.target.dataset.value;
-              const selectedText = event.target.textContent;
-
+          if (button && menu) {
+            console.log(
+              `DEBUG: Attaching click listener to menu for filter container: ${container.id}`
+            );
+            menu.addEventListener("click", (event) => {
               console.log(
-                `Filter clicked: ID=${container.id}, Value=${selectedValue}, Text=${selectedText}`
+                `DEBUG: Click event on menu for ${container.id}. Target:`,
+                event.target
               );
-              // Оновлюємо текст кнопки, зберігаючи іконку
-              const icon = button.querySelector(".filter-icon");
-              button.textContent = selectedText + " "; // Додаємо пробіл перед іконкою
-              if (icon) {
-                button.appendChild(icon.cloneNode(true)); // Клонуємо іконку, щоб не втратити її
-              }
+              if (
+                event.target.tagName === "A" &&
+                event.target.hasAttribute("data-value")
+              ) {
+                event.preventDefault();
+                console.log(
+                  `DEBUG: Valid filter link clicked in ${container.id}.`
+                );
+                const selectedValue = event.target.dataset.value;
+                const selectedText = event.target.textContent;
 
-              // Оновлюємо глобальний об'єкт фільтрів
-              if (container.id === "eventTypeFilterContainer") {
-                currentSecondPageFilters.type = selectedValue;
-              } else if (container.id === "eventCategoryFilterContainer") {
-                currentSecondPageFilters.category = selectedValue;
+                console.log(
+                  `Filter clicked: ID=${container.id}, Value=${selectedValue}, Text=${selectedText}`
+                );
+
+                // Оновлюємо текст кнопки, зберігаючи іконку
+                const icon = button.querySelector(".filter-icon");
+                button.textContent = selectedText + " "; // Додаємо пробіл перед іконкою
+                if (icon) {
+                  button.appendChild(icon.cloneNode(true)); // Клонуємо іконку, щоб не втратити її
+                }
+
+                // Оновлюємо глобальний об'єкт фільтрів
+                if (container.id === "eventTypeFilterContainer") {
+                  currentSecondPageFilters.type = selectedValue;
+                } else if (container.id === "eventCategoryFilterContainer") {
+                  currentSecondPageFilters.category = selectedValue;
+                }
+                // Додайте тут логіку для інших фільтрів, наприклад, дистанції
+                console.log(
+                  "Updated currentSecondPageFilters:",
+                  JSON.stringify(currentSecondPageFilters)
+                );
+                renderSecondPageEvents(); // Перерендеримо картки
+              } else {
+                console.log(
+                  `DEBUG: Click in menu for ${
+                    container.id
+                  } was not on a valid <a> tag with data-value. Target tagName: ${
+                    event.target.tagName
+                  }, Has data-value: ${event.target.hasAttribute("data-value")}`
+                );
               }
-              // Додайте тут логіку для інших фільтрів, наприклад, дистанції
-              console.log(
-                "Updated currentSecondPageFilters:",
-                JSON.stringify(currentSecondPageFilters)
-              );
-              renderSecondPageEvents(); // Перерендеримо картки
-            }
-          });
-        }
-      });
+            });
+          } else {
+            console.warn(
+              `DEBUG: Button or menu NOT FOUND for filter container: ${
+                container.id
+              }. Button: ${!!button}, Menu: ${!!menu}`
+            );
+          }
+        });
+      } else {
+        console.warn(
+          "DEBUG: No .filter-dropdown elements found to attach listeners."
+        );
+      }
     } else {
       console.error(
-        "One or more elements for city selection functionality were not found."
+        "DEBUG: One or more elements for city selection functionality NOT FOUND. Filter setup SKIPPED."
       );
+      if (!cityDropdownMenu)
+        console.error("DEBUG: cityDropdownMenu is MISSING");
+      if (!cityDropdownToggle)
+        console.error("DEBUG: cityDropdownToggle is MISSING");
+      if (!mainHeaderH1) console.error("DEBUG: mainHeaderH1 is MISSING");
+      if (!sidebarLocationH2)
+        console.error("DEBUG: sidebarLocationH2 is MISSING");
+      if (!mapIframe) console.error("DEBUG: mapIframe is MISSING");
     }
+  } else {
+    console.warn(
+      "DEBUG: .second-content-wrapper NOT FOUND. Skipping second.html specific logic."
+    );
   }
+  console.log("DEBUG: DOMContentLoaded for second.html specific logic - END");
 });
 
 // --- Кінець коду для фільтрації на second.html ---
