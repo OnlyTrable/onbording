@@ -751,6 +751,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const sidebarLocationH2 = document.querySelector(
       ".container-right .sidebar-location-title"
     );
+    // --- Логіка для кастомних фільтрів ---
+    let currentlyMovedMenuInfo = null; // { menu, originalParent, container }
+
+    function closeAndResetMenu(menuInfo) {
+      if (!menuInfo) return;
+      const { menu, originalParent, container } = menuInfo;
+
+      container.classList.remove("active");
+      menu.style.display = "none";
+      if (menu.dataset.moved === "true") {
+        originalParent.appendChild(menu);
+        menu.style.position = "";
+        menu.style.top = "";
+        menu.style.left = "";
+        menu.style.minWidth = "";
+        menu.style.zIndex = "";
+        delete menu.dataset.moved;
+      }
+    }
+    // --- Кінець логіки для кастомних фільтрів ---
+
     const mapIframe = document.querySelector(".map-wrapper iframe");
     const cityMapData = {
       "Mountain View, CA":
@@ -829,8 +850,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const button = container.querySelector(".dropdown-toggle"); // Кнопка для відкриття/закриття
           const menu = container.querySelector(".dropdown-menu"); // Саме меню
           // Зберігаємо посилання на оригінального батька меню для кожного фільтра
-          const originalParent = menu.parentNode;
-
+          const originalParent = menu.parentNode; // Це `container`
 
           if (button && menu) {
             console.log(
@@ -842,77 +862,58 @@ document.addEventListener("DOMContentLoaded", () => {
               e.preventDefault(); // Запобігаємо стандартній дії кнопки
               e.stopPropagation(); // Зупиняємо спливання події, щоб не спрацював document click listener
 
-              const isActive = container.classList.contains("active");
+              const thisContainer = container;
+              const thisMenu = menu;
+              const thisOriginalParent = originalParent;
+              let intentToOpenThisMenu = false;
 
-              // Закриваємо всі інші активні *переміщені* фільтри
-              document
-                .querySelectorAll(".filters-row .filter-dropdown.active")
-                .forEach((otherContainer) => {
-                  if (otherContainer !== container) {
-                    const otherMenu =
-                      otherContainer.querySelector(".dropdown-menu");
-                    const otherOriginalParent = otherContainer; // Батьківський .filter-dropdown
-
-                    otherContainer.classList.remove("active");
-                    otherMenu.style.display = "none";
-                    if (otherMenu.dataset.moved === "true") {
-                      otherOriginalParent.appendChild(otherMenu); // Повертаємо назад
-                      otherMenu.style.position = ""; // Скидаємо стилі
-                      otherMenu.style.top = "";
-                      otherMenu.style.left = "";
-                      otherMenu.style.minWidth = "";
-                      otherMenu.style.zIndex = "";
-                      delete otherMenu.dataset.moved;
-                    }
-                  }
-                });
-
-              if (isActive) {
-                // Закриваємо поточне меню
-                container.classList.remove("active");
-                menu.style.display = "none";
-                if (menu.dataset.moved === "true") {
-                  originalParent.appendChild(menu); // Повертаємо назад
-                  menu.style.position = ""; // Скидаємо стилі
-                  menu.style.top = "";
-                  menu.style.left = "";
-                  menu.style.minWidth = "";
-                  menu.style.zIndex = "";
-                  delete menu.dataset.moved;
+              if (currentlyMovedMenuInfo) {
+                // Якщо якесь меню вже відкрите
+                if (currentlyMovedMenuInfo.container === thisContainer) {
+                  // Клікнули на кнопку вже відкритого меню -> закриваємо його
+                  closeAndResetMenu(currentlyMovedMenuInfo);
+                  currentlyMovedMenuInfo = null;
+                  // intentToOpenThisMenu залишається false
+                } else {
+                  // Клікнули на кнопку іншого меню -> закриваємо старе, будемо відкривати нове
+                  closeAndResetMenu(currentlyMovedMenuInfo);
+                  currentlyMovedMenuInfo = null;
+                  intentToOpenThisMenu = true;
                 }
               } else {
-                // Відкриваємо поточне меню
-                container.classList.add("active");
-                const rect = button.getBoundingClientRect();
+                // Жодне меню не відкрите -> будемо відкривати поточне
+                intentToOpenThisMenu = true;
+              }
 
-                document.body.appendChild(menu); // Переміщуємо в body
-                menu.dataset.moved = "true"; // Позначаємо, що меню переміщене
+              if (intentToOpenThisMenu) {
+                thisContainer.classList.add("active");
+                const rect = button.getBoundingClientRect(); // 'button' - це кнопка, на яку клікнули
 
-                menu.style.position = "fixed";
-                menu.style.top = `${rect.bottom + 2}px`; // +2px для невеликого відступу
-                menu.style.left = `${rect.left}px`;
-                menu.style.minWidth = `${rect.width}px`; // Мінімальна ширина як у кнопки
-                menu.style.zIndex = "1050"; // Високий z-index
-                menu.style.display = "block";
+                document.body.appendChild(thisMenu);
+                thisMenu.dataset.moved = "true";
+                thisMenu.style.position = "fixed";
+                thisMenu.style.top = `${rect.bottom + 2}px`;
+                thisMenu.style.left = `${rect.left}px`;
+                thisMenu.style.minWidth = `${rect.width}px`;
+                thisMenu.style.zIndex = "1050";
+                thisMenu.style.display = "block";
+                currentlyMovedMenuInfo = {
+                  menu: thisMenu,
+                  originalParent: thisOriginalParent,
+                  container: thisContainer,
+                };
               }
             });
 
             // Обробник кліку на пункт меню
             menu.addEventListener("click", (event) => {
-              console.log(
-                `DEBUG: Click event on menu for ${container.id}. Target:`,
-                event.target
-              );
               // Шукаємо найближчий батьківський <a> з data-value
-              const targetLink = event.target.closest('a[data-value]');
+              const targetLink = event.target.closest("a[data-value]");
 
               if (targetLink) {
                 event.preventDefault();
                 event.stopPropagation(); // Важливо, щоб document click не закрив меню передчасно
 
-                console.log(
-                  `DEBUG: Valid filter link clicked in ${container.id}.`
-                );
                 const selectedValue = targetLink.dataset.value; // Значення фільтра
                 const selectedText = targetLink.textContent; // Текст фільтра
 
@@ -941,25 +942,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
                 renderSecondPageEvents(); // Перерендеримо картки з новими фільтрами
 
-                // Закриваємо випадаюче меню після вибору та повертаємо його
-                container.classList.remove("active");
-                menu.style.display = "none";
-                if (menu.dataset.moved === "true") {
-                  originalParent.appendChild(menu); // Повертаємо назад
-                  menu.style.position = ""; // Скидаємо стилі
-                  menu.style.top = "";
-                  menu.style.left = "";
-                  menu.style.minWidth = "";
-                  menu.style.zIndex = "";
-                  delete menu.dataset.moved;
+                // Закриваємо поточне меню після вибору
+                if (
+                  currentlyMovedMenuInfo &&
+                  currentlyMovedMenuInfo.menu === menu
+                ) {
+                  closeAndResetMenu(currentlyMovedMenuInfo);
+                  currentlyMovedMenuInfo = null;
                 }
               } else {
                 console.log(
-                  `DEBUG: Click in menu for ${
-                    container.id
-                  } was not on a valid <a> tag with data-value. Target tagName: ${
-                    event.target.tagName
-                  }, Has data-value: ${event.target.hasAttribute("data-value")}, Closest link: ${!!targetLink}`
+                  `DEBUG: Click in menu for ${container.id} was not on a valid filter link.`
                 );
               }
             });
@@ -978,29 +971,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Додаємо обробник кліку на документ для закриття активних фільтрів
-      document.addEventListener('click', (e) => {
-        document.querySelectorAll('.filters-row .filter-dropdown.active').forEach(activeContainer => {
-          const button = activeContainer.querySelector('.dropdown-toggle');
-          const menuToClose = activeContainer.querySelector('.dropdown-menu');
-          // originalParent для цього меню - це activeContainer
-          const originalParentToClose = activeContainer;
+      document.addEventListener("click", (e) => {
+        if (currentlyMovedMenuInfo) {
+          const { menu, container } = currentlyMovedMenuInfo;
+          const button = container.querySelector(".dropdown-toggle"); // Кнопка завжди в своєму контейнері
 
-          // Якщо меню було переміщене І клік був не по його кнопці І не всередині самого меню
-          if (menuToClose.dataset.moved === 'true' && 
-              !button.contains(e.target) && 
-              !menuToClose.contains(e.target)) {
-            activeContainer.classList.remove('active');
-            menuToClose.style.display = 'none';
-            originalParentToClose.appendChild(menuToClose); // Повертаємо назад
-            menuToClose.style.position = ''; // Скидаємо стилі
-            menuToClose.style.top = '';
-            menuToClose.style.left = '';
-            menuToClose.style.minWidth = '';
-            menuToClose.style.zIndex = '';
-            delete menuToClose.dataset.moved;
+          // Якщо клік був НЕ по кнопці І НЕ всередині відкритого меню
+          if (
+            button &&
+            !button.contains(e.target) &&
+            !menu.contains(e.target)
+          ) {
+            closeAndResetMenu(currentlyMovedMenuInfo);
+            currentlyMovedMenuInfo = null;
           }
-
-        });
+        }
       });
     } else {
       console.error(
