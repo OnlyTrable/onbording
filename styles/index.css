@@ -1703,8 +1703,10 @@ footer .container {
 }
 
 .container-right {
-  width: 380px; /* Фіксована ширина для правого контейнера (наприклад, сайдбар) */
+  width: 50%; /* Фіксована ширина для правого контейнера (наприклад, сайдбар) */
   flex-shrink: 0; /* Забороняє контейнеру стискатися */
+  margin-left: auto; /* Центрує блок по горизонталі */
+  margin-right: auto; /* Центрує блок по горизонталі */
   /* Тут може бути додатковий контент, фільтри, реклама тощо */
   /* background-color: #fff0f5; */ /* Тимчасово для візуалізації */
   /* min-height: 600px; */ /* Тимчасово для візуалізації */
@@ -1716,8 +1718,7 @@ footer .container {
   margin-bottom: 16px; /* Відступ після головного заголовка */
   color: #212121;
 }
-
-.container-left h2 {
+к .container-left h2 {
   display: inline-block; /* Ключова властивість */
   font-size: 20px; /* Або інший розмір */
   font-weight: 500;
@@ -1738,6 +1739,13 @@ footer .container {
   /* Наприклад, інший padding, border, background */
   border: 1px solid #d9d9d9;
   border-radius: 8px;
+}
+
+.filter-dropdown .dropdown-toggle .filter-icon {
+  width: 16px; /* або інший розмір за потребою */
+  height: 16px; /* або інший розмір за потребою */
+  margin-right: 5px; /* Відступ від тексту */
+  vertical-align: middle; /* Для кращого вирівнювання з текстом */
 }
 
 .event-cards-list {
