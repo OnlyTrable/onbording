@@ -828,6 +828,9 @@ document.addEventListener("DOMContentLoaded", () => {
           console.log(`DEBUG: Processing container: ${container.id}`);
           const button = container.querySelector(".dropdown-toggle"); // Кнопка для відкриття/закриття
           const menu = container.querySelector(".dropdown-menu"); // Саме меню
+          // Зберігаємо посилання на оригінального батька меню для кожного фільтра
+          const originalParent = menu.parentNode;
+
 
           if (button && menu) {
             console.log(
@@ -835,25 +838,62 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             // Обробник кліку на кнопку для відкриття/закриття меню
-            button.addEventListener('click', (e) => {
+            button.addEventListener("click", (e) => {
               e.preventDefault(); // Запобігаємо стандартній дії кнопки
               e.stopPropagation(); // Зупиняємо спливання події, щоб не спрацював document click listener
 
-              const parentDropdown = container; // Це наш .filter-dropdown
-              const isActive = parentDropdown.classList.contains('active');
+              const isActive = container.classList.contains("active");
 
-              // Закриваємо всі інші активні фільтри
-              document.querySelectorAll('.filters-row .filter-dropdown.active').forEach(otherDropdown => {
-                if (otherDropdown !== parentDropdown) {
-                  otherDropdown.classList.remove('active');
-                }
-              });
+              // Закриваємо всі інші активні *переміщені* фільтри
+              document
+                .querySelectorAll(".filters-row .filter-dropdown.active")
+                .forEach((otherContainer) => {
+                  if (otherContainer !== container) {
+                    const otherMenu =
+                      otherContainer.querySelector(".dropdown-menu");
+                    const otherOriginalParent = otherContainer; // Батьківський .filter-dropdown
 
-              // Перемикаємо поточний фільтр
+                    otherContainer.classList.remove("active");
+                    otherMenu.style.display = "none";
+                    if (otherMenu.dataset.moved === "true") {
+                      otherOriginalParent.appendChild(otherMenu); // Повертаємо назад
+                      otherMenu.style.position = ""; // Скидаємо стилі
+                      otherMenu.style.top = "";
+                      otherMenu.style.left = "";
+                      otherMenu.style.minWidth = "";
+                      otherMenu.style.zIndex = "";
+                      delete otherMenu.dataset.moved;
+                    }
+                  }
+                });
+
               if (isActive) {
-                parentDropdown.classList.remove('active');
+                // Закриваємо поточне меню
+                container.classList.remove("active");
+                menu.style.display = "none";
+                if (menu.dataset.moved === "true") {
+                  originalParent.appendChild(menu); // Повертаємо назад
+                  menu.style.position = ""; // Скидаємо стилі
+                  menu.style.top = "";
+                  menu.style.left = "";
+                  menu.style.minWidth = "";
+                  menu.style.zIndex = "";
+                  delete menu.dataset.moved;
+                }
               } else {
-                parentDropdown.classList.add('active');
+                // Відкриваємо поточне меню
+                container.classList.add("active");
+                const rect = button.getBoundingClientRect();
+
+                document.body.appendChild(menu); // Переміщуємо в body
+                menu.dataset.moved = "true"; // Позначаємо, що меню переміщене
+
+                menu.style.position = "fixed";
+                menu.style.top = `${rect.bottom + 2}px`; // +2px для невеликого відступу
+                menu.style.left = `${rect.left}px`;
+                menu.style.minWidth = `${rect.width}px`; // Мінімальна ширина як у кнопки
+                menu.style.zIndex = "1050"; // Високий z-index
+                menu.style.display = "block";
               }
             });
 
@@ -863,16 +903,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 `DEBUG: Click event on menu for ${container.id}. Target:`,
                 event.target
               );
-              if (
-                event.target.tagName === "A" && // Перевіряємо, що клік був на посиланні
-                event.target.hasAttribute("data-value")
-              ) {
+              // Шукаємо найближчий батьківський <a> з data-value
+              const targetLink = event.target.closest('a[data-value]');
+
+              if (targetLink) {
                 event.preventDefault();
+                event.stopPropagation(); // Важливо, щоб document click не закрив меню передчасно
+
                 console.log(
                   `DEBUG: Valid filter link clicked in ${container.id}.`
                 );
-                const selectedValue = event.target.dataset.value; // Значення фільтра
-                const selectedText = event.target.textContent; // Текст фільтра
+                const selectedValue = targetLink.dataset.value; // Значення фільтра
+                const selectedText = targetLink.textContent; // Текст фільтра
 
                 console.log(
                   `Filter clicked: ID=${container.id}, Value=${selectedValue}, Text=${selectedText}`
@@ -899,15 +941,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
                 renderSecondPageEvents(); // Перерендеримо картки з новими фільтрами
 
-                // Закриваємо випадаюче меню після вибору
-                container.classList.remove('active');
+                // Закриваємо випадаюче меню після вибору та повертаємо його
+                container.classList.remove("active");
+                menu.style.display = "none";
+                if (menu.dataset.moved === "true") {
+                  originalParent.appendChild(menu); // Повертаємо назад
+                  menu.style.position = ""; // Скидаємо стилі
+                  menu.style.top = "";
+                  menu.style.left = "";
+                  menu.style.minWidth = "";
+                  menu.style.zIndex = "";
+                  delete menu.dataset.moved;
+                }
               } else {
                 console.log(
                   `DEBUG: Click in menu for ${
                     container.id
                   } was not on a valid <a> tag with data-value. Target tagName: ${
                     event.target.tagName
-                  }, Has data-value: ${event.target.hasAttribute("data-value")}`
+                  }, Has data-value: ${event.target.hasAttribute("data-value")}, Closest link: ${!!targetLink}`
                 );
               }
             });
@@ -927,11 +979,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Додаємо обробник кліку на документ для закриття активних фільтрів
       document.addEventListener('click', (e) => {
-        filterContainers.forEach(container => {
-          // Якщо клік був поза активним контейнером фільтра, закриваємо його
-          if (container.classList.contains('active') && !container.contains(e.target)) {
-            container.classList.remove('active');
+        document.querySelectorAll('.filters-row .filter-dropdown.active').forEach(activeContainer => {
+          const button = activeContainer.querySelector('.dropdown-toggle');
+          const menuToClose = activeContainer.querySelector('.dropdown-menu');
+          // originalParent для цього меню - це activeContainer
+          const originalParentToClose = activeContainer;
+
+          // Якщо меню було переміщене І клік був не по його кнопці І не всередині самого меню
+          if (menuToClose.dataset.moved === 'true' && 
+              !button.contains(e.target) && 
+              !menuToClose.contains(e.target)) {
+            activeContainer.classList.remove('active');
+            menuToClose.style.display = 'none';
+            originalParentToClose.appendChild(menuToClose); // Повертаємо назад
+            menuToClose.style.position = ''; // Скидаємо стилі
+            menuToClose.style.top = '';
+            menuToClose.style.left = '';
+            menuToClose.style.minWidth = '';
+            menuToClose.style.zIndex = '';
+            delete menuToClose.dataset.moved;
           }
+
         });
       });
     } else {
