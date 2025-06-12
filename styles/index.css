@@ -252,7 +252,7 @@ body {
 }
 
 .content-wrapper {
-  width: 87vw; /* (1196px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
+  /*width: 87vw;*/ /* (1196px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
   max-width: 1196px; /* Гарантує, що ширина не перевищить 1196px */
   margin-left: auto; /* Центрує блок по горизонталі */
   margin-right: auto; /* Центрує блок по горизонталі */
@@ -1122,6 +1122,12 @@ footer .container {
     max-width: 100%; /* Контейнер займає всю ширину viewport */
   }
 }
+@media (max-width: 1380px) {
+  .filters-row {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+}
 /* --- Consolidated Small Desktop/Large Tablet Styles (max-width: 1196px) --- */
 @media (max-width: 1196px) {
   /* Якщо екран менший за 1196px, то content-wrapper адаптується */
@@ -1683,12 +1689,12 @@ footer .container {
   max-width: min(78.75%, 1512px); /* Максимальна ширина контейнера */
   width: 100%; /* Займатиме всю доступну ширину до max-width */
   margin: 32px auto; /* Відступи зверху/знизу та центрування по горизонталі */
-  padding: 0 24px; /* Внутрішні відступи по боках, щоб контент не прилягав до країв екрану */
+  padding: 0 20px; /* Внутрішні відступи як у .container */
   box-sizing: border-box; /* Враховує padding у загальну ширину */
 }
 .second-content-wrapper {
   display: flex;
-  width: 87vw; /* (1196px / 1440px) * 100vw - розраховано для екрану шириною 1440px */
+  width: 100%; /* Займатиме всю ширину батьківського елемента до max-width */
   max-width: 1196px; /* Гарантує, що ширина не перевищить 1196px */
   margin-left: auto; /* Центрує блок по горизонталі */
   margin-right: auto; /* Центрує блок по горизонталі */

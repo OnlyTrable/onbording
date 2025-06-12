@@ -573,12 +573,44 @@ function renderSecondPageEvents() {
   const eventsToDisplay = filteredEvents.slice(0, 6); // Показуємо до 6 відфільтрованих подій
 
   if (eventsToDisplay.length === 0) {
-    eventListContainer.innerHTML =
-      "<p>Немає подій, що відповідають вашим фільтрам.</p>";
+    eventListContainer.innerHTML = ""; // Очищаємо контейнер
+
+    // Стилізуємо eventListContainer для центрування вмісту
+    eventListContainer.style.display = "flex";
+    eventListContainer.style.justifyContent = "center";
+    eventListContainer.style.alignItems = "center";
+    eventListContainer.style.minHeight = "300px"; // Задаємо мінімальну висоту для вертикального центрування
+
+    const noEventsMessageContainer = document.createElement("div");
+    noEventsMessageContainer.style.display = "flex";
+    noEventsMessageContainer.style.flexDirection = "column";
+    noEventsMessageContainer.style.alignItems = "center"; // Центруємо елементи всередині цього блоку
+    noEventsMessageContainer.style.textAlign = "center"; // Центруємо текст
+
+    const image = document.createElement("img");
+    image.src = "assets/images/byuntear-emoji.gif";
+    image.alt = "Зображення події";
+    image.style.width = "120px"; // Задаємо ширину
+    image.style.height = "120px"; // Задаємо висоту рівну ширині для квадрата
+    image.style.marginBottom = "15px"; // Відступ знизу від картинки
+
+    const noEventsText = document.createElement("p");
+    noEventsText.textContent = "There are no events matching your filters.";
+
+    noEventsMessageContainer.appendChild(image);
+    noEventsMessageContainer.appendChild(noEventsText);
+    eventListContainer.appendChild(noEventsMessageContainer);
     return;
   }
 
-  eventListContainer.innerHTML = ""; // Очищаємо контейнер перед додаванням
+  // Якщо є події, скидаємо стилі, які могли бути встановлені для повідомлення "немає подій"
+  eventListContainer.style.display = "";
+  eventListContainer.style.justifyContent = "";
+  eventListContainer.style.alignItems = "";
+  eventListContainer.style.minHeight = "";
+  eventListContainer.style.textAlign = "";
+
+  eventListContainer.innerHTML = ""; // Очищаємо контейнер перед додаванням карток
 
   eventsToDisplay.forEach((eventData) => {
     const card = document.createElement("div");
