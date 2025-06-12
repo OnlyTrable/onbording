@@ -1127,6 +1127,9 @@ footer .container {
     overflow-x: auto;
     flex-wrap: nowrap;
   }
+  .filters-row .filter-dropdown .dropdown-toggle {
+    white-space: nowrap; /* Забороняємо перенос тексту всередині кнопок фільтрів */
+  }
 }
 /* --- Consolidated Small Desktop/Large Tablet Styles (max-width: 1196px) --- */
 @media (max-width: 1196px) {
