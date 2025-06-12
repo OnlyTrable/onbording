@@ -1366,7 +1366,7 @@ footer .container {
   .event-card h3,
   .article-card h3 {
     font-size: 18px;
-  } /* Буде 12px на 480px */
+  } /* Розмір .event-card-item__title тепер керується в @media (max-width: 768px) та @media (max-width: 480px) */
 }
 
 /* --- Consolidated Very Small Mobile Styles (max-width: 576px) --- */
@@ -1566,6 +1566,9 @@ footer .container {
   .article-card a {
     font-size: 12px; /* MOBILE <a>: 12px, 400 */
     font-weight: 400;
+  }
+  .event-card-item__title {
+    font-size: 1rem; /* 16px */
   }
 
   /* Footer */
@@ -1823,70 +1826,85 @@ footer .container {
 }
 
 .event-card-item__image-container {
-  width: 100%;
-  max-width: 159px;
-  height: 90px;
+  width: clamp(
+    97.51px,
+    calc(4.06vw + 81.04px),
+    159px
+  ); /* Адаптивна ширина з clamp */
+  height: clamp(
+    55px,
+    calc(2.29vw + 46.01px),
+    90px
+  ); /* Адаптивна висота з clamp */
   overflow: hidden;
   margin-top: 16px;
+  flex-shrink: 0; /* Забороняємо контейнеру зображення стискатися */
 }
 
 .event-card-item__image {
   width: 100%;
   height: 100%;
   border-radius: 8px;
-  object-fit: cover; /* Зображення заповнює контейнер, може обрізатися */
+  object-fit: cover; /* Зображення заповнює контейнер, зберігаючи пропорції */
   display: block; /* Прибирає можливий нижній відступ */
 }
 
-.event-card-item__info {
+.event-card-item__details {
+  /* Перейменовано з __info для відповідності JS */
   padding: 12px 16px; /* Внутрішні відступи для текстового контенту */
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Відстань між текстовими елементами */
+  gap: 4px; /* Відстань між текстовими елементами, можна налаштувати */
+  flex-grow: 1; /* Дозволяємо текстовому блоку займати доступний простір */
+  overflow: hidden; /* Для кращої обробки вмісту, що виходить за межі */
 }
 
 .event-card-item__datetime {
-  font-size: 0.9rem; /* ~13px */
-  color: #7c6f50; /* Колір для дати, як у near-event-card */
-  font-weight: 500;
-  padding-top: 16px;
-  line-height: 20px;
-  letter-spacing: -0.35px;
-  vertical-align: middle;
+  font-size: 14px;
+  font-size: clamp(14px, 1.2vw, 16px); /* Адаптивний шрифт */
+  line-height: 1.5; /* Відносний line-height */
+  color: #7c6f50;
   text-transform: uppercase;
 }
 
 .event-card-item__title {
-  font-size: 1.5rem; /* ~17px, для 393px можна зробити 1rem або 16px */
+  /*
+   * clamp(MIN, IDEAL, MAX)
+   * MIN: 14px (найменший розмір)
+   * IDEAL: 1.2vw (буде масштабуватися залежно від ширини екрана)
+   * MAX: 16px (найбільший розмір)
+   */
+  font-size: clamp(14px, 1.2vw, 16px);
   font-weight: 500;
   color: #212121;
-  line-height: 24px;
+  line-height: 1.5; /* Для fluid-шрифтів краще використовувати відносний line-height */
   letter-spacing: 0%;
   vertical-align: middle;
   padding: 3px 0 3px 0;
 }
 
 .event-card-item__category-distance {
-  font-size: 0.9rem; /* ~14px */
+  font-size: clamp(14px, 1.2vw, 16px); /* Адаптивний шрифт */
+  line-height: 1.5; /* Відносний line-height */
   font-weight: 500;
   color: #707070;
   font-family: Roboto;
-  line-height: 20px;
   letter-spacing: 0%;
   vertical-align: middle;
 }
 
 .event-card-item__meta {
-  font-size: 0.9rem; /* ~14px */
+  font-size: clamp(14px, 1.2vw, 16px); /* Адаптивний шрифт */
+  line-height: 1.5; /* Відносний line-height */
   font-weight: 400;
   color: #707070;
   font-family: Roboto;
-  line-height: 20px;
   letter-spacing: 0%;
   vertical-align: middle;
-  margin-top: 20px;
 }
-@media (max-width: 600px) {
+
+/* --- Consolidated Smaller Tablet/Large Mobile Styles (max-width: 768px) --- */
+@media (max-width: 768px) {
   .second-content {
     width: 100%;
     margin: 0 auto;
@@ -1898,4 +1916,47 @@ footer .container {
   .container-left {
     width: 100%; /* Розширюємо лівий контейнер на всю доступну ширину */
   }
+  .event-card-item__title {
+    /* font-size тепер керується clamp() в базових стилях, 14px - це MIN */
+    /* Обмежуємо кількість рядків для заголовка */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Показувати максимум 3 рядки */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* --- Consolidated Mobile Styles (max-width: 480px) --- */
+@media (max-width: 480px) {
+  /* ... інші стилі для 480px ... */
+  .event-card-item__image-container {
+    /* Розміри тепер керуються clamp() в базових стилях,
+       min-width: 97.51px та min-height: 55px вже враховані. */
+  }
+  .event-card-item__image {
+    border-radius: 5px;
+  }
+  .event-card-item__datetime {
+    font-size: 8.58px;
+    line-height: 12.26px;
+    /* text-transform: uppercase; залишається з базового */
+  }
+  .event-card-item__title {
+    font-size: 9.81px; /* Це перекриє 1.125rem з 768px і базові 16px */
+    line-height: 14.71px;
+    /* clamp(14px, ...) не досягне 9.81px, тому це перевизначення залишається */
+  }
+  .event-card-item__category-distance {
+    font-weight: 400;
+    font-size: 8.44px;
+    line-height: 12.05px;
+    /* clamp(14px, ...) не досягне 8.44px, тому це перевизначення залишається */
+  }
+  .event-card-item__meta {
+    font-size: 8.44px;
+    line-height: 12.05px;
+    /* clamp(14px, ...) не досягне 8.44px, тому це перевизначення залишається */
+  }
+  /* ... решта стилів для 480px ... */
 }
