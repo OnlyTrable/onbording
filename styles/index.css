@@ -1712,13 +1712,51 @@ footer .container {
   /* min-height: 600px; */ /* Тимчасово для візуалізації */
 }
 
+/* Стилі для заголовка H4 у правій колонці (сайдбарі) */
+.container-right .sidebar-title {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0%; /* Аналогічно normal */
+  vertical-align: middle; /* Має сенс, якщо поруч є inline-елементи для вирівнювання */
+  color: #212121;
+  margin-bottom: 16px; /* Додамо відступ знизу для кращого вигляду */
+  /* text-align: left;  За замовчуванням, але можна вказати для ясності */
+}
+
+/* Стилі для заголовка H2 (локація) у правій колонці (сайдбарі) */
+.container-right .sidebar-location-title {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: 0%; /* Аналогічно normal */
+  vertical-align: middle; /* Має сенс, якщо поруч є inline-елементи для вирівнювання */
+  color: #212121;
+  margin-bottom: 20px; /* Відступ знизу до наступного елемента (наприклад, карти) */
+  /* text-align: left;  За замовчуванням */
+}
+
+/* Стилі для контейнера Google Карти */
+.map-wrapper {
+  width: 100%;
+  border-radius: 8px; /* Заокруглені кути, як у заглушки */
+  overflow: hidden; /* Обрізає вміст (iframe) по заокруглених кутах */
+}
+
+.map-wrapper iframe {
+  width: 100%; /* Переконуємося, що iframe займає всю ширину */
+  height: 400px; /* Висота iframe, має співпадати з height в HTML або керуватися тут */
+  border: none; /* Прибирає будь-які рамки iframe */
+  display: block; /* Прибирає можливий зайвий відступ під iframe */
+}
+
 .container-left h1 {
   font-size: 28px; /* Або інший розмір за вашим дизайном */
   font-weight: 600;
   margin-bottom: 16px; /* Відступ після головного заголовка */
   color: #212121;
 }
-к .container-left h2 {
+.container-left h2 {
   display: inline-block; /* Ключова властивість */
   font-size: 20px; /* Або інший розмір */
   font-weight: 500;

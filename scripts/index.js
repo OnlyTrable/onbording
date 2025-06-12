@@ -582,3 +582,89 @@ document.addEventListener("DOMContentLoaded", () => {
   // Виклик функції для заповнення карток на second.html
   renderSecondPageEvents();
 });
+// Переконайтеся, що цей новий блок коду інтегрований
+// з будь-яким існуючим JavaScript у вашому файлі index.js,
+// особливо якщо у вас вже є слухач DOMContentLoaded.
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Цей код виконається тільки якщо ми на сторінці second.html (або сторінці з таким селектором)
+  if (document.querySelector(".second-content-wrapper")) {
+    const cityDropdownToggle = document.querySelector(
+      ".search-group-dropdown .dropdown-toggle"
+    );
+    const cityDropdownMenu = document.querySelector(
+      ".search-group-dropdown .dropdown-menu"
+    );
+    const mainHeaderH1 = document.querySelector(".container-left h1");
+    const sidebarLocationH2 = document.querySelector(
+      ".container-right .sidebar-location-title"
+    );
+    const mapIframe = document.querySelector(".map-wrapper iframe");
+
+    // Дані для міст: назва міста та URL для вбудованої карти Google Maps
+    // Вам потрібно буде додати URL для всіх міст зі списку
+    const cityMapData = {
+      "Mountain View, CA":
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50731.71574810052!2d-122.11600004868165!3d37.38605169999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb6dfb66fa17f%3A0x4a501367f076adff!2sMountain%20View%2C%20CA%2C%20USA!5e0!3m2!1sen!2suk!4v1716460012345!5m2!1sen!2suk",
+      "New York, NY":
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2799088417!2d-74.25987059906294!3d40.69767006351021!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2suk!4v1716479000000!5m2!1sen!2suk",
+      "San Francisco, CA":
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d201887.47130290992!2d-122.57768494908707!3d37.75776270000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076ad1c!2sSan%20Francisco%2C%20CA%2C%20USA!5e0!3m2!1sen!2suk!4v1716479000002!5m2!1sen!2suk",
+      "Chicago, IL":
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d379000.6248093529!2d-87.9400974990507!3d41.83390370840953!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x880e2c3cd0f4cbed%3A0xafe0a6ad09c0c000!2sChicago%2C%20IL%2C%20USA!5e0!3m2!1sen!2suk!4v1716540000001!5m2!1sen!2suk",
+      "Nashville, TN":
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d412235.5761135701!2d-87.0240999133911!3d36.186866600000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8864ec3213eb903d%3A0x7d3fb9d0a1e9daa0!2sNashville%2C%20TN%2C%20USA!5e0!3m2!1sen!2suk!4v1716540000002!5m2!1sen!2suk",
+      "Los Angeles, CA":
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d423283.4330028827!2d-118.69192007955933!3d34.020730499999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos%20Angeles%2C%20CA%2C%20USA!5e0!3m2!1sen!2suk!4v1716540000003!5m2!1sen!2suk",
+      "Seattle, WA":
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d344200.4320115072!2d-122.6279903240903!3d47.6131746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5490102c93e83355%3A0x102565466944d59a!2sSeattle%2C%20WA%2C%20USA!5e0!3m2!1sen!2suk!4v1716540000004!5m2!1sen!2suk",
+      "Boston, MA":
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d377400.16090990137!2d-71.3824373529007!3d42.31350000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e3652d0d3d311b%3A0x787c120037cc1137!2sBoston%2C%20MA%2C%20USA!5e0!3m2!1sen!2suk!4v1716540000005!5m2!1sen!2suk",
+      "Miami, FL":
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d459800.2809734717!2d-80.51019230707746!3d25.7825453!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b0a20ec8c111%3A0xff96f271ddad4f65!2sMiami%2C%20FL%2C%20USA!5e0!3m2!1sen!2suk!4v1716540000006!5m2!1sen!2suk",
+      "London, UK":
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d317715.7119019099!2d-0.3817848008039717!3d51.52873519999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2suk!4v1716479000001!5m2!1sen!2suk",
+      "Paris, FR":
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d335887.1471411658!2d2.079999955129267!3d48.8589506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1f06e2b70f%3A0x40b82c3688c9460!2sParis%2C%20France!5e0!3m2!1sen!2suk!4v1716479000003!5m2!1sen!2suk",
+    };
+
+    if (
+      cityDropdownMenu &&
+      cityDropdownToggle &&
+      mainHeaderH1 &&
+      sidebarLocationH2 &&
+      mapIframe
+    ) {
+      cityDropdownMenu.addEventListener("click", (event) => {
+        if (event.target.tagName === "A") {
+          event.preventDefault(); // Запобігаємо переходу за посиланням
+
+          const selectedCity = event.target.textContent.trim();
+
+          // Оновлюємо текст кнопки випадаючого списку
+          cityDropdownToggle.textContent = selectedCity;
+
+          // Оновлюємо H1
+          mainHeaderH1.textContent = `Events near ${selectedCity}`;
+
+          // Оновлюємо H2 в сайдбарі
+          sidebarLocationH2.textContent = selectedCity;
+
+          // Оновлюємо iframe з картою
+          if (cityMapData[selectedCity]) {
+            mapIframe.src = cityMapData[selectedCity];
+            mapIframe.title = `Карта ${selectedCity}`; // Оновлюємо title для доступності
+          } else {
+            console.warn(`Map URL for ${selectedCity} not found.`);
+            // Можна встановити якусь карту за замовчуванням або приховати iframe
+            // mapIframe.src = ""; // Наприклад, очистити src
+          }
+        }
+      });
+    } else {
+      console.error(
+        "One or more elements for city selection functionality were not found."
+      );
+    }
+  }
+});
