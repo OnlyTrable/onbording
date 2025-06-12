@@ -185,8 +185,8 @@ body {
   margin-top: 0px;
 }
 .dropdown.search-group-dropdown {
-  flex-grow: 1; /* Дозволяє дропдауну розтягуватися, заповнюючи простір */
-  display: flex; /* Важливо, щоб кнопка всередині правильно розмістилася */
+  flex-grow: 1;
+  display: flex;
   align-items: center; /* Вирівнювання по центру */
   flex-basis: 0; /* Для рівномірного розподілу з flex-grow: 1 */
 }
@@ -215,8 +215,14 @@ body {
   background-color: #f1f1f1;
 }
 
-.dropdown:hover .dropdown-menu {
+/* Загальне правило для випадаючих списків у хедері (мова, пошук міста) - працюють по hover */
+.main-header .dropdown:hover .dropdown-menu {
   display: block;
+}
+/* Для фільтрів на second.html - керування через JS (клас .active) */
+.filters-row .filter-dropdown.active .dropdown-menu {
+  display: block;
+  z-index: 1000; /* Залишаємо високий z-index для активного меню */
 }
 
 /* Кнопка "Log In" (як посилання) */

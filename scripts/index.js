@@ -826,38 +826,63 @@ document.addEventListener("DOMContentLoaded", () => {
       if (filterContainers.length > 0) {
         filterContainers.forEach((container) => {
           console.log(`DEBUG: Processing container: ${container.id}`);
-          const button = container.querySelector(".dropdown-toggle");
-          const menu = container.querySelector(".dropdown-menu");
+          const button = container.querySelector(".dropdown-toggle"); // Кнопка для відкриття/закриття
+          const menu = container.querySelector(".dropdown-menu"); // Саме меню
 
           if (button && menu) {
             console.log(
               `DEBUG: Attaching click listener to menu for filter container: ${container.id}`
             );
+
+            // Обробник кліку на кнопку для відкриття/закриття меню
+            button.addEventListener('click', (e) => {
+              e.preventDefault(); // Запобігаємо стандартній дії кнопки
+              e.stopPropagation(); // Зупиняємо спливання події, щоб не спрацював document click listener
+
+              const parentDropdown = container; // Це наш .filter-dropdown
+              const isActive = parentDropdown.classList.contains('active');
+
+              // Закриваємо всі інші активні фільтри
+              document.querySelectorAll('.filters-row .filter-dropdown.active').forEach(otherDropdown => {
+                if (otherDropdown !== parentDropdown) {
+                  otherDropdown.classList.remove('active');
+                }
+              });
+
+              // Перемикаємо поточний фільтр
+              if (isActive) {
+                parentDropdown.classList.remove('active');
+              } else {
+                parentDropdown.classList.add('active');
+              }
+            });
+
+            // Обробник кліку на пункт меню
             menu.addEventListener("click", (event) => {
               console.log(
                 `DEBUG: Click event on menu for ${container.id}. Target:`,
                 event.target
               );
               if (
-                event.target.tagName === "A" &&
+                event.target.tagName === "A" && // Перевіряємо, що клік був на посиланні
                 event.target.hasAttribute("data-value")
               ) {
                 event.preventDefault();
                 console.log(
                   `DEBUG: Valid filter link clicked in ${container.id}.`
                 );
-                const selectedValue = event.target.dataset.value;
-                const selectedText = event.target.textContent;
+                const selectedValue = event.target.dataset.value; // Значення фільтра
+                const selectedText = event.target.textContent; // Текст фільтра
 
                 console.log(
                   `Filter clicked: ID=${container.id}, Value=${selectedValue}, Text=${selectedText}`
                 );
 
                 // Оновлюємо текст кнопки, зберігаючи іконку
-                const icon = button.querySelector(".filter-icon");
-                button.textContent = selectedText + " "; // Додаємо пробіл перед іконкою
+                const icon = button.querySelector(".filter-icon"); // Знаходимо іконку
+                button.textContent = selectedText + " "; // Встановлюємо новий текст + пробіл
                 if (icon) {
-                  button.appendChild(icon.cloneNode(true)); // Клонуємо іконку, щоб не втратити її
+                  button.appendChild(icon.cloneNode(true)); // Додаємо клон іконки назад
                 }
 
                 // Оновлюємо глобальний об'єкт фільтрів
@@ -868,12 +893,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else if (container.id === "eventDistanceFilterContainer") {
                   currentSecondPageFilters.distance = selectedValue;
                 }
-                // Додайте тут логіку для інших фільтрів, наприклад, дистанції
                 console.log(
                   "Updated currentSecondPageFilters:",
                   JSON.stringify(currentSecondPageFilters)
                 );
-                renderSecondPageEvents(); // Перерендеримо картки
+                renderSecondPageEvents(); // Перерендеримо картки з новими фільтрами
+
+                // Закриваємо випадаюче меню після вибору
+                container.classList.remove('active');
               } else {
                 console.log(
                   `DEBUG: Click in menu for ${
@@ -897,6 +924,16 @@ document.addEventListener("DOMContentLoaded", () => {
           "DEBUG: No .filter-dropdown elements found to attach listeners."
         );
       }
+
+      // Додаємо обробник кліку на документ для закриття активних фільтрів
+      document.addEventListener('click', (e) => {
+        filterContainers.forEach(container => {
+          // Якщо клік був поза активним контейнером фільтра, закриваємо його
+          if (container.classList.contains('active') && !container.contains(e.target)) {
+            container.classList.remove('active');
+          }
+        });
+      });
     } else {
       console.error(
         "DEBUG: One or more elements for city selection functionality NOT FOUND. Filter setup SKIPPED."
