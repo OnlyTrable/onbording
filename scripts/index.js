@@ -429,7 +429,7 @@ function populateEventContainers() {
 let currentSecondPageFilters = {
   type: "all",
   category: "all",
-  // distance: "all" // Можна додати, якщо потрібна фільтрація по дистанції
+  distance: "all", // Додаємо фільтр дистанції
 };
 
 // Допоміжна функція для отримання поточних значень фільтрів
@@ -453,6 +453,21 @@ function applyAllFilters(events, filters) {
     filteredEvents = filteredEvents.filter(
       (event) => event.category === filters.category
     );
+  }
+
+  // Фільтрація за дистанцією
+  if (filters.distance && filters.distance !== "all") {
+    const maxDistance = parseInt(filters.distance, 10);
+    if (!isNaN(maxDistance)) {
+      filteredEvents = filteredEvents.filter((event) => {
+        // Переконуємося, що event.distance існує і є числом
+        // Події без вказаної дистанції або з дистанцією 0 будуть включені, якщо maxDistance достатньо велика.
+        // Якщо потрібно виключити події без дистанції, додайте перевірку: typeof event.distance === 'number'
+        return (
+          typeof event.distance === "number" && event.distance <= maxDistance
+        );
+      });
+    }
   }
 
   return filteredEvents;
@@ -818,6 +833,8 @@ document.addEventListener("DOMContentLoaded", () => {
                   currentSecondPageFilters.type = selectedValue;
                 } else if (container.id === "eventCategoryFilterContainer") {
                   currentSecondPageFilters.category = selectedValue;
+                } else if (container.id === "eventDistanceFilterContainer") {
+                  currentSecondPageFilters.distance = selectedValue;
                 }
                 // Додайте тут логіку для інших фільтрів, наприклад, дистанції
                 console.log(
