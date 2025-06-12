@@ -128,7 +128,7 @@
           <h1>Events near Mountain View, CA</h1>
           <h2>Events</h2>
           <div class="filters-row">
-            <div class="dropdown filter-dropdown">
+            <div class="dropdown filter-dropdown" id="eventTypeFilterContainer">
               <button class="dropdown-toggle">
                 Any type
                 <img
@@ -138,11 +138,15 @@
                 />
               </button>
               <div class="dropdown-menu">
-                <a href="#">Online</a>
-                <a href="#">Ofline</a>
+                <a href="#" data-value="all">Any type</a>
+                <a href="#" data-value="online">Online</a>
+                <a href="#" data-value="offline">Offline</a>
               </div>
             </div>
-            <div class="dropdown filter-dropdown">
+            <div
+              class="dropdown filter-dropdown"
+              id="eventDistanceFilterContainer"
+            >
               <button class="dropdown-toggle">
                 Any distance
                 <img
@@ -152,32 +156,34 @@
                 />
               </button>
               <div class="dropdown-menu">
-                <a href="#">2 miles</a>
-                <a href="#">5 miles</a>
-                <a href="#">10 miles</a>
-                <a href="#">25 miles</a>
-                <a href="#">50 miles</a>
-                <a href="#">Any distance</a>
+                <a href="#" data-value="all">Any distance</a>
+                <a href="#" data-value="5">5 miles</a>
+                <a href="#" data-value="10">10 miles</a>
+                <a href="#" data-value="25">25 miles</a>
+                <a href="#" data-value="50">50 miles</a>
               </div>
             </div>
-            <div class="dropdown filter-dropdown">
+            <div
+              class="dropdown filter-dropdown"
+              id="eventCategoryFilterContainer"
+            >
               <button class="dropdown-toggle">
                 Any category
                 <img
                   src="assets/icons/checkpoint.svg"
-                  alt="Type"
+                  alt="Category"
                   class="filter-icon"
                 />
               </button>
               <div class="dropdown-menu">
-                <a href="#">Technology</a>
-                <a href="#">Art & Culture</a>
-                <a href="#">Health & Wellness</a>
-                <a href="#">Career & Business</a>
-                <a href="#">Sports & Fitness</a>
-                <a href="#">Food & Drink</a>
-                <a href="#">Games</a>
-                <a href="#">All categories</a>
+                <a href="#" data-value="all">All categories</a>
+                <a href="#" data-value="Technology">Technology</a>
+                <a href="#" data-value="Art & Culture">Art & Culture</a>
+                <a href="#" data-value="Health & Wellness">Health & Wellness</a>
+                <a href="#" data-value="Career & Business">Career & Business</a>
+                <a href="#" data-value="Sports & Fitness">Sports & Fitness</a>
+                <a href="#" data-value="Food & Drink">Food & Drink</a>
+                <a href="#" data-value="Games">Games</a>
               </div>
             </div>
           </div>
