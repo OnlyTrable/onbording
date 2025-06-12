@@ -423,8 +423,96 @@ function populateEventContainers() {
   }
 }
 
+// --- Початок коду для фільтрації на second.html (оновлено для кастомних дропдаунів) ---
+
+// Зберігаємо поточні вибрані значення фільтрів
+let currentSecondPageFilters = {
+  type: "all",
+  category: "all",
+  // distance: "all" // Можна додати, якщо потрібна фільтрація по дистанції
+};
+
+// Допоміжна функція для отримання поточних значень фільтрів
+function getSecondPageFilters() {
+  return currentSecondPageFilters;
+}
+
+// Функція для застосування всіх активних фільтрів до списку подій
+function applyAllFilters(events, filters) {
+  let filteredEvents = [...events];
+
+  // Фільтрація за типом події
+  if (filters.type && filters.type !== "all") {
+    filteredEvents = filteredEvents.filter(
+      (event) => event.type === filters.type
+    );
+  }
+
+  // Фільтрація за категорією
+  if (filters.category && filters.category !== "all") {
+    filteredEvents = filteredEvents.filter(
+      (event) => event.category === filters.category
+    );
+  }
+
+  return filteredEvents;
+}
+
+// Функція для заповнення випадаючого списку категорій для кастомного дропдауна
+function populateCustomCategoryFilter() {
+  const categoryDropdownMenu = document.querySelector(
+    "#eventCategoryFilterContainer .dropdown-menu"
+  );
+  if (typeof mockEventsStore === "undefined" || !categoryDropdownMenu) return;
+
+  // Очищаємо існуючі опції, крім "All categories", яка вже є в HTML
+  // Залишаємо тільки перший елемент (All categories) і видаляємо решту, якщо вони були додані динамічно раніше
+  while (
+    categoryDropdownMenu.children.length > 1 &&
+    categoryDropdownMenu.lastChild.dataset.value !== "all"
+  ) {
+    // Перевіряємо, чи не видаляємо "All categories", якщо вона не перша (малоймовірно з поточним HTML)
+    if (
+      categoryDropdownMenu.lastChild.dataset.value === "all" &&
+      categoryDropdownMenu.children.length === 1
+    )
+      break;
+    categoryDropdownMenu.removeChild(categoryDropdownMenu.lastChild);
+  }
+  // Якщо "All categories" немає, додамо її (це для випадку, якщо HTML зміниться)
+  if (!categoryDropdownMenu.querySelector('a[data-value="all"]')) {
+    const allCategoriesLink = document.createElement("a");
+    allCategoriesLink.href = "#";
+    allCategoriesLink.dataset.value = "all";
+    allCategoriesLink.textContent = "All categories";
+    categoryDropdownMenu.insertBefore(
+      allCategoriesLink,
+      categoryDropdownMenu.firstChild
+    );
+  }
+
+  const categories = [
+    ...new Set(mockEventsStore.map((event) => event.category).filter((c) => c)),
+  ].sort();
+
+  // Додаємо унікальні категорії з mockEventsStore, якщо їх ще немає в меню
+  categories.forEach((category) => {
+    if (!categoryDropdownMenu.querySelector(`a[data-value="${category}"]`)) {
+      const link = document.createElement("a");
+      link.href = "#";
+      link.dataset.value = category;
+      link.textContent = category;
+      categoryDropdownMenu.appendChild(link);
+    }
+  });
+}
+
 // Функція для рендерингу 6 карток подій на second.html
 function renderSecondPageEvents() {
+  console.log(
+    "renderSecondPageEvents called. Current filters:",
+    JSON.stringify(currentSecondPageFilters)
+  );
   const eventListContainer = document.querySelector(".event-cards-list");
 
   // Якщо контейнера немає, значить ми не на second.html або DOM структура інша.
@@ -433,11 +521,6 @@ function renderSecondPageEvents() {
     return;
   }
 
-  console.log(
-    "Перевірка mockEventsStore у renderSecondPageEvents:",
-    typeof mockEventsStore,
-    mockEventsStore
-  );
   if (
     typeof mockEventsStore === "undefined" ||
     !Array.isArray(mockEventsStore)
@@ -450,10 +533,15 @@ function renderSecondPageEvents() {
     return;
   }
 
-  const eventsToDisplay = mockEventsStore.slice(0, 6);
+  const currentFilters = getSecondPageFilters();
+  console.log("Applying filters:", JSON.stringify(currentFilters));
+  const filteredEvents = applyAllFilters(mockEventsStore, currentFilters);
+  console.log("Number of filtered events:", filteredEvents.length);
+  const eventsToDisplay = filteredEvents.slice(0, 6); // Показуємо до 6 відфільтрованих подій
 
   if (eventsToDisplay.length === 0) {
-    eventListContainer.innerHTML = "<p>Наразі немає доступних подій.</p>";
+    eventListContainer.innerHTML =
+      "<p>Немає подій, що відповідають вашим фільтрам.</p>";
     return;
   }
 
@@ -582,9 +670,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Виклик функції для заповнення карток на second.html
   renderSecondPageEvents();
 });
-// Переконайтеся, що цей новий блок коду інтегрований
-// з будь-яким існуючим JavaScript у вашому файлі index.js,
-// особливо якщо у вас вже є слухач DOMContentLoaded.
 
 document.addEventListener("DOMContentLoaded", () => {
   // Цей код виконається тільки якщо ми на сторінці second.html (або сторінці з таким селектором)
@@ -661,6 +746,54 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
       });
+
+      // Ініціалізація кастомних фільтрів для second.html
+      populateCustomCategoryFilter(); // Заповнюємо/оновлюємо фільтр категорій
+
+      const filterContainers = document.querySelectorAll(
+        ".second-content-wrapper .filter-dropdown"
+      );
+
+      filterContainers.forEach((container) => {
+        const button = container.querySelector(".dropdown-toggle");
+        const menu = container.querySelector(".dropdown-menu");
+
+        if (button && menu) {
+          menu.addEventListener("click", (event) => {
+            if (
+              event.target.tagName === "A" &&
+              event.target.hasAttribute("data-value")
+            ) {
+              event.preventDefault();
+              const selectedValue = event.target.dataset.value;
+              const selectedText = event.target.textContent;
+
+              console.log(
+                `Filter clicked: ID=${container.id}, Value=${selectedValue}, Text=${selectedText}`
+              );
+              // Оновлюємо текст кнопки, зберігаючи іконку
+              const icon = button.querySelector(".filter-icon");
+              button.textContent = selectedText + " "; // Додаємо пробіл перед іконкою
+              if (icon) {
+                button.appendChild(icon.cloneNode(true)); // Клонуємо іконку, щоб не втратити її
+              }
+
+              // Оновлюємо глобальний об'єкт фільтрів
+              if (container.id === "eventTypeFilterContainer") {
+                currentSecondPageFilters.type = selectedValue;
+              } else if (container.id === "eventCategoryFilterContainer") {
+                currentSecondPageFilters.category = selectedValue;
+              }
+              // Додайте тут логіку для інших фільтрів, наприклад, дистанції
+              console.log(
+                "Updated currentSecondPageFilters:",
+                JSON.stringify(currentSecondPageFilters)
+              );
+              renderSecondPageEvents(); // Перерендеримо картки
+            }
+          });
+        }
+      });
     } else {
       console.error(
         "One or more elements for city selection functionality were not found."
@@ -668,3 +801,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+
+// --- Кінець коду для фільтрації на second.html ---
