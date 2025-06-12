@@ -423,6 +423,120 @@ function populateEventContainers() {
   }
 }
 
+// Функція для рендерингу 6 карток подій на second.html
+function renderSecondPageEvents() {
+  const eventListContainer = document.querySelector(".event-cards-list");
+
+  // Якщо контейнера немає, значить ми не на second.html або DOM структура інша.
+  // Нічого не робимо для цього блоку.
+  if (!eventListContainer) {
+    return;
+  }
+
+  console.log(
+    "Перевірка mockEventsStore у renderSecondPageEvents:",
+    typeof mockEventsStore,
+    mockEventsStore
+  );
+  if (
+    typeof mockEventsStore === "undefined" ||
+    !Array.isArray(mockEventsStore)
+  ) {
+    console.error(
+      "Дані mockEventsStore не знайдено або мають неправильний формат для second.html."
+    );
+    eventListContainer.innerHTML =
+      "<p>Не вдалося завантажити події. Спробуйте пізніше.</p>";
+    return;
+  }
+
+  const eventsToDisplay = mockEventsStore.slice(0, 6);
+
+  if (eventsToDisplay.length === 0) {
+    eventListContainer.innerHTML = "<p>Наразі немає доступних подій.</p>";
+    return;
+  }
+
+  eventListContainer.innerHTML = ""; // Очищаємо контейнер перед додаванням
+
+  eventsToDisplay.forEach((eventData) => {
+    const card = document.createElement("div");
+    card.classList.add("event-card-item");
+
+    const imageContainer = document.createElement("div");
+    imageContainer.classList.add("event-card-item__image-container");
+    const image = document.createElement("img");
+    image.src = eventData.image || "assets/images/byuntear-emoji.gif";
+    image.alt = eventData.title || "Зображення події";
+    image.classList.add("event-card-item__image");
+    imageContainer.appendChild(image);
+
+    // Правий блок: деталі події (вертикальний флекс)
+    const detailsDiv = document.createElement("div");
+    detailsDiv.classList.add("event-card-item__details"); // Новий клас для правого блоку
+
+    const dateTimeP = document.createElement("p");
+    dateTimeP.classList.add("event-card-item__datetime");
+    // Використовуємо eventData.date з mockEventsStore та форматуємо його
+    dateTimeP.textContent = formatMockEventDate(eventData.date);
+
+    const titleH4 = document.createElement("h4");
+    titleH4.classList.add("event-card-item__title");
+    titleH4.textContent = eventData.title;
+
+    // Елемент для категорії та дистанції
+    const categoryDistanceP = document.createElement("p");
+    categoryDistanceP.classList.add("event-card-item__category-distance");
+    let categoryDistanceText = eventData.category || "N/A";
+    if (eventData.distance) {
+      // Додаємо "km" до дистанції, якщо вона є
+      categoryDistanceText += ` (${eventData.distance}km)`;
+    }
+    categoryDistanceP.textContent = categoryDistanceText;
+
+    const metaDiv = document.createElement("div");
+    metaDiv.classList.add("event-card-item__meta");
+    metaDiv.innerHTML = ""; // Очищаємо для нового вмісту
+
+    if (eventData.type === "online") {
+      const onlineIcon = document.createElement("img");
+      onlineIcon.src = "assets/icons/camera.svg"; // Шлях до іконки онлайн-події
+      onlineIcon.alt = "Online Event";
+      onlineIcon.style.width = "14px"; // Налаштуйте розмір за потреби
+      onlineIcon.style.height = "14px";
+      onlineIcon.style.marginRight = "4px";
+      onlineIcon.style.verticalAlign = "middle";
+      metaDiv.appendChild(onlineIcon);
+
+      const onlineText = document.createElement("span");
+      onlineText.textContent = "Online Event";
+      metaDiv.appendChild(onlineText);
+    }
+
+    if (eventData.attendees) {
+      if (metaDiv.hasChildNodes()) {
+        // Якщо вже є "Online Event", додаємо роздільник
+        const separator = document.createElement("span");
+        separator.textContent = " · ";
+        metaDiv.appendChild(separator);
+      }
+      const attendeesText = document.createElement("span");
+      attendeesText.textContent = `${eventData.attendees} attendees`;
+      metaDiv.appendChild(attendeesText);
+    }
+
+    detailsDiv.appendChild(dateTimeP);
+    detailsDiv.appendChild(titleH4);
+    detailsDiv.appendChild(categoryDistanceP); // Додаємо новий елемент
+    detailsDiv.appendChild(metaDiv);
+
+    card.appendChild(imageContainer);
+    card.appendChild(detailsDiv);
+
+    eventListContainer.appendChild(card);
+  });
+}
+
 // Перевіряємо, чи існує eventsStore (з data.js) або mockEventsStore (з mockdata.js)
 if (
   typeof eventsStore !== "undefined" ||
@@ -464,4 +578,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderPopularCities(); // Викликаємо початковий рендеринг популярних міст
   renderArticles(); // Викликаємо рендеринг статей
   // ... (інші ваші виклики функцій) ...
+
+  // Виклик функції для заповнення карток на second.html
+  renderSecondPageEvents();
 });

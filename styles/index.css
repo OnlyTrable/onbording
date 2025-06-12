@@ -527,7 +527,7 @@ body {
 
 .near-event-card__date {
   font-size: 11px; /* Дуже маленький шрифт для дати */
-  color: #e32359; /* Колір для дати */
+  color: #7c6f50; /* Колір для дати */
   font-weight: 600;
   line-height: 1.2;
 }
@@ -580,16 +580,6 @@ body {
   color: #707070;
 }
 
-/* Загальні стилі для інших текстових елементів картки, КРІМ заголовка */
-/* .near-event-card__attendees - тепер має власні стилі вище */
- {
-  font-size: 11px; /* Маленький шрифт */
-  color: #3c3c3c;
-  line-height: 1.2; /* Щільний рядок */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* Додаємо трикрапку, якщо текст не вміщується */
-}
 /* Стилі для контейнера типу онлайн-події (іконка + текст) */
 .near-event-card__type-online {
   display: flex;
@@ -1705,7 +1695,8 @@ footer .container {
   gap: 24px; /* Відстань між .container-left та .container-right */
 }
 .container-left {
-  flex: 1; /* Займає основну частину доступного простору */
+  width: 50%; /* Фіксована ширина для лівого контейнера;
+  /* flex: 1;  Займає основну частину доступного простору */
   /* Тут буде основний контент сторінки */
   /* background-color: #f0f8ff; */ /* Тимчасово для візуалізації */
   /* min-height: 600px; */ /* Тимчасово для візуалізації */
@@ -1720,17 +1711,20 @@ footer .container {
 }
 
 .container-left h1 {
-  font-size: 32px; /* Або інший розмір за вашим дизайном */
-  font-weight: 700;
+  font-size: 28px; /* Або інший розмір за вашим дизайном */
+  font-weight: 600;
   margin-bottom: 16px; /* Відступ після головного заголовка */
   color: #212121;
 }
 
 .container-left h2 {
-  font-size: 24px; /* Або інший розмір */
-  font-weight: 600;
+  display: inline-block; /* Ключова властивість */
+  font-size: 20px; /* Або інший розмір */
+  font-weight: 500;
   margin-bottom: 24px; /* Відступ після підзаголовка Events */
-  color: #212121;
+  color: #00798a;
+  border-bottom: 4px solid #00798a;
+  padding-bottom: 12px;
 }
 
 .filters-row {
@@ -1750,4 +1744,84 @@ footer .container {
   display: flex;
   flex-direction: column;
   gap: 0; /* Відступ між картками вже є через border-top у .near-event-card, або можна додати, якщо потрібно */
+}
+
+.event-card-item {
+  display: flex;
+  background-color: #ffffff;
+  border-top: 1px solid #d9d9d9; /* Рамка для картки */
+  margin-bottom: 16px; /* Відстань між картками */
+  overflow: hidden; /* Щоб обрізати зображення по кутах */
+  width: 100%; /* Картка на всю ширину контейнера */
+  box-sizing: border-box;
+  gap: 12px;
+}
+
+.event-card-item:last-child {
+  margin-bottom: 0;
+}
+
+.event-card-item__image-container {
+  width: 100%;
+  max-width: 159px;
+  height: 90px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+.event-card-item__image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover; /* Зображення заповнює контейнер, може обрізатися */
+  display: block; /* Прибирає можливий нижній відступ */
+}
+
+.event-card-item__info {
+  padding: 12px 16px; /* Внутрішні відступи для текстового контенту */
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Відстань між текстовими елементами */
+}
+
+.event-card-item__datetime {
+  font-size: 0.9rem; /* ~13px */
+  color: #7c6f50; /* Колір для дати, як у near-event-card */
+  font-weight: 500;
+  padding-top: 16px;
+  line-height: 20px;
+  letter-spacing: -0.35px;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+
+.event-card-item__title {
+  font-size: 1.5rem; /* ~17px, для 393px можна зробити 1rem або 16px */
+  font-weight: 500;
+  color: #212121;
+  line-height: 24px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  padding: 3px 0 3px 0;
+}
+
+.event-card-item__category-distance {
+  font-size: 0.9rem; /* ~14px */
+  font-weight: 500;
+  color: #707070;
+  font-family: Roboto;
+  line-height: 20px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+}
+
+.event-card-item__meta {
+  font-size: 0.9rem; /* ~14px */
+  font-weight: 400;
+  color: #707070;
+  font-family: Roboto;
+  line-height: 20px;
+  letter-spacing: 0%;
+  vertical-align: middle;
+  margin-top: 20px;
 }
