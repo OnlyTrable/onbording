@@ -220,10 +220,6 @@ body {
   display: block;
 }
 /* Для фільтрів на second.html - керування через JS (клас .active) */
-.filters-row .filter-dropdown.active .dropdown-menu {
-  /* display: block; JavaScript тепер керує відображенням при переміщенні */
-  /* z-index: 1000; JavaScript встановить z-index для переміщеного меню */
-}
 
 /* Кнопка "Log In" (як посилання) */
 .login-link {
@@ -1920,7 +1916,7 @@ footer .container {
     /* font-size тепер керується clamp() в базових стилях, 14px - це MIN */
     /* Обмежуємо кількість рядків для заголовка */
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Показувати максимум 3 рядки */
+    /*-webkit-line-clamp: 3;*/ /* Показувати максимум 3 рядки */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1929,11 +1925,6 @@ footer .container {
 
 /* --- Consolidated Mobile Styles (max-width: 480px) --- */
 @media (max-width: 480px) {
-  /* ... інші стилі для 480px ... */
-  .event-card-item__image-container {
-    /* Розміри тепер керуються clamp() в базових стилях,
-       min-width: 97.51px та min-height: 55px вже враховані. */
-  }
   .event-card-item__image {
     border-radius: 5px;
   }
