@@ -21,7 +21,7 @@
               <img
                 src="assets/icons/meetup_logo.svg"
                 alt="Meetup Logo"
-                class="meetup-logo-img"
+                class="meetup-logo-img" data-i18n-key-alt="alt.meetupLogo"
               />
             </a>
             <!-- search-group переміститься звідси -->
@@ -32,20 +32,21 @@
                 <img
                   src="assets/icons/language.png"
                   alt="Language icon"
-                  class="lang-icon"
+                  class="lang-icon" data-i18n-key-alt="alt.languageIcon"
                   width="20"
                   height="20"
                 />
-                English
+                <span id="current-lang-text">English</span>
               </button>
               <div class="dropdown-menu">
-                <a href="#">Deutsch</a>
-                <a href="#">Українська</a>
-                <a href="#">Русский</a>
+                <a href="#" data-lang="en" data-i18n-key="common.language.english">English</a>
+                <a href="#" data-lang="de" data-i18n-key="common.language.german">Deutsch</a>
+                <a href="#" data-lang="uk" data-i18n-key="common.language.ukrainian">Українська</a>
+                <a href="#" data-lang="ru" data-i18n-key="common.language.russian">Русский</a>
               </div>
             </div>
-            <a href="#" class="login-link">Log In</a>
-            <button class="signup-button">Sign Up</button>
+            <a href="#" class="login-link" data-i18n-key="common.header.login">Log In</a>
+            <button class="signup-button" data-i18n-key="common.header.signup">Sign Up</button>
           </div>
         </div>
         <div class="search-group">
@@ -77,10 +78,10 @@
           <input
             type="text"
             placeholder="Search events"
-            class="search-group-input"
+            class="search-group-input" data-i18n-key-placeholder="common.header.searchPlaceholder"
           />
           <div class="dropdown search-group-dropdown">
-            <button class="dropdown-toggle">Mountain View, CA</button>
+            <button class="dropdown-toggle" data-i18n-key="common.header.searchLocationDefault">Mountain View, CA</button>
             <div class="dropdown-menu">
               <a href="#">Mountain View, CA</a>
               <a href="#">New York, NY</a>
@@ -126,50 +127,50 @@
     <main class="second-content">
       <div class="second-content-wrapper">
         <div class="container-left">
-          <h1>Events near Mountain View, CA</h1>
-          <h2>Events</h2>
+          <h1><span data-i18n-key="second.main.titlePrefix">Events near</span> <span class="dynamic-location-title">Mountain View, CA</span></h1>
+          <h2 data-i18n-key="second.main.eventsSubtitle">Events</h2>
           <div class="filters-row">
             <div class="dropdown filter-dropdown" id="eventTypeFilterContainer">
-              <button class="dropdown-toggle">
+              <button class="dropdown-toggle" data-i18n-key="second.filters.anyTypeButton">
                 Any type
                 <img
                   src="assets/icons/checkpoint.svg"
                   alt="Type"
-                  class="filter-icon"
+                  class="filter-icon" data-i18n-key-alt="alt.filterTypeIcon"
                 />
               </button>
               <div class="dropdown-menu">
-                <a href="#" data-value="all">Any type</a>
-                <a href="#" data-value="online">Online</a>
-                <a href="#" data-value="offline">Offline</a>
+                <a href="#" data-value="all" data-i18n-key="second.filters.anyType.all">Any type</a>
+                <a href="#" data-value="online" data-i18n-key="second.filters.anyType.online">Online</a>
+                <a href="#" data-value="offline" data-i18n-key="second.filters.anyType.offline">Offline</a>
               </div>
             </div>
             <div
               class="dropdown filter-dropdown"
               id="eventDistanceFilterContainer"
             >
-              <button class="dropdown-toggle">
+              <button class="dropdown-toggle" data-i18n-key="second.filters.anyDistanceButton">
                 Any distance
                 <img
                   src="assets/icons/checkpoint.svg"
-                  alt="Type"
-                  class="filter-icon"
+                  alt="Distance"
+                  class="filter-icon" data-i18n-key-alt="alt.filterDistanceIcon"
                 />
               </button>
               <div class="dropdown-menu">
-                <a href="#" data-value="all">Any distance</a>
-                <a href="#" data-value="5">5 km</a>
-                <a href="#" data-value="10">10 km</a>
-                <a href="#" data-value="25">25 km</a>
-                <a href="#" data-value="50">50 km</a>
-                <a href="#" data-value="100">100 km</a>
+                <a href="#" data-value="all" data-i18n-key="second.filters.anyDistance.all">Any distance</a>
+                <a href="#" data-value="5" data-i18n-key="second.filters.anyDistance.d5km">5 km</a>
+                <a href="#" data-value="10" data-i18n-key="second.filters.anyDistance.d10km">10 km</a>
+                <a href="#" data-value="25" data-i18n-key="second.filters.anyDistance.d25km">25 km</a>
+                <a href="#" data-value="50" data-i18n-key="second.filters.anyDistance.d50km">50 km</a>
+                <a href="#" data-value="100" data-i18n-key="second.filters.anyDistance.d100km">100 km</a>
               </div>
             </div>
             <div
               class="dropdown filter-dropdown"
               id="eventCategoryFilterContainer"
             >
-              <button class="dropdown-toggle">
+              <button class="dropdown-toggle" data-i18n-key="second.filters.anyCategoryButton">
                 Any category
                 <img
                   src="assets/icons/checkpoint.svg"
@@ -178,14 +179,14 @@
                 />
               </button>
               <div class="dropdown-menu">
-                <a href="#" data-value="all">All categories</a>
-                <a href="#" data-value="Technology">Technology</a>
-                <a href="#" data-value="Art & Culture">Art & Culture</a>
-                <a href="#" data-value="Health & Wellness">Health & Wellness</a>
-                <a href="#" data-value="Career & Business">Career & Business</a>
-                <a href="#" data-value="Sports & Fitness">Sports & Fitness</a>
-                <a href="#" data-value="Food & Drink">Food & Drink</a>
-                <a href="#" data-value="Games">Games</a>
+                <a href="#" data-value="all" data-i18n-key="second.filters.anyCategory.all">All categories</a>
+                <a href="#" data-value="Technology" data-i18n-key="second.filters.anyCategory.technology">Technology</a>
+                <a href="#" data-value="Art & Culture" data-i18n-key="second.filters.anyCategory.artCulture">Art & Culture</a>
+                <a href="#" data-value="Health & Wellness" data-i18n-key="second.filters.anyCategory.healthWellness">Health & Wellness</a>
+                <a href="#" data-value="Career & Business" data-i18n-key="second.filters.anyCategory.careerBusiness">Career & Business</a>
+                <a href="#" data-value="Sports & Fitness" data-i18n-key="second.filters.anyCategory.sportsFitness">Sports & Fitness</a>
+                <a href="#" data-value="Food & Drink" data-i18n-key="second.filters.anyCategory.foodDrink">Food & Drink</a>
+                <a href="#" data-value="Games" data-i18n-key="second.filters.anyCategory.games">Games</a>
               </div>
             </div>
           </div>
@@ -194,8 +195,8 @@
         </div>
         <div class="container-right">
           <!-- Тут може бути карта або інші елементи правої колонки -->
-          <h4 class="sidebar-title">Find events near</h4>
-          <h2 class="sidebar-location-title">Mountain View, CA</h2>
+          <h4 class="sidebar-title" data-i18n-key="second.sidebar.findEventsNear">Find events near</h4>
+          <h2 class="sidebar-location-title dynamic-location-title" data-i18n-key="second.sidebar.locationTitleDefault">Mountain View, CA</h2>
           <div class="map-wrapper">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50731.71574810052!2d-122.11600004868165!3d37.38605169999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb6dfb66fa17f%3A0x4a501367f076adff!2sMountain%20View%2C%20CA%2C%20USA!5e0!3m2!1sen!2suk!4v1716460012345!5m2!1sen!2suk"
@@ -205,7 +206,7 @@
               allowfullscreen=""
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
-              title="Карта Mountain View, CA"
+              title="Карта Mountain View, CA" data-i18n-key-title="title.mapMountainView"
             ></iframe>
           </div>
         </div>
@@ -214,46 +215,46 @@
     <footer>
       <div class="container">
         <div class="footer-section footer-section-1">
-          <p>Create your own Meetup group.</p>
-          <button class="signup-button">Get Started</button>
+          <p data-i18n-key="common.footer.createGroupPrompt">Create your own Meetup group.</p>
+          <button class="signup-button" data-i18n-key="common.footer.getStarted">Get Started</button>
         </div>
         <div class="footer-section footer-section-2">
           <div class="footer-column">
-            <h4>Your Account</h4>
+            <h4 data-i18n-key="common.footer.yourAccount.title">Your Account</h4>
             <ul style="list-style-type: none; padding-left: 0">
-              <li><a href="#">Sign up</a></li>
-              <li><a href="#">Log in</a></li>
-              <li><a href="#">Help</a></li>
-              <li><a href="#">Become an Affiliate</a></li>
+              <li><a href="#" data-i18n-key="common.footer.yourAccount.signup">Sign up</a></li>
+              <li><a href="#" data-i18n-key="common.footer.yourAccount.login">Log in</a></li>
+              <li><a href="#" data-i18n-key="common.footer.yourAccount.help">Help</a></li>
+              <li><a href="#" data-i18n-key="common.footer.yourAccount.affiliate">Become an Affiliate</a></li>
             </ul>
           </div>
           <div class="footer-column">
-            <h4>Discover</h4>
+            <h4 data-i18n-key="common.footer.discover.title">Discover</h4>
             <ul style="list-style-type: none; padding-left: 0">
-              <li><a href="#">Groups</a></li>
-              <li><a href="#">Calendar</a></li>
-              <li><a href="#">Topics</a></li>
-              <li><a href="#">Cities</a></li>
-              <li><a href="#">Online Events</a></li>
-              <li><a href="#">Local Guides</a></li>
-              <li><a href="#">Make Friends</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.groups">Groups</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.calendar">Calendar</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.topics">Topics</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.cities">Cities</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.onlineEvents">Online Events</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.localGuides">Local Guides</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.makeFriends">Make Friends</a></li>
             </ul>
           </div>
           <div class="footer-column">
-            <h4>Meetup</h4>
+            <h4 data-i18n-key="common.footer.meetup.title">Meetup</h4>
             <ul style="list-style-type: none; padding-left: 0">
-              <li><a href="#">About</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Meetup Pro</a></li>
-              <li><a href="#">Careers</a></li>
-              <li><a href="#">Apps</a></li>
-              <li><a href="#">Podcast</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.about">About</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.blog">Blog</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.meetupPro">Meetup Pro</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.careers">Careers</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.apps">Apps</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.podcast">Podcast</a></li>
             </ul>
           </div>
         </div>
         <div class="footer-section footer-section-3">
           <div class="footer-follow-content">
-            <h4>Follow us</h4>
+            <h4 data-i18n-key="common.footer.followUs">Follow us</h4>
             <div class="footer-social-media">
               <a
                 href="https://www.facebook.com/meetup"
@@ -346,7 +347,7 @@
             >
               <img
                 src="assets/icons/google-play-badge.png"
-                alt="Get it on Google Play"
+                alt="Get it on Google Play" data-i18n-key-alt="alt.googlePlayBadge"
               />
             </a>
             <a
@@ -356,21 +357,21 @@
             >
               <img
                 src="assets/icons/app-store-badge.png"
-                alt="Download on the App Store"
+                alt="Download on the App Store" data-i18n-key-alt="alt.appStoreBadge"
               />
             </a>
           </div>
         </div>
         <div class="footer-section footer-section-4">
           <div class="footer-copyright">
-            <p>© 2024 Meetup</p>
+            <p data-i18n-key="common.footer.copyright">© 2024 Meetup</p>
           </div>
           <div class="footer-legal-links">
-            <a href="#">Terms of Service</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Do Not Sell or Share My Personal Data</a>
-            <a href="#">Cookie Policy</a>
-            <a href="#">Help</a>
+            <a href="#" data-i18n-key="common.footer.legal.terms">Terms of Service</a>
+            <a href="#" data-i18n-key="common.footer.legal.privacy">Privacy Policy</a>
+            <a href="#" data-i18n-key="common.footer.legal.doNotSell">Do Not Sell or Share My Personal Data</a>
+            <a href="#" data-i18n-key="common.footer.legal.cookiePolicy">Cookie Policy</a>
+            <a href="#" data-i18n-key="common.footer.legal.help">Help</a>
           </div>
         </div>
       </div>
@@ -383,5 +384,6 @@
   <script src="scripts/categoriesData.js"></script>
   <script src="scripts/cities.js"></script>
   <script src="scripts/articles.js"></script>
+  <script src="scripts/i18n.js"></script>
   <script src="scripts/index.js"></script>
 </html>

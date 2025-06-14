@@ -39,7 +39,7 @@
               <img
                 src="assets/icons/meetup_logo.svg"
                 alt="Meetup Logo"
-                class="meetup-logo-img"
+                class="meetup-logo-img" data-i18n-key-alt="alt.meetupLogo"
               />
             </a>
             <!-- search-group переміститься звідси -->
@@ -50,20 +50,21 @@
                 <img
                   src="assets/icons/language.png"
                   alt="Language icon"
-                  class="lang-icon"
+                  class="lang-icon" data-i18n-key-alt="alt.languageIcon"
                   width="20"
                   height="20"
                 />
-                English
+                <span id="current-lang-text">English</span>
               </button>
               <div class="dropdown-menu">
-                <a href="#">Deutsch</a>
-                <a href="#">Українська</a>
-                <a href="#">Русский</a>
+                <a href="#" data-lang="en" data-i18n-key="common.language.english">English</a>
+                <a href="#" data-lang="de" data-i18n-key="common.language.german">Deutsch</a>
+                <a href="#" data-lang="uk" data-i18n-key="common.language.ukrainian">Українська</a>
+                <a href="#" data-lang="ru" data-i18n-key="common.language.russian">Русский</a>
               </div>
             </div>
-            <a href="#" class="login-link">Log In</a>
-            <button class="signup-button">Sign Up</button>
+            <a href="#" class="login-link" data-i18n-key="common.header.login">Log In</a>
+            <button class="signup-button" data-i18n-key="common.header.signup">Sign Up</button>
           </div>
         </div>
         <div class="search-group">
@@ -95,10 +96,10 @@
           <input
             type="text"
             placeholder="Search events"
-            class="search-group-input"
+            class="search-group-input" data-i18n-key-placeholder="common.header.searchPlaceholder"
           />
           <div class="dropdown search-group-dropdown">
-            <button class="dropdown-toggle">Mountain View, CA</button>
+            <button class="dropdown-toggle" data-i18n-key="common.header.searchLocationDefault">Mountain View, CA</button>
             <div class="dropdown-menu">
               <a href="#">Mountain View, CA</a>
               <a href="#">New York, NY</a>
@@ -145,20 +146,20 @@
     <main class="content-wrapper">
       <section class="hero-section">
         <div class="hero-content-left">
-          <h1>The people platform—Where interests become friendships</h1>
-          <p>
+          <h1 data-i18n-key="index.hero.title">The people platform—Where interests become friendships</h1>
+          <p data-i18n-key="index.hero.subTitle">
             Whatever your interest, from hiking and reading to networking and
             skill sharing, there are thousands of people who share it on Meetup.
             Events are happening every day—sign up to join the fun.
           </p>
           <a href="second.html"
-            ><button class="signup-button">Join Meetup</button></a
+            ><button class="signup-button" data-i18n-key="index.hero.joinButton">Join Meetup</button></a
           >
         </div>
         <div class="hero-content-right">
           <img
             src="assets/images/irl_event.svg"
-            alt="Illustration of people at an event"
+            alt="Illustration of people at an event" data-i18n-key-alt="alt.heroEventIllustration"
           />
         </div>
       </section>
@@ -167,19 +168,19 @@
         <div class="events-grid">
           <div class="event">
             <div class="event-title-container">
-              <h2>Events near</h2>
+              <h2 data-i18n-key="index.events.nearTitle">Events near</h2>
               <div class="dropdown location-dropdown">
                 <div class="dropdown-trigger-wrapper">
-                  <button class="dropdown-toggle">Mountain View, CA</button>
+                  <button class="dropdown-toggle" data-i18n-key="index.events.locationDefault">Mountain View, CA</button>
                   <img
                     src="assets/icons/link.svg"
                     alt="Location options icon"
-                    class="location-dropdown-icon"
+                    class="location-dropdown-icon" data-i18n-key-alt="alt.locationOptionsIcon"
                   />
                 </div>
                 <div class="dropdown-menu">
                   <a href="#">New York, NY</a>
-                  <a href="#">San Francisco, CA</a>
+                  <a href="#">San Francisco, CA</a> 
                   <a href="#">Chicago, IL</a>
                   <a href="#">Nashville, TN</a>
                   <a href="#">Los Angeles, CA</a>
@@ -191,16 +192,16 @@
                 </div>
               </div>
             </div>
-            <a href="#" class="see-all-events-link">See all events</a>
+            <a href="#" class="see-all-events-link" data-i18n-key="index.events.seeAllLink">See all events</a>
           </div>
           <div id="event-cards-container-near" class="card-group-display">
             <!-- Перші 8 карток будуть вставлені сюди -->
           </div>
           <div class="event">
             <div class="event-title-container">
-              <h2>Upcoming online events</h2>
+              <h2 data-i18n-key="index.events.upcomingOnlineTitle">Upcoming online events</h2>
             </div>
-            <a href="#" class="see-all-events-link">See all events</a>
+            <a href="#" class="see-all-events-link" data-i18n-key="index.events.seeAllLink">See all events</a>
           </div>
           <div id="event-cards-container-online" class="card-group-display">
             <!-- Останні 4 картки будуть вставлені сюди -->
@@ -210,23 +211,23 @@
 
       <section class="join-meetup-section">
         <div class="section-title">
-          <h2>Join Meetup</h2>
+          <h2 data-i18n-key="index.joinMeetup.title">Join Meetup</h2>
         </div>
         <div class="section-image">
           <img
             src="assets/images/hands.svg"
-            alt="Руки, що тягнуться вгору з прапорцем"
+            alt="Руки, що тягнуться вгору з прапорцем" data-i18n-key-alt="alt.handsUpFlag"
           />
         </div>
         <div class="section-description">
-          <p>
+          <p data-i18n-key="index.joinMeetup.description">
             People use Meetup to meet new people, learn new things, find
             support, get out of their comfort zones, and pursue their passions,
             together. Membership is free.
           </p>
         </div>
         <div class="section-button">
-          <button class="sign-up-button">Sign up</button>
+          <button class="sign-up-button" data-i18n-key="index.joinMeetup.signupButton">Sign up</button>
         </div>
       </section>
       <section class="categories-section">
@@ -239,54 +240,54 @@
       </section>
       <section class="popular-cities-section">
         <div class="section-popular-cities-title">
-          <h2>Popular cities on Meetup</h2>
+          <h2 data-i18n-key="index.popularCities.title">Popular cities on Meetup</h2>
         </div>
         <div class="section-popular-cities-title">
-          <p>
+          <p data-i18n-key="index.popularCities.description">
             Looking for fun things to do near you? See what Meetup organizers
             are planning in cities around the country.
           </p>
         </div>
         <div class="categories-popular-cities-container">
           <!-- Категорії будуть вставлені сюди за допомогою JavaScript -->
-        </div>
+        </div> 
       </section>
       <section class="how-meetup-section">
         <div class="section-how-meetup-title">
-          <h2>How Meetup works</h2>
+          <h2 data-i18n-key="index.howMeetupWorks.title">How Meetup works</h2>
         </div>
         <div class="how-meetup-container">
           <div class="discover-container">
             <div class="svg-container">
-              <img src="assets/icons/search1.svg" alt="search icon" />
+              <img src="assets/icons/search1.svg" alt="search icon" data-i18n-key-alt="alt.searchIcon" />
             </div>
             <div class="text-container">
-              <h3>Discover events and groups</h3>
-              <p>See who's hosting local events for all the things you love</p>
-              <a href="#">Search events and groups</a>
+              <h3 data-i18n-key="index.howMeetupWorks.discover.title">Discover events and groups</h3>
+              <p data-i18n-key="index.howMeetupWorks.discover.description">See who's hosting local events for all the things you love</p>
+              <a href="#" data-i18n-key="index.howMeetupWorks.discover.link">Search events and groups</a>
             </div>
           </div>
           <div class="start-container">
             <div class="svg-container">
-              <img src="assets/icons/plus.svg" alt="plus icon" />
+              <img src="assets/icons/plus.svg" alt="plus icon" data-i18n-key-alt="alt.plusIcon" />
             </div>
             <div class="text-container">
-              <h3>Start a group to host events</h3>
-              <p>
+              <h3 data-i18n-key="index.howMeetupWorks.startGroup.title">Start a group to host events</h3>
+              <p data-i18n-key="index.howMeetupWorks.startGroup.description">
                 Create your own Meetup group, and draw from a community of
                 millions
               </p>
-              <a href="#">Start a group</a>
+              <a href="#" data-i18n-key="index.howMeetupWorks.startGroup.link">Start a group</a>
             </div>
           </div>
         </div>
       </section>
       <section class="articles-section">
         <div class="section-articles-title">
-          <h2>Friendships are made on Meetup</h2>
+          <h2 data-i18n-key="index.articles.title">Friendships are made on Meetup</h2>
         </div>
         <div class="section-articles-title">
-          <p>
+          <p data-i18n-key="index.articles.description">
             Since 2002, members have used Meetup to make new friends, meet
             like-minded people, spend time on hobbies, and connect with locals
             over shared interests. Learn how.
@@ -300,46 +301,46 @@
     <footer>
       <div class="container">
         <div class="footer-section footer-section-1">
-          <p>Create your own Meetup group.</p>
-          <button class="signup-button">Get Started</button>
+          <p data-i18n-key="common.footer.createGroupPrompt">Create your own Meetup group.</p>
+          <button class="signup-button" data-i18n-key="common.footer.getStarted">Get Started</button>
         </div>
         <div class="footer-section footer-section-2">
           <div class="footer-column">
-            <h4>Your Account</h4>
+            <h4 data-i18n-key="common.footer.yourAccount.title">Your Account</h4>
             <ul style="list-style-type: none; padding-left: 0">
-              <li><a href="#">Sign up</a></li>
-              <li><a href="#">Log in</a></li>
-              <li><a href="#">Help</a></li>
-              <li><a href="#">Become an Affiliate</a></li>
+              <li><a href="#" data-i18n-key="common.footer.yourAccount.signup">Sign up</a></li>
+              <li><a href="#" data-i18n-key="common.footer.yourAccount.login">Log in</a></li>
+              <li><a href="#" data-i18n-key="common.footer.yourAccount.help">Help</a></li>
+              <li><a href="#" data-i18n-key="common.footer.yourAccount.affiliate">Become an Affiliate</a></li>
             </ul>
           </div>
           <div class="footer-column">
-            <h4>Discover</h4>
+            <h4 data-i18n-key="common.footer.discover.title">Discover</h4>
             <ul style="list-style-type: none; padding-left: 0">
-              <li><a href="#">Groups</a></li>
-              <li><a href="#">Calendar</a></li>
-              <li><a href="#">Topics</a></li>
-              <li><a href="#">Cities</a></li>
-              <li><a href="#">Online Events</a></li>
-              <li><a href="#">Local Guides</a></li>
-              <li><a href="#">Make Friends</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.groups">Groups</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.calendar">Calendar</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.topics">Topics</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.cities">Cities</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.onlineEvents">Online Events</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.localGuides">Local Guides</a></li>
+              <li><a href="#" data-i18n-key="common.footer.discover.makeFriends">Make Friends</a></li>
             </ul>
           </div>
           <div class="footer-column">
-            <h4>Meetup</h4>
+            <h4 data-i18n-key="common.footer.meetup.title">Meetup</h4>
             <ul style="list-style-type: none; padding-left: 0">
-              <li><a href="#">About</a></li>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Meetup Pro</a></li>
-              <li><a href="#">Careers</a></li>
-              <li><a href="#">Apps</a></li>
-              <li><a href="#">Podcast</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.about">About</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.blog">Blog</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.meetupPro">Meetup Pro</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.careers">Careers</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.apps">Apps</a></li>
+              <li><a href="#" data-i18n-key="common.footer.meetup.podcast">Podcast</a></li>
             </ul>
           </div>
         </div>
         <div class="footer-section footer-section-3">
           <div class="footer-follow-content">
-            <h4>Follow us</h4>
+            <h4 data-i18n-key="common.footer.followUs">Follow us</h4>
             <div class="footer-social-media">
               <a
                 href="https://www.facebook.com/meetup"
@@ -432,7 +433,7 @@
             >
               <img
                 src="assets/icons/google-play-badge.png"
-                alt="Get it on Google Play"
+                alt="Get it on Google Play" data-i18n-key-alt="alt.googlePlayBadge"
               />
             </a>
             <a
@@ -442,21 +443,21 @@
             >
               <img
                 src="assets/icons/app-store-badge.png"
-                alt="Download on the App Store"
+                alt="Download on the App Store" data-i18n-key-alt="alt.appStoreBadge"
               />
             </a>
           </div>
         </div>
         <div class="footer-section footer-section-4">
           <div class="footer-copyright">
-            <p>© 2024 Meetup</p>
+            <p data-i18n-key="common.footer.copyright">© 2024 Meetup</p>
           </div>
           <div class="footer-legal-links">
-            <a href="#">Terms of Service</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Do Not Sell or Share My Personal Data</a>
-            <a href="#">Cookie Policy</a>
-            <a href="#">Help</a>
+            <a href="#" data-i18n-key="common.footer.legal.terms">Terms of Service</a>
+            <a href="#" data-i18n-key="common.footer.legal.privacy">Privacy Policy</a>
+            <a href="#" data-i18n-key="common.footer.legal.doNotSell">Do Not Sell or Share My Personal Data</a>
+            <a href="#" data-i18n-key="common.footer.legal.cookiePolicy">Cookie Policy</a>
+            <a href="#" data-i18n-key="common.footer.legal.help">Help</a>
           </div>
         </div>
       </div>
@@ -469,5 +470,6 @@
   <script src="scripts/categoriesData.js"></script>
   <script src="scripts/cities.js"></script>
   <script src="scripts/articles.js"></script>
+  <script src="scripts/i18n.js"></script>
   <script src="scripts/index.js"></script>
 </html>

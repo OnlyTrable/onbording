@@ -304,7 +304,7 @@ body {
 /* Mobile <p>: 12px, 400. Will add to 480px media query. */
 
 .hero-content-left .signup-button {
-  max-width: 137px; /* Збільшена максимальна ширина для вміщення тексту */
+  max-width: auto;
   height: 40px;
   border-radius: 8px;
   padding: 8px 16px; /* Оновлені падінги: top/bottom = 8px, left/right = 16px */
